@@ -60,11 +60,20 @@ export default class Ship {
         }
     
         // Screen edges
-        if(this.position.x > state.screen.width) this.position.x = 0;
-        else if(this.position.x < 0) this.position.x = state.screen.width;
-        if(this.position.y > state.screen.height) this.position.y = 0;
-        else if(this.position.y < 0) this.position.y = state.screen.height;
-    
+        if(this.position.x > state.screen.width) {
+            this.position.x = 0;
+        }
+        else if(this.position.x < 0) {
+            this.position.x = state.screen.width;
+        }
+        
+        if(this.position.y > state.screen.height) {
+            this.position.y = 0;
+        }
+        else if(this.position.y < 0) {
+            this.position.y = state.screen.height;
+        }
+            
         // Draw
         const context = state.context;
         context.save();
