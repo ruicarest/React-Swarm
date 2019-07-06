@@ -12,6 +12,7 @@ export default class Ship {
         this.speed = 0.15;
         this.inertia = 0.99;
         this.radius = 20;
+        this.updateVelocity = args.updateVelocity;
     }
 
     destroy() {
@@ -48,6 +49,9 @@ export default class Ship {
         // Move
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
+
+        this.updateVelocity(this.velocity);
+
         this.velocity.x *= this.inertia;
         this.velocity.y *= this.inertia;
     
@@ -73,11 +77,12 @@ export default class Ship {
         else if(this.position.y < 0) {
             this.position.y = state.screen.height;
         }
-            
+
         // Draw
         const context = state.context;
         context.save();
-        context.translate(this.position.x, this.position.y);
+        //TODO: ship shoud not move on window resize
+        context.translate(state.screen.width/2, state.screen.height/2);
         context.rotate(this.rotation * Math.PI / 180);
         context.strokeStyle = '#ffffff';
         context.fillStyle = '#000000';

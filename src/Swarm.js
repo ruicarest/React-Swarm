@@ -18,7 +18,6 @@ export class Swarm extends Component {
         super();
         
         this.state = {
-            testVar: 0,
             context: null,
             keys : {
               left  : 0,
@@ -35,12 +34,14 @@ export class Swarm extends Component {
             currentScore: 0,
             inGame: false,
             asteroidCount: 5,
+            shipVelocity: {
+                x: 0,
+                y: 0,
+            },
         }
 
         this.ship = [];
         this.asteroids = [];
-        this.bullets = [];
-        this.particles = [];
     }
 
     handleResize(value, e){
@@ -81,17 +82,19 @@ export class Swarm extends Component {
 
     startGame() {
         this.setState({
-        inGame: true,
-        currentScore: 0,
+            inGame: true,
+            currentScore: 0,
         });
     
         // Make ship
         let ship = new Ship({
             position: {
-            x: this.state.screen.width/2,
-            y: this.state.screen.height/2
-            }
+                x: this.state.screen.width/2,
+                y: this.state.screen.height/2,
+            },
+            updateVelocity: this.updateShipVelocity.bind(this)
         });
+
         this.createObject(ship, 'ship');
 
         // Make asteroids
@@ -100,8 +103,6 @@ export class Swarm extends Component {
     }
 
     generateAsteroids(howMany){
-        let asteroids = [];
-        let ship = this.ship[0];
         for (let i = 0; i < howMany; i++) {
           let asteroid = new Asteroid({
             size: 80,
@@ -132,6 +133,12 @@ export class Swarm extends Component {
         }
       }
 
+      updateShipVelocity(newVelocity) {
+        this.setState({
+            shipVelocity : newVelocity
+          });
+      }
+
       addScore(points){
         if(this.state.inGame){
           this.setState({
@@ -142,7 +149,6 @@ export class Swarm extends Component {
 
     update() {
         const context = this.state.context;
-        const ship = this.ship[0];
 
         context.save();
         context.scale(this.state.screen.ratio, this.state.screen.ratio);
