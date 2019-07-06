@@ -24,8 +24,8 @@ export default class Asteroid {
 
     render(state) {
     // Move
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
+    this.position.x += this.velocity.x - state.shipVelocity.x;
+    this.position.y += this.velocity.y - state.shipVelocity.y;
 
     // Rotation
     this.rotation += this.rotationSpeed;
