@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Ship from './Ship';
 import Asteroid from './Asteroid';
 import { randomNumBetweenExcluding } from './utils';
 
@@ -33,7 +34,7 @@ export class Swarm extends Component {
             },
             currentScore: 0,
             inGame: false,
-            asteroidCount: 2,
+            asteroidCount: 5,
         }
 
         this.ship = [];
@@ -84,6 +85,15 @@ export class Swarm extends Component {
         currentScore: 0,
         });
     
+        // Make ship
+        let ship = new Ship({
+            position: {
+            x: this.state.screen.width/2,
+            y: this.state.screen.height/2
+            }
+        });
+        this.createObject(ship, 'ship');
+
         // Make asteroids
         this.asteroids = [];
         this.generateAsteroids(this.state.asteroidCount)
@@ -132,7 +142,8 @@ export class Swarm extends Component {
 
     update() {
         const context = this.state.context;
-    
+        const ship = this.ship[0];
+
         context.save();
         context.scale(this.state.screen.ratio, this.state.screen.ratio);
     
@@ -143,8 +154,9 @@ export class Swarm extends Component {
         context.globalAlpha = 1;
        
         // Remove or render
-        this.updateObjects(this.asteroids, 'asteroids')
-    
+        this.updateObjects(this.asteroids, 'asteroids');
+        this.updateObjects(this.ship, 'ship');
+
         context.restore();
     
         // Next frame
