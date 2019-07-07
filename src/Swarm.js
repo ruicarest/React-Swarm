@@ -71,7 +71,7 @@ export class Swarm extends Component {
         window.addEventListener('keydown', this.handleKeys.bind(this, true));
         window.addEventListener('resize',  this.handleResize.bind(this, false));
 
-        const context = this.refs.canvas.getContext('2d');
+        const context = this.refs.gameWindow.getContext('2d');
         this.setState({ context: context });
         this.startGame();
         requestAnimationFrame(() => {this.update()});
@@ -176,9 +176,11 @@ export class Swarm extends Component {
                 Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
                 Use [SPACE] to SHOOT
                 </span>
-                <canvas ref="canvas"
+                <canvas className="gameWindow" ref="gameWindow"
                     width={this.state.screen.width * this.state.screen.ratio}
                     height={this.state.screen.height * this.state.screen.ratio}
+                />
+                <canvas className="minimap" ref="minimap"
                 />
             </div>
             );
