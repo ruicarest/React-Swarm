@@ -14,6 +14,12 @@ const KEY = {
     SPACE: 32
   };
 
+const MAP = {
+    width: 32,
+    height: 18,
+    asteroids: 5,
+};
+
 export class Swarm extends Component {
     constructor() {
         super();
@@ -27,6 +33,10 @@ export class Swarm extends Component {
               down  : 0,
               space : 0,
             },
+            map : {
+              width: 64 * MAP.width,
+              height: 64 * MAP.height,
+            },
             screen:  {
                 width: window.innerWidth,
                 height: window.innerHeight,
@@ -34,7 +44,7 @@ export class Swarm extends Component {
             },
             currentScore: 0,
             inGame: false,
-            asteroidCount: 5,
+            asteroidCount: MAP.asteroids,
             shipVelocity: {
                 x: 0,
                 y: 0,
