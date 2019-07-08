@@ -7,6 +7,9 @@ export class Minimap extends Component {
   componentDidMount = () => {
     //get minimap canvas context
     this.state.ctx = this.refs.minimap.getContext('2d');
+
+    this.state.ctx.canvas.width = this.props.map.width/10;
+    this.state.ctx.canvas.height = this.props.map.height/10;
   }
 
   componentDidUpdate = () => {
