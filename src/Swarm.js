@@ -149,25 +149,31 @@ export class Swarm extends Component {
       }
 
     update() {
-        const context = this.state.context;
+      const context = this.state.context;
 
-        context.save();
-        context.scale(this.state.screen.ratio, this.state.screen.ratio);
-    
-        // Motion trail
-        context.fillStyle = '#000';
-        context.globalAlpha = 0.4;
-        context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
-        context.globalAlpha = 1;
-       
-        // Remove or render
-        this.updateObjects(this.asteroids, 'asteroids');
-        this.updateObjects(this.ship, 'ship');
+      context.save();
+      context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
-        context.restore();
-    
-        // Next frame
-        requestAnimationFrame(() => {this.update()});
+      // Motion trail
+      context.fillStyle = '#000';
+      context.globalAlpha = 0.4;
+      context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+      context.globalAlpha = 1;
+      
+      // Remove or render
+      this.updateObjects(this.asteroids, 'asteroids');
+      this.updateObjects(this.ship, 'ship');
+
+      // console.log("Distance: " + (this.asteroids[0].position.x - this.ship[0].position.x) + '\n',
+      //                             "Velocity.x: " + this.state.shipVelocity.x + '\n',
+      //                             "asteroid position: " + this.asteroids[0].position.x + '\n',
+      //                             "ship position: " + this.ship[0].position.x + '\n'
+      //                             );
+
+      context.restore();
+
+      // Next frame
+      requestAnimationFrame(() => {this.update()});
     }
 
     render() {
