@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Ship from './Ship';
+import {Minimap} from './Minimap';
 import Asteroid from './Asteroid';
 import { randomNumBetweenExcluding } from './utils';
 
@@ -171,7 +172,7 @@ export class Swarm extends Component {
 
     render() {
         return (
-            <div>
+            <div key={"app"}>
                 <span className="controls">
                 Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
                 Use [SPACE] to SHOOT
@@ -180,10 +181,10 @@ export class Swarm extends Component {
                     width={this.state.screen.width * this.state.screen.ratio}
                     height={this.state.screen.height * this.state.screen.ratio}
                 />
-                <canvas className="minimap" ref="minimap"
-                />
+                <div key={"minimapdiv"} >
+                  <Minimap key ={"Minimap"}></Minimap>
+                </div>
             </div>
             );
     }
-
 }
