@@ -30,7 +30,6 @@ export class Minimap extends Component {
         this.createCircle(ship.position.x/10, ship.position.y/10, '#424bf5');
     });
 
-
   }
 
   //draw circle on minimap
