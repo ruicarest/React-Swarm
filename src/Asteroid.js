@@ -6,6 +6,8 @@ export default class Asteroid {
         this.velocity = {
             x: randomNumBetween(-1.5, 1.5),
             y: randomNumBetween(-1.5, 1.5),
+            // x: 0,
+            // y: 0,
         };
         this.vertices = asteroidVertices(8, args.size);
         this.rotation = 0;
@@ -15,7 +17,6 @@ export default class Asteroid {
         this.create = args.create;
         this.addScore = args.addScore;
 
-        console.log("New asteroid created");
     }
 
     destroy(){
