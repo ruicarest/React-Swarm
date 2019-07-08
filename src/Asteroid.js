@@ -38,17 +38,17 @@ export default class Asteroid {
     }
 
     // Screen edges
-    if(this.position.x > state.screen.width + this.radius) {
+    if(this.position.x > state.map.width + this.radius) {
         this.position.x = -this.radius;
     }
     else if(this.position.x < -this.radius) { 
-        this.position.x = state.screen.width + this.radius;
+        this.position.x = state.map.width + this.radius;
     }
-    if(this.position.y > state.screen.height + this.radius) {
+    if(this.position.y > state.map.height + this.radius) {
         this.position.y = -this.radius;
     }
     else if(this.position.y < -this.radius) {
-        this.position.y = state.screen.height + this.radius;
+        this.position.y = state.map.height + this.radius;
     }
 
     // Draw
