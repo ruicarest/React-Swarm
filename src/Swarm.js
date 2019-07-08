@@ -15,8 +15,8 @@ const KEY = {
   };
 
 const MAP = {
-    width: 32,
-    height: 18,
+    width: 40,
+    height: 24,
     asteroids: 5,
 };
 
