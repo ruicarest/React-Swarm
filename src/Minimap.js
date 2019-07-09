@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 export class Minimap extends Component {
 
   state = {};
+  centeringFactor = {
+    x: 0, 
+    y: 0
+  };
 
   componentDidMount = () => {
     //get minimap canvas context
@@ -14,6 +18,10 @@ export class Minimap extends Component {
 
   componentDidUpdate = () => {
     const { Asteroids , Ship } = this.props;
+
+    //calc ship centering factor
+    //TODO: move this from here, calculated just once please!
+    this.calcCenteringFactor(Ship[0].position);
 
     //clear canvas
     this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
@@ -45,10 +53,15 @@ export class Minimap extends Component {
     this.state.ctx.restore();
   }
 
+  calcCenteringFactor = (shipPos) => {
+    this.centeringFactor.x = this.state.ctx.canvas.width/2 - shipPos.x/10;
+    this.centeringFactor.y = this.state.ctx.canvas.height/2 - shipPos.y/10;
+  }
+
   drawOnMinimap = (currPos, colour) => {
 
-    let xPos = currPos.x / 10;
-    let yPos = currPos.y / 10;
+    let xPos = currPos.x / 10 + this.centeringFactor.x;
+    let yPos = currPos.y / 10 + this.centeringFactor.y;
 
     // Minimap edges
     if(xPos >= this.state.ctx.canvas.width) {
