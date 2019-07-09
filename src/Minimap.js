@@ -20,17 +20,14 @@ export class Minimap extends Component {
 
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
-      //TODO: correct minimap scale
-       this.createCircle(
-        (asteroid.position.x)/10,
-        (asteroid.position.y)/10, 
-        '#b00c1f');
+      //TODO: correct edges transition
+       this.drawOnMinimap(asteroid.position,'#b00c1f');
     });
 
-    //draw the ship on minimap
+    //draw ship on minimap
     Ship.forEach(ship => {
-      //TODO: correct minimap scale
-        this.createCircle(ship.position.x/10, ship.position.y/10, '#424bf5');
+      //TODO: correct edges transition
+        this.drawOnMinimap(ship.position, '#424bf5');
     });
 
   }
@@ -46,6 +43,30 @@ export class Minimap extends Component {
     this.state.ctx.fill();
     this.state.ctx.stroke();
     this.state.ctx.restore();
+  }
+
+  drawOnMinimap = (currPos, colour) => {
+
+    let xPos = currPos.x / 10;
+    let yPos = currPos.y / 10;
+
+    // Minimap edges
+    if(xPos >= this.state.ctx.canvas.width) {
+      xPos = 0;
+    }
+    else if(xPos < 0) { 
+      xPos = this.state.ctx.canvas.width;
+    }
+
+    if(yPos >= this.state.ctx.canvas.height) {
+      yPos = 0;
+    }
+    else if(yPos < 0) {
+      yPos = this.state.ctx.canvas.height;
+    }
+
+    this.createCircle(xPos, yPos, colour);
+
   }
 
   update = () => {
