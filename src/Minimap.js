@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 export class Minimap extends Component {
 
   state = {};
+
   centeringFactor = {
     x: 0, 
     y: 0
   };
 
+  firstUpdate = false;
   componentDidMount = () => {
     //get minimap canvas context
     this.state.ctx = this.refs.minimap.getContext('2d');
@@ -19,67 +21,68 @@ export class Minimap extends Component {
   componentDidUpdate = () => {
     const { Asteroids , Ship } = this.props;
 
-    //calc ship centering factor
-    //TODO: move this from here, calculated just once please!
-    this.calcCenteringFactor(Ship[0].position);
 
+    //TODO: move this from here please!
+    if(this.firstUpdate == false) {
+      //calc ship centering factor
+      this.calcCenteringFactor(Ship[0].position);
+      this.firstUpdate = true;
+    }
     //clear canvas
     this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
 
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
       //TODO: correct edges transition
-       this.drawOnMinimap(asteroid.position,'#b00c1f');
+       this.drawOnMinimap(asteroid.position,'#b00c1f', asteroid.radius);
     });
 
     //draw ship on minimap
     Ship.forEach(ship => {
       //TODO: correct edges transition
-        this.drawOnMinimap(ship.position, '#424bf5');
+        this.drawOnMinimap(ship.position, '#424bf5', ship.radius);
     });
 
   }
 
   //draw circle on minimap
-  createCircle = (x, y, colour) => {
+  drawCircle = (x, y, colour, radius) => {
     this.state.ctx.save();
     this.state.ctx.strokeStyle = colour;
     this.state.ctx.fillStyle = colour;
     this.state.ctx.lineWidth = 1;
     this.state.ctx.beginPath();
-    this.state.ctx.arc(x, y, 2, 0, 2 * Math.PI);
+    this.state.ctx.arc(x, y, radius, 0, 2 * Math.PI);
     this.state.ctx.fill();
     this.state.ctx.stroke();
     this.state.ctx.restore();
   }
 
+  //called once
   calcCenteringFactor = (shipPos) => {
     this.centeringFactor.x = this.state.ctx.canvas.width/2 - shipPos.x/10;
     this.centeringFactor.y = this.state.ctx.canvas.height/2 - shipPos.y/10;
   }
 
-  drawOnMinimap = (currPos, colour) => {
+  drawOnMinimap = (currPos, colour, radiusRaw) => {
 
+    //object radius
+    let radius = radiusRaw/10;
+
+    //object position
     let xPos = currPos.x / 10 + this.centeringFactor.x;
     let yPos = currPos.y / 10 + this.centeringFactor.y;
 
     // Minimap edges
-    if(xPos >= this.state.ctx.canvas.width) {
-      xPos = 0;
+    if(xPos >= this.state.ctx.canvas.width + radius) {
+      xPos = xPos - this.state.ctx.canvas.width - radius*2;
     }
-    else if(xPos < 0) { 
-      xPos = this.state.ctx.canvas.width;
+    if(yPos >= this.state.ctx.canvas.height + radius) {
+      yPos = yPos - this.state.ctx.canvas.height - radius*2;
     }
-
-    if(yPos >= this.state.ctx.canvas.height) {
-      yPos = 0;
-    }
-    else if(yPos < 0) {
-      yPos = this.state.ctx.canvas.height;
-    }
-
-    this.createCircle(xPos, yPos, colour);
-
+   
+    //draw circles on minimap
+    this.drawCircle(xPos, yPos, colour, radius);
   }
 
   update = () => {
