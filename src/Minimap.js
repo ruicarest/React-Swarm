@@ -36,7 +36,7 @@ export class Minimap extends Component {
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
       //TODO: correct edges transition
-       this.drawOnMinimap(asteroid.position,'#b00c1f', asteroid.radius);
+       this.drawOnMinimap(asteroid.position, '#ffffff', asteroid.radius);
     });
 
     //draw ship on minimap
@@ -51,7 +51,7 @@ export class Minimap extends Component {
   drawCircle = (x, y, colour, radius) => {
     this.state.ctx.save();
     this.state.ctx.strokeStyle = colour;
-    this.state.ctx.fillStyle = colour;
+    // this.state.ctx.fillStyle = colour;
     this.state.ctx.lineWidth = 1;
     this.state.ctx.beginPath();
     this.state.ctx.arc(x, y, radius, 0, 2 * Math.PI);

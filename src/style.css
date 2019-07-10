@@ -19,12 +19,14 @@ body {
 
   .minimap {
     display: block;
-    background-color: #FFFFFF;
+    background-color: black;
     position: absolute;
     bottom: 10px;
     left: 10px;
     width: 200px;
     height: 150px;
+    border-style: solid;
+    border-color: white;
   }
 
 .controls {
