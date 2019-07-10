@@ -49,6 +49,7 @@ export class Swarm extends Component {
                 x: 0,
                 y: 0,
             },
+            minimapScale: 10,
         }
 
         this.ship = [];

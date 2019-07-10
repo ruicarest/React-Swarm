@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 
 export class Minimap extends Component {
 
-  state = {};
-
-  centeringFactor = {
+  state = {};          //component state
+  centeringFactor = {  //ship center position correction factor
     x: 0, 
     y: 0
   };
+  firstUpdate = false; // first update flag 
+  scale = null;        //minimap scale
 
-  firstUpdate = false;
   componentDidMount = () => {
+    //load minimapScale
+    this.scale = this.props.minimapScale;
     //get minimap canvas context
     this.state.ctx = this.refs.minimap.getContext('2d');
-
-    this.state.ctx.canvas.width = this.props.map.width/10;
-    this.state.ctx.canvas.height = this.props.map.height/10;
+    //calc canvas size
+    this.state.ctx.canvas.width = this.props.map.width/this.scale;
+    this.state.ctx.canvas.height = this.props.map.height/this.scale;
   }
 
   componentDidUpdate = () => {
@@ -60,18 +62,18 @@ export class Minimap extends Component {
 
   //called once
   calcCenteringFactor = (shipPos) => {
-    this.centeringFactor.x = this.state.ctx.canvas.width/2 - shipPos.x/10;
-    this.centeringFactor.y = this.state.ctx.canvas.height/2 - shipPos.y/10;
+    this.centeringFactor.x = this.state.ctx.canvas.width/2 - shipPos.x/this.scale;
+    this.centeringFactor.y = this.state.ctx.canvas.height/2 - shipPos.y/this.scale;
   }
 
   drawOnMinimap = (currPos, colour, radiusRaw) => {
 
     //object radius
-    let radius = radiusRaw/10;
+    let radius = radiusRaw/this.scale;
 
     //object position
-    let xPos = currPos.x / 10 + this.centeringFactor.x;
-    let yPos = currPos.y / 10 + this.centeringFactor.y;
+    let xPos = currPos.x / this.scale + this.centeringFactor.x;
+    let yPos = currPos.y / this.scale + this.centeringFactor.y;
 
     // Minimap edges
     if(xPos >= this.state.ctx.canvas.width + radius) {
