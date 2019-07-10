@@ -50,8 +50,8 @@ export class Minimap extends Component {
   //draw circle on minimap
   drawCircle = (x, y, colour, radius) => {
     this.state.ctx.save();
+    this.state.ctx.globalAlpha = 0.8;
     this.state.ctx.strokeStyle = colour;
-    // this.state.ctx.fillStyle = colour;
     this.state.ctx.lineWidth = 1;
     this.state.ctx.beginPath();
     this.state.ctx.arc(x, y, radius, 0, 2 * Math.PI);

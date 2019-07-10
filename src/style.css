@@ -19,7 +19,6 @@ body {
 
   .minimap {
     display: block;
-    background-color: black;
     position: absolute;
     bottom: 10px;
     left: 10px;
@@ -27,6 +26,7 @@ body {
     height: 150px;
     border-style: solid;
     border-color: white;
+    background: rgba(0, 0, 0, 0.8);
   }
 
 .controls {
