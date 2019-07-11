@@ -24,6 +24,7 @@ body {
     left: 10px;
     width: 200px;
     height: 150px;
+    border-width: 1px;
     border-style: solid;
     border-color: white;
     background: rgba(0, 0, 0, 0.8);
