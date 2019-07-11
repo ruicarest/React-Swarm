@@ -1,4 +1,5 @@
 import { rotatePoint, randomNumBetween } from './utils';
+import Bullet from './Bullet';
 
 export default class Ship {
     constructor(args) {
@@ -12,6 +13,10 @@ export default class Ship {
       this.speed = 0.15;
       this.inertia = 0.99;
       this.radius = 20;
+
+      this.lastShot = 0;
+
+      this.create = args.create;
       this.updateVelocity = args.updateVelocity;
     }
 
@@ -43,6 +48,11 @@ export default class Ship {
         }
         if(state.keys.right){
           this.rotate('RIGHT');
+        }
+        if(state.keys.space && Date.now() - this.lastShot > 300){
+          const bullet = new Bullet({ship: this});
+          this.create(bullet, 'bullets');
+          this.lastShot = Date.now();
         }
 
         this.updateVelocity(this.velocity);

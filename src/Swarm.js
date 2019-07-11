@@ -52,6 +52,7 @@ export class Swarm extends Component {
             minimapScale: 10,
         }
 
+        this.bullets = [];
         this.ship = [];
         this.asteroids = [];
     }
@@ -102,6 +103,7 @@ export class Swarm extends Component {
                 x: this.state.screen.width/2,
                 y: this.state.screen.height/2,
             },
+            create: this.createObject.bind(this),
             updateVelocity: this.updateShipVelocity.bind(this)
         });
 
@@ -172,6 +174,7 @@ export class Swarm extends Component {
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
       this.updateObjects(this.ship, 'ship');
+      this.updateObjects(this.bullets, 'bullets');
 
       context.restore();
 
