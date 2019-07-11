@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Ship from './Ship';
 import {Minimap} from './Minimap';
 import Asteroid from './Asteroid';
-import { randomNumBetweenExcluding } from './utils';
+import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
 const KEY = {
     LEFT:  37,
@@ -17,7 +17,7 @@ const KEY = {
 const MAP = {
     width: 40,
     height: 24,
-    asteroids: 5,
+    asteroids: 32,
 };
 
 export class Swarm extends Component {
@@ -117,7 +117,7 @@ export class Swarm extends Component {
     generateAsteroids(howMany){
         for (let i = 0; i < howMany; i++) {
           let asteroid = new Asteroid({
-            size: 80,
+            size: Math.floor(randomNumBetween(60, 80)),
             position: {
               x: randomNumBetweenExcluding(0, this.state.screen.width, 0, 10),
               y: randomNumBetweenExcluding(0, this.state.screen.height, 0, 10),
