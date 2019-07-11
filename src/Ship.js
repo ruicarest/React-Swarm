@@ -28,7 +28,6 @@ export default class Ship {
         }
       }
 
-
       accelerate(val){
         this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.speed;
         this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.speed;
@@ -63,7 +62,8 @@ export default class Ship {
         const context = state.context;
         context.save();
         //TODO: ship shoud not move on window resize
-        context.translate(state.screen.width/2, state.screen.height/2);
+        //context.translate(state.screen.width/2, state.screen.height/2);
+        context.translate(this.position.x, this.position.y);
         context.rotate(this.rotation * Math.PI / 180);
         context.strokeStyle = '#ffffff';
         context.fillStyle = '#000000';

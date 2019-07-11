@@ -42,7 +42,7 @@ export class Minimap extends Component {
     //draw ship on minimap
     Ship.forEach(ship => {
       //TODO: correct edges transition
-        this.drawOnMinimap(ship.position, '#424bf5', ship.radius);
+        this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
     });
 
   }
