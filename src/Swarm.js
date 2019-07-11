@@ -185,6 +185,7 @@ export class Swarm extends Component {
       requestAnimationFrame(() => {this.update()});
     }
 
+    //TODO: apply weapon damage on asteroida
     checkCollisionsWith(items1, items2) {
       var a = items1.length - 1;
       var b;

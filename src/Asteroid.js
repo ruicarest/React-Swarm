@@ -21,6 +21,21 @@ export default class Asteroid {
 
     destroy(){
         this.delete = true;
+
+        //create children asteroids
+        if(this.radius > 20) {
+          for(let i = 2; i > 0; i--) {
+            let asteroid = new Asteroid({
+              size: this.radius/2,
+              position: {
+                x: randomNumBetween(-this.radius/2, this.radius/2) + this.position.x,
+                y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
+              },
+              create:this.create.bind(this),
+            });
+            this.create(asteroid, 'asteroids');
+          }
+        }
     }
 
     render(state) {
