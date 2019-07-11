@@ -117,7 +117,7 @@ export class Swarm extends Component {
     generateAsteroids(howMany){
         for (let i = 0; i < howMany; i++) {
           let asteroid = new Asteroid({
-            size: Math.floor(randomNumBetween(60, 80)),
+            size: Math.floor(randomNumBetween(30, 80)),
             position: {
               x: randomNumBetweenExcluding(0, this.state.map.width, 0, 10),
               y: randomNumBetweenExcluding(0, this.state.map.height, 0, 10),
