@@ -88,8 +88,6 @@ export class Swarm extends Component {
         this.startGame();
         requestAnimationFrame(() => {this.update()});
 
-        console.log("Rui - Mounted!");
-
     }
 
     startGame() {
@@ -174,12 +172,6 @@ export class Swarm extends Component {
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
       this.updateObjects(this.ship, 'ship');
-
-      // console.log("Distance: " + (this.asteroids[0].position.x - this.ship[0].position.x) + '\n',
-      //                             "Velocity.x: " + this.state.shipVelocity.x + '\n',
-      //                             "asteroid position: " + this.asteroids[0].position.x + '\n',
-      //                             "ship position: " + this.ship[0].position.x + '\n'
-      //                             );
 
       context.restore();
 
