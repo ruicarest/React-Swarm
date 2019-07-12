@@ -1,4 +1,5 @@
 import { rotatePoint, randomNumBetween } from './utils';
+import Particle from './Particle';
 import Bullet from './Bullet';
 
 export default class Ship {
@@ -21,7 +22,26 @@ export default class Ship {
     }
 
     destroy() {
-        this.delete = true;
+      this.delete = true;
+
+      this.onDie();
+  
+      // Explode
+      for (let i = 0; i < 60; i++) {
+        const particle = new Particle({
+          lifeSpan: randomNumBetween(60, 100),
+          size: randomNumBetween(1, 4),
+          position: {
+            x: randomNumBetween(-this.radius/4, this.radius/4) + this.position.x,
+            y: randomNumBetween(-this.radius/4, this.radius/4) + this.position.y
+          },
+          velocity: {
+            x: randomNumBetween(-1.5, 1.5),
+            y: randomNumBetween(-1.5, 1.5)
+          }
+        });
+        this.create(particle, 'particles');
+      }
     }
 
     rotate(dir){
@@ -36,6 +56,26 @@ export default class Ship {
       accelerate(val){
         this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.speed;
         this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.speed;
+
+        //engine particles
+        let posDelta = rotatePoint(
+          {x:0, y:-10}, 
+          {x:0,y:0}, 
+          (this.rotation-180) * Math.PI / 180
+          );
+        const particle = new Particle({
+          lifeSpan: randomNumBetween(20, 40),
+          size: randomNumBetween(1, 3),
+          position: {
+            x: this.position.x + posDelta.x + randomNumBetween(-2, 2),
+            y: this.position.y + posDelta.y + randomNumBetween(-2, 2)
+          },
+          velocity: {
+            x: posDelta.x / randomNumBetween(3, 5),
+            y: posDelta.y / randomNumBetween(3, 5)
+          }
+        });
+        this.create(particle, 'particles');
       }
 
       render(state){
