@@ -1,11 +1,9 @@
-# Reacteroids
-A implementation of the classic Asteroids game using React and Canvas in es6
+# Swarmole
+An implementation of the classic Swarm game using React and Canvas in es6
 
-This was built with using the react transform boilerplate from
-https://github.com/gaearon/react-transform-boilerplate
+## Based on
 
-## Demo
-
+This was built based on Reacteroids project from
 http://chriz001.github.io/Reacteroids/
 
 ## Install
