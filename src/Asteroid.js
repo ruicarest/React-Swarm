@@ -1,4 +1,5 @@
 import {asteroidVertices, randomNumBetween} from './utils';
+import Particle from './Particle';
 
 export default class Asteroid {
     constructor(args) {
@@ -21,6 +22,23 @@ export default class Asteroid {
 
     destroy(){
         this.delete = true;
+
+        //explode
+        for (let i = 0; i < this.radius; i++) {
+          const particle = new Particle({
+            lifeSpan: randomNumBetween(60, 100),
+            size: randomNumBetween(1, 3),
+            position: {
+              x: randomNumBetween(-this.radius/2, this.radius/4) + this.position.x,
+              y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
+            },
+            velocity: {
+              x: randomNumBetween(-1.5, 1.5),
+              y: randomNumBetween(-1.5, 1.5)
+            }
+          });
+          this.create(particle, 'particles');
+        }
 
         //create children asteroids
         if(this.radius > 20) {
