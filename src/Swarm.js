@@ -55,6 +55,7 @@ export class Swarm extends Component {
         this.bullets = [];
         this.ship = [];
         this.asteroids = [];
+        this.particles = [];
     }
 
     handleResize(value, e){
@@ -178,6 +179,7 @@ export class Swarm extends Component {
       this.updateObjects(this.asteroids, 'asteroids');
       this.updateObjects(this.ship, 'ship');
       this.updateObjects(this.bullets, 'bullets');
+      this.updateObjects(this.particles, 'particles');
 
       context.restore();
 
