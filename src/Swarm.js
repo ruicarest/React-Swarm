@@ -101,6 +101,7 @@ export class Swarm extends Component {
                 y: this.state.screen.height/2,
             },
             create: this.createObject.bind(this),
+            onDie: this.gameOver.bind(this),
             updateVelocity: this.updateShipVelocity.bind(this)
         });
 
@@ -113,6 +114,12 @@ export class Swarm extends Component {
         this.setState({
           inGame: true,
           currentScore: 0,
+      });
+    }
+
+    gameOver(){
+      this.setState({
+        inGame: false,
       });
     }
 

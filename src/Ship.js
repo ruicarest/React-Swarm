@@ -18,6 +18,7 @@ export default class Ship {
       this.lastShot = 0;
 
       this.create = args.create;
+      this.onDie = args.onDie;
       this.updateVelocity = args.updateVelocity;
 
       this.HP = 10;
@@ -25,8 +26,10 @@ export default class Ship {
 
     destroy() {
       this.delete = true;
-
       this.onDie();
+
+      //stop moving
+      this.updateVelocity({x: 0, y: 0});
   
       // Explode
       for (let i = 0; i < 60; i++) {
@@ -113,8 +116,6 @@ export default class Ship {
         // Draw
         const context = state.context;
         context.save();
-        //TODO: ship shoud not move on window resize
-        //context.translate(state.screen.width/2, state.screen.height/2);
         context.translate(this.position.x, this.position.y);
         context.rotate(this.rotation * Math.PI / 180);
         context.strokeStyle = '#ffffff';
@@ -131,5 +132,4 @@ export default class Ship {
         context.stroke();
         context.restore();
       }
-
 }
