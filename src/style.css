@@ -30,14 +30,26 @@ body {
     background: rgba(0, 0, 0, 0.8);
   }
 
-.controls {
+.UI {
+    position: absolute;
     display: block;
+    z-index: 1;
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .stats {
+    position: absolute;
+    top: 15px;
+    left: 1%;
+    font-size: 20px;
+  }
+
+  .controls {
     position: absolute;
     top: 15px;
     left: 50%;
     transform: translate(-50%, 0);
-    z-index: 1;
-    font-size: 11px;
     text-align: center;
-    line-height: 1.6;
   }

@@ -19,6 +19,8 @@ export default class Ship {
 
       this.create = args.create;
       this.updateVelocity = args.updateVelocity;
+
+      this.HP = 10;
     }
 
     destroy() {

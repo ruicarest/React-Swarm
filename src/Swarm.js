@@ -93,10 +93,6 @@ export class Swarm extends Component {
     }
 
     startGame() {
-        this.setState({
-            inGame: true,
-            currentScore: 0,
-        });
     
         // Make ship
         let ship = new Ship({
@@ -113,6 +109,11 @@ export class Swarm extends Component {
         // Make asteroids
         this.asteroids = [];
         this.generateAsteroids(this.state.asteroidCount)
+
+        this.setState({
+          inGame: true,
+          currentScore: 0,
+      });
     }
 
     generateAsteroids(howMany){
@@ -215,14 +216,35 @@ export class Swarm extends Component {
       return (length <= Math.pow(obj1.radius + obj2.radius, 2));
     }
 
+    DisplayShipHP () {
+
+      if(props.state) {
+        const inGame = this.state.inGame;
+        if (inGame) {
+          return <span> 5 HP</span>;
+        }
+      }
+
+      return <span> 0 HP </span>;
+    }
 
     render() {
+
+      //get Ship HP
+      var shipHP = this.state.inGame ? this.ship[0].HP : 0;
+
         return (
             <div key={"app"}>
-                <span className="controls">
-                Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
-                Use [SPACE] to SHOOT
+                <span className="UI">
+                  <span className="controls">
+                    Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
+                    Use [SPACE] to SHOOT
+                  </span>
+                  <span className="stats">
+                    {shipHP} HP
+                  </span>
                 </span>
+
                 <canvas className="gameWindow" ref="gameWindow"
                     width={this.state.screen.width * this.state.screen.ratio}
                     height={this.state.screen.height * this.state.screen.ratio}
@@ -234,3 +256,5 @@ export class Swarm extends Component {
             );
     }
 }
+
+
