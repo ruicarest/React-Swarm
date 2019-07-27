@@ -182,6 +182,7 @@ export class Swarm extends Component {
       
       // Check for colisions
       this.checkCollisionsWith(this.bullets, this.asteroids);
+      this.checkCollisionsWith(this.ship, this.asteroids);
 
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
@@ -236,29 +237,43 @@ export class Swarm extends Component {
     }
 
     render() {
+      let endgame;
 
       //get Ship HP
-      var shipHP = this.state.inGame ? this.ship[0].HP : 0;
+      let shipHP = this.state.inGame ? this.ship[0].HP : 0;
+
+      if(!this.state.inGame){
+        endgame = (
+          <div className="endgame">
+            <p>Game over!</p>
+            <button
+              onClick={ this.startGame.bind(this) }>
+              Restart
+            </button>
+          </div>
+        )
+      }
 
         return (
             <div key={"app"}>
-                <span className="UI">
-                  <span className="controls">
-                    Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
-                    Use [SPACE] to SHOOT
-                  </span>
-                  <span className="stats">
-                    {shipHP} HP
-                  </span>
+              <span className="UI">
+                <span className="controls">
+                  Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
+                  Use [SPACE] to SHOOT
                 </span>
+                <span className="stats">
+                  {shipHP} HP
+                </span>
+                { endgame }
+              </span>
 
-                <canvas className="gameWindow" ref="gameWindow"
-                    width={this.state.screen.width * this.state.screen.ratio}
-                    height={this.state.screen.height * this.state.screen.ratio}
-                />
-                <div key={"minimapdiv"} >
-                  <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} ></Minimap>
-                </div>
+              <canvas className="gameWindow" ref="gameWindow"
+                  width={this.state.screen.width * this.state.screen.ratio}
+                  height={this.state.screen.height * this.state.screen.ratio}
+              />
+              <div key={"minimapdiv"} >
+                <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} ></Minimap>
+              </div>
             </div>
             );
     }
