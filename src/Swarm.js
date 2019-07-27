@@ -128,8 +128,8 @@ export class Swarm extends Component {
           let asteroid = new Asteroid({
             size: Math.floor(randomNumBetween(30, 80)),
             position: {
-              x: randomNumBetweenExcluding(0, this.state.map.width, 0, 10),
-              y: randomNumBetweenExcluding(0, this.state.map.height, 0, 10),
+              x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+              y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
             },
             create: this.createObject.bind(this),
             addScore: this.addScore.bind(this)
