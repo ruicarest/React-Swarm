@@ -176,7 +176,7 @@ export class Swarm extends Component {
 
       // Motion trail
       context.fillStyle = '#000';
-      context.globalAlpha = 0.4;
+      context.globalAlpha = 0.8;
       context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
       context.globalAlpha = 1;
       
