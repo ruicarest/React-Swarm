@@ -244,13 +244,13 @@ export class Swarm extends Component {
 
       if(!this.state.inGame){
         endgame = (
-          <div className="endgame">
+          <span className="endgame">
             <p>Game over!</p>
             <button
               onClick={ this.startGame.bind(this) }>
               Restart
             </button>
-          </div>
+          </span>
         )
       }
 
