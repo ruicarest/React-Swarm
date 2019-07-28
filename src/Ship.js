@@ -25,6 +25,8 @@ export default class Ship {
       this.onDie = args.onDie;
       this.updateVelocity = args.updateVelocity;
 
+      this.gettingHit = false;
+      this.hitAngle = 0;
       this.toughness = 10;
       this.HP = 50;
     }
@@ -54,10 +56,14 @@ export default class Ship {
       }
     }
 
-    hit(damage) {
+    hit(damage, angle) {
+
+      this.hitAngle = angle;
+
       if(Date.now() - this.T_lastHit > 100){
         this.HP -= damage;
         this.T_lastHit = Date.now();
+        this.gettingHit = true;
       }
       if(this.HP <= 0 ) {
         this.destroy();
@@ -128,6 +134,11 @@ export default class Ship {
           this.rotation += 360;
         }
 
+        if (this.gettingHit && Date.now() - this.T_lastHit > 100) {
+          this.gettingHit = false;
+          this.hitAngle = 0;
+        }
+
         // Draw
         const context = state.context;
         context.save();
@@ -145,6 +156,15 @@ export default class Ship {
         context.closePath();
         context.fill();
         context.stroke();
+        
+        //draw Energy Shield
+        if(this.gettingHit) {
+          context.beginPath();
+          //TODO: change shield size with distance
+          context.arc(0, 0, 50, this.hitAngle - this.rotation * Math.PI / 180, Math.PI + this.hitAngle - this.rotation * Math.PI / 180);
+          context.strokeStyle = '#901aeb';
+          context.stroke();
+        }
         context.restore();
       }
 }

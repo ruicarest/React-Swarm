@@ -205,14 +205,16 @@ export class Swarm extends Component {
         for(b; b > -1; --b){
           var item1 = items1[a];
           var item2 = items2[b];
-          if(this.checkCollision(item1, item2)){
+
+          //TODO: review item type, go enum!
+          const collision = this.checkCollision(item1, item2);
+          if(collision.happened) {
             if(item1.type == "ship") {
-              item1.hit(item2.toughness);
+              item1.hit(item2.toughness, collision.angle);
             }
             else {
               item1.destroy();
             }
-
             item2.hit(item1.toughness);
           }
         }
@@ -220,25 +222,29 @@ export class Swarm extends Component {
     }
 
     checkCollision(obj1, obj2){
+      let hitAngle = 0;
+
       var vx = obj1.position.x - obj2.position.x;
-      var vy = obj2.position.y - obj1.position.y;
+      var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
 
       //length squared (avoid sqrt usage)
       var length = vx * vx + vy * vy;
       
+      if(obj1.type == "ship") {
+        hitAngle = Math.atan2(vx, vy);
+      }
+
       //length^2 <= (object radius)^2
-      return (length <= Math.pow(obj1.radius + obj2.radius, 2));
+      return ({happened: length <= Math.pow(obj1.radius + obj2.radius, 2), angle: hitAngle});
     }
 
     DisplayShipHP () {
-
       if(props.state) {
         const inGame = this.state.inGame;
         if (inGame) {
           return <span> 5 HP</span>;
         }
       }
-
       return <span> 0 HP </span>;
     }
 
