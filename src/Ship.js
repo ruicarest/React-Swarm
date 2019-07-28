@@ -9,6 +9,7 @@ export default class Ship {
         x: 0,
         y: 0
       }
+
       this.type = "ship";
       this.rotation = 0;
       this.rotationSpeed = 6;
@@ -18,12 +19,13 @@ export default class Ship {
 
       //Timers
       this.T_lastShot = 0;
+      this.T_lastHit = 0;
 
       this.create = args.create;
       this.onDie = args.onDie;
       this.updateVelocity = args.updateVelocity;
 
-      this.HP = 10;
+      this.HP = 50;
     }
 
     destroy() {
@@ -48,6 +50,16 @@ export default class Ship {
           }
         });
         this.create(particle, 'particles');
+      }
+    }
+
+    hit(damage) {
+      if(Date.now() - this.T_lastHit > 100){
+        this.HP -= damage;
+        this.T_lastHit = Date.now();
+      }
+      if(this.HP <= 0 ) {
+        this.destroy();
       }
     }
 

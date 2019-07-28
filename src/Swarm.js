@@ -196,7 +196,7 @@ export class Swarm extends Component {
       requestAnimationFrame(() => {this.update()});
     }
 
-    //TODO: apply weapon damage on asteroida
+    //TODO: apply weapon damage on asteroids
     checkCollisionsWith(items1, items2) {
       var a = items1.length - 1;
       var b;
@@ -206,7 +206,13 @@ export class Swarm extends Component {
           var item1 = items1[a];
           var item2 = items2[b];
           if(this.checkCollision(item1, item2)){
-            item1.destroy();
+            if(item1.type == "ship") {
+              item1.hit(10);
+            }
+            else {
+              item1.destroy();
+            }
+
             item2.destroy();
           }
         }
