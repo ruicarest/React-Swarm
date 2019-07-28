@@ -19,42 +19,57 @@ export default class Asteroid {
         this.addScore = args.addScore;
 
         this.type = "asteroid";
+
+        this.toughness = Math.floor(args.size / 10);
+        this.HP = args.size;
+
+        this.T_lastHit = 0;
     }
 
     destroy(){
-        this.delete = true;
+      this.delete = true;
 
-        //explode
-        for (let i = 0; i < this.radius; i++) {
-          const particle = new Particle({
-            lifeSpan: randomNumBetween(60, 100),
-            size: randomNumBetween(1, 3),
+      //explode
+      for (let i = 0; i < this.radius; i++) {
+        const particle = new Particle({
+          lifeSpan: randomNumBetween(60, 100),
+          size: randomNumBetween(1, 3),
+          position: {
+            x: randomNumBetween(-this.radius/2, this.radius/4) + this.position.x,
+            y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
+          },
+          velocity: {
+            x: randomNumBetween(-1.5, 1.5),
+            y: randomNumBetween(-1.5, 1.5)
+          }
+        });
+        this.create(particle, 'particles');
+      }
+
+      //create children asteroids
+      if(this.radius > 20) {
+        for(let i = 2; i > 0; i--) {
+          let asteroid = new Asteroid({
+            size: this.radius/2,
             position: {
-              x: randomNumBetween(-this.radius/2, this.radius/4) + this.position.x,
+              x: randomNumBetween(-this.radius/2, this.radius/2) + this.position.x,
               y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
             },
-            velocity: {
-              x: randomNumBetween(-1.5, 1.5),
-              y: randomNumBetween(-1.5, 1.5)
-            }
+            create:this.create.bind(this),
           });
-          this.create(particle, 'particles');
+          this.create(asteroid, 'asteroids');
         }
+      }
+    }
 
-        //create children asteroids
-        if(this.radius > 20) {
-          for(let i = 2; i > 0; i--) {
-            let asteroid = new Asteroid({
-              size: this.radius/2,
-              position: {
-                x: randomNumBetween(-this.radius/2, this.radius/2) + this.position.x,
-                y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
-              },
-              create:this.create.bind(this),
-            });
-            this.create(asteroid, 'asteroids');
-          }
-        }
+    hit(damage) {
+      if(Date.now() - this.T_lastHit > 100){
+        this.HP -= damage;
+        this.T_lastHit = Date.now();
+      }
+      if(this.HP <= 0 ) {
+        this.destroy();
+      }
     }
 
     render(state) {

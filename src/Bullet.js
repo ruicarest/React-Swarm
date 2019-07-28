@@ -19,6 +19,8 @@ export default class Bullet {
         this.radius = 2;
 
         this.type = "bullet";
+
+        this.toughness = args.damage;
     }
   
     destroy(){

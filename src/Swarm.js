@@ -207,13 +207,13 @@ export class Swarm extends Component {
           var item2 = items2[b];
           if(this.checkCollision(item1, item2)){
             if(item1.type == "ship") {
-              item1.hit(10);
+              item1.hit(item2.toughness);
             }
             else {
               item1.destroy();
             }
 
-            item2.destroy();
+            item2.hit(item1.toughness);
           }
         }
       }
