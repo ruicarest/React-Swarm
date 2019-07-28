@@ -18,6 +18,7 @@ export default class Asteroid {
         this.create = args.create;
         this.addScore = args.addScore;
 
+        this.type = "asteroid";
     }
 
     destroy(){

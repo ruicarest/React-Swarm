@@ -17,6 +17,8 @@ export default class Bullet {
             y:posDelta.y / 2
         };
         this.radius = 2;
+
+        this.type = "bullet";
     }
   
     destroy(){

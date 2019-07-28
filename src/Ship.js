@@ -9,6 +9,7 @@ export default class Ship {
         x: 0,
         y: 0
       }
+      this.type = "ship";
       this.rotation = 0;
       this.rotationSpeed = 6;
       this.speed = 0.15;
