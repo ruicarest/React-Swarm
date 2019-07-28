@@ -221,7 +221,7 @@ export class Swarm extends Component {
 
     checkCollision(obj1, obj2){
       var vx = obj1.position.x - obj2.position.x;
-      var vy = obj1.position.y - obj2.position.y;
+      var vy = obj2.position.y - obj1.position.y;
 
       //length squared (avoid sqrt usage)
       var length = vx * vx + vy * vy;
