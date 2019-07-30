@@ -239,7 +239,7 @@ export class Swarm extends Component {
     }
 
     DisplayShipHP () {
-      if(props.state) {
+      if(this.state) {
         const inGame = this.state.inGame;
         if (inGame) {
           return <span> 5 HP</span>;
