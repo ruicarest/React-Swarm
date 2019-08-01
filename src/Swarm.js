@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Ship from './Ship';
 import {Minimap} from './Minimap';
 import Asteroid from './Asteroid';
+import Energy from './Energy';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
 const KEY = {
@@ -18,6 +19,7 @@ const MAP = {
     width: 40,
     height: 24,
     asteroids: 32,
+    energy: 10
 };
 
 export class Swarm extends Component {
@@ -45,6 +47,7 @@ export class Swarm extends Component {
             currentScore: 0,
             inGame: false,
             asteroidCount: MAP.asteroids,
+            energyCount: MAP.energy,
             shipVelocity: {
                 x: 0,
                 y: 0,
@@ -56,6 +59,7 @@ export class Swarm extends Component {
         this.ship = [];
         this.asteroids = [];
         this.particles = [];
+        this.energy = [];
     }
 
     handleResize(value, e){
@@ -93,7 +97,6 @@ export class Swarm extends Component {
     }
 
     startGame() {
-    
         // Make ship
         let ship = new Ship({
             position: {
@@ -109,7 +112,11 @@ export class Swarm extends Component {
 
         // Make asteroids
         this.asteroids = [];
-        this.generateAsteroids(this.state.asteroidCount)
+        this.generateAsteroids(this.state.asteroidCount);
+
+        // Make energy
+        this.energy = [];
+        this.generateEnergy(this.state.energyCount);
 
         this.setState({
           inGame: true,
@@ -121,6 +128,10 @@ export class Swarm extends Component {
       this.setState({
         inGame: false,
       });
+    }
+
+    addEnergy() {
+      this.ship[0].addEnergy(25);
     }
 
     generateAsteroids(howMany){
@@ -135,6 +146,20 @@ export class Swarm extends Component {
             addScore: this.addScore.bind(this)
           });
           this.createObject(asteroid, 'asteroids');
+        }
+      }
+
+      generateEnergy(howMany){
+        for (let i = 0; i < howMany; i++) {
+          let energy = new Energy({
+            size: 20,
+            position: {
+              x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+              y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+            },
+            addEnergy: this.addEnergy.bind(this)
+          });
+          this.createObject(energy, 'energy');
         }
       }
 
@@ -183,12 +208,14 @@ export class Swarm extends Component {
       // Check for colisions
       this.checkCollisionsWith(this.bullets, this.asteroids);
       this.checkCollisionsWith(this.ship, this.asteroids);
+      this.checkCollisionsWith(this.ship, this.energy);
 
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
       this.updateObjects(this.ship, 'ship');
       this.updateObjects(this.bullets, 'bullets');
       this.updateObjects(this.particles, 'particles');
+      this.updateObjects(this.energy, 'energy');
 
       context.restore();
 
@@ -209,8 +236,13 @@ export class Swarm extends Component {
           //TODO: review item type, go enum!
           const collision = this.checkCollision(item1, item2);
           if(collision.happened) {
-            if(item1.type == "ship") {
-              item1.hit(item2.toughness, collision.angle);
+            if(item1.type === "ship") {
+                if(item2.type === "asteroid") {
+                  item1.hit(item2.toughness, collision.angle);
+                }
+                else if(item2.type === "pickable") {
+                  item2.destroy();
+                }
             }
             else {
               item1.destroy();

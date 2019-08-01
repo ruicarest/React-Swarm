@@ -79,6 +79,10 @@ export default class Ship {
         }
       }
 
+      addEnergy(amount) {
+        this.HP += amount;
+      }
+
       accelerate(val){
         this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.speed;
         this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.speed;
