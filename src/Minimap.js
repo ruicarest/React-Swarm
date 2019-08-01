@@ -21,8 +21,7 @@ export class Minimap extends Component {
   }
 
   componentDidUpdate = () => {
-    const { Asteroids , Ship } = this.props;
-
+    const { Asteroids , Ship, Energy } = this.props;
 
     //TODO: move this from here please!
     if(this.firstUpdate == false) {
@@ -45,6 +44,11 @@ export class Minimap extends Component {
         this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
     });
 
+    //draw asteroids on minimap
+    Energy.forEach(energy => {
+      //TODO: correct edges transition
+        this.drawOnMinimap(energy.position, '#901aeb', energy.radius);
+    });
   }
 
   //draw circle on minimap

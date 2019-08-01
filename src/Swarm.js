@@ -316,7 +316,7 @@ export class Swarm extends Component {
                   height={this.state.screen.height * this.state.screen.ratio}
               />
               <div key={"minimapdiv"} >
-                <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} ></Minimap>
+                <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} Energy = {this.energy} ></Minimap>
               </div>
             </div>
             );
