@@ -70,7 +70,7 @@ export default class Ship {
       }
     }
 
-    rotate(dir){
+      rotate(dir){
         if (dir == 'LEFT') {
           this.rotation -= this.rotationSpeed;
         }
