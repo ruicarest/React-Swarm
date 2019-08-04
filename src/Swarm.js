@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Ship from './Ship';
 import {Minimap} from './Minimap';
+import {Background} from './Background';
 import Asteroid from './Asteroid';
 import Energy from './Energy';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
@@ -311,13 +312,19 @@ export class Swarm extends Component {
                 { endgame }
               </span>
 
+
+
               <canvas className="gameWindow" ref="gameWindow"
                   width={this.state.screen.width * this.state.screen.ratio}
                   height={this.state.screen.height * this.state.screen.ratio}
               />
+              <div key={"backgrounddiv"} >
+                <Background key ={"Background"}></Background>
+              </div>
               <div key={"minimapdiv"} >
                 <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} Energy = {this.energy} ></Minimap>
               </div>
+
             </div>
             );
     }
