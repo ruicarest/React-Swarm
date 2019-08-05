@@ -13,7 +13,7 @@ export default class Enemy {
       this.type = "enemy";
       this.rotation = 0;
       this.rotationSpeed = 6;
-      this.speed = 0.15;
+      this.acceleration = 0.15;
       this.inertia = 0.99;
       this.radius = 20;
 
@@ -78,8 +78,8 @@ export default class Enemy {
       }
 
       accelerate(val){
-        this.velocity.x += Math.sin(-this.rotation*Math.PI/180) * this.speed;
-        this.velocity.y += Math.cos(-this.rotation*Math.PI/180) * this.speed;
+        this.velocity.x += Math.sin(-this.rotation*Math.PI/180) * this.acceleration;
+        this.velocity.y += Math.cos(-this.rotation*Math.PI/180) * this.acceleration;
 
         //engine particles
         let posDelta = rotatePoint(
@@ -109,12 +109,12 @@ export default class Enemy {
         //calc distance to player ship
         let dx = this.position.x-shipPos.x;
         let dy = this.position.y-shipPos.y;
+
+        //distance to ship
         const distance = Math.sqrt(dx*dx + dy*dy);
 
-        let delta_x = this.position.x-shipPos.x;
-        let delta_y = this.position.y-shipPos.y;
-
-        let angle = Math.floor(Math.atan2(delta_y, delta_x) * (180/Math.PI) - 90);
+        //angle to ship
+        let angle = Math.floor(Math.atan2(dy, dx) * (180/Math.PI) - 90);
 
         if(angle < 0) {
             angle = 360 + angle;
