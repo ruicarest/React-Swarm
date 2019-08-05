@@ -4,6 +4,7 @@ import {Minimap} from './Minimap';
 import {Background} from './Background';
 import Asteroid from './Asteroid';
 import Energy from './Energy';
+import Enemy from './Enemy';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
 const KEY = {
@@ -20,7 +21,8 @@ const MAP = {
     width: 40,
     height: 24,
     asteroids: 32,
-    energy: 10
+    energy: 10,
+    enemies: 1
 };
 
 export class Swarm extends Component {
@@ -49,6 +51,7 @@ export class Swarm extends Component {
             inGame: false,
             asteroidCount: MAP.asteroids,
             energyCount: MAP.energy,
+            enemiesCount: MAP.enemies,
             shipVelocity: {
                 x: 0,
                 y: 0,
@@ -61,6 +64,7 @@ export class Swarm extends Component {
         this.asteroids = [];
         this.particles = [];
         this.energy = [];
+        this.enemies = [];
     }
 
     handleResize(value, e){
@@ -119,6 +123,10 @@ export class Swarm extends Component {
         this.energy = [];
         this.generateEnergy(this.state.energyCount);
 
+        // Make enemies
+        this.enemies = [];
+        this.generateEnemies(this.state.enemiesCount);
+
         this.setState({
           inGame: true,
           currentScore: 0,
@@ -164,17 +172,31 @@ export class Swarm extends Component {
         }
       }
 
+      generateEnemies(howMany){
+        for (let i = 0; i < howMany; i++) {
+          let enemy = new Enemy({
+          position: {
+            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          },
+          create: this.createObject.bind(this),
+          });
+          this.createObject(enemy, 'enemies');
+        }
+      }
+
       createObject(item, group){
         this[group].push(item);
       }
 
-      updateObjects(items, group){
+      //TODO: remove args and use state instead (part1)
+      updateObjects(items, group, args = null){
         let index = 0;
         for (let item of items) {
           if (item.delete) {
             this[group].splice(index, 1);
           }else{
-            items[index].render(this.state);
+            items[index].render(this.state, args);
           }
           index++;
         }
@@ -217,6 +239,10 @@ export class Swarm extends Component {
       this.updateObjects(this.bullets, 'bullets');
       this.updateObjects(this.particles, 'particles');
       this.updateObjects(this.energy, 'energy');
+            //TODO: remove args and use state instead (part2)
+      if(this.state.inGame) {
+        this.updateObjects(this.enemies, 'enemy', this.ship[0].position);
+      }
 
       context.restore();
 
