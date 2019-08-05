@@ -148,8 +148,8 @@ export default class Enemy {
             }
 
         //TODO: fix enemy velocity
-        this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.speed;
-        this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.speed;
+        this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.acceleration;
+        this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.acceleration;
 
         // this.velocity.x = Math.abs(this.velocity.x) > this.maxSpeed ? this.maxSpeed : this.velocity.x - Math.sin(-this.rotation*Math.PI/180) * this.speed;
         // this.velocity.y = Math.abs(this.velocity.y) > this.maxSpeed ? this.maxSpeed : this.velocity.y - Math.cos(-this.rotation*Math.PI/180) * this.speed;
