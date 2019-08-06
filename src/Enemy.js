@@ -13,7 +13,7 @@ export default class Enemy {
       this.type = "enemy";
       this.rotation = 0;
       this.rotationSpeed = 6;
-      this.acceleration = 0.15;
+      this.acceleration = 4;
       this.inertia = 0.99;
       this.radius = 20;
 
@@ -147,15 +147,16 @@ export default class Enemy {
                 }
             }
 
-        //TODO: fix enemy velocity
-        this.velocity.x -= Math.sin(-this.rotation*Math.PI/180) * this.acceleration;
-        this.velocity.y -= Math.cos(-this.rotation*Math.PI/180) * this.acceleration;
+            //TODO: fix enemy velocity
+            this.velocity.x = - Math.sin(-this.rotation*Math.PI/180) * this.acceleration;
+            this.velocity.y = - Math.cos(-this.rotation*Math.PI/180) * this.acceleration;
 
-        // this.velocity.x = Math.abs(this.velocity.x) > this.maxSpeed ? this.maxSpeed : this.velocity.x - Math.sin(-this.rotation*Math.PI/180) * this.speed;
-        // this.velocity.y = Math.abs(this.velocity.y) > this.maxSpeed ? this.maxSpeed : this.velocity.y - Math.cos(-this.rotation*Math.PI/180) * this.speed;
+            // this.velocity.x = Math.abs(this.velocity.x) > this.maxSpeed ? this.maxSpeed : this.velocity.x - Math.sin(-this.rotation*Math.PI/180) * this.speed;
+            // this.velocity.y = Math.abs(this.velocity.y) > this.maxSpeed ? this.maxSpeed : this.velocity.y - Math.cos(-this.rotation*Math.PI/180) * this.speed;
 
-        console.log(this.velocity.x, this.velocity.y);
-
+            if(distance < 200) {
+                this.velocity = {x:0, y:0};
+            }
         }
 
         // Move
