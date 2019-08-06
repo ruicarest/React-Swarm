@@ -113,14 +113,13 @@ export default class Enemy {
         //angle to ship
         let angle = Math.floor(Math.atan2(dy, dx) * (180/Math.PI) - 90);
 
+        //handle angle limits
         if(angle < 0) {
             angle = 360 + angle;
         }
-
         if (this.rotation >= 360) {
             this.rotation -= 360;
         }
-
         if (this.rotation < 0) {
             this.rotation += 360;
         }
@@ -147,9 +146,6 @@ export default class Enemy {
             //TODO: fix enemy velocity
             this.velocity.x = - Math.sin(-this.rotation*Math.PI/180) * this.acceleration;
             this.velocity.y = - Math.cos(-this.rotation*Math.PI/180) * this.acceleration;
-
-            // this.velocity.x = Math.abs(this.velocity.x) > this.maxSpeed ? this.maxSpeed : this.velocity.x - Math.sin(-this.rotation*Math.PI/180) * this.speed;
-            // this.velocity.y = Math.abs(this.velocity.y) > this.maxSpeed ? this.maxSpeed : this.velocity.y - Math.cos(-this.rotation*Math.PI/180) * this.speed;
 
             if(distance < 200) {
                 this.velocity = {x:0, y:0};
@@ -179,18 +175,6 @@ export default class Enemy {
         else if(this.position.y < -this.radius) {
             this.position.y = state.map.height + this.radius;
         }
-
-        // Controls
-        // if(state.keys.up){
-        //   this.accelerate(1);
-        // }
-        // if(state.keys.left){
-        //   this.rotate('LEFT');
-        // }
-        // if(state.keys.right){
-        //   this.rotate('RIGHT');
-        // }
-
 
         if (this.gettingHit && Date.now() - this.T_lastHit > 100) {
           this.gettingHit = false;
