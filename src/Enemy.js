@@ -24,7 +24,6 @@ export default class Enemy {
       this.create = args.create;
 
       this.gettingHit = false;
-      this.hitAngle = 0;
       this.toughness = 10;
       this.HP = 20;
     }
@@ -50,9 +49,7 @@ export default class Enemy {
       }
     }
 
-    hit(damage, angle) {
-
-      this.hitAngle = angle;
+    hit(damage) {
 
       if(Date.now() - this.T_lastHit > 100){
         this.HP -= damage;
@@ -157,6 +154,12 @@ export default class Enemy {
             if(distance < 200) {
                 this.velocity = {x:0, y:0};
             }
+
+            if(Date.now() - this.T_lastShot > 1000){
+                const bullet = new Bullet({ship: this, damage: 10});
+                this.create(bullet, 'enemyBullets');
+                this.T_lastShot = Date.now();
+              }
         }
 
         // Move
@@ -187,23 +190,18 @@ export default class Enemy {
         // if(state.keys.right){
         //   this.rotate('RIGHT');
         // }
-        // if(state.keys.space && Date.now() - this.T_lastShot > 300){
-        //   const bullet = new Bullet({ship: this, damage: 10});
-        //   this.create(bullet, 'bullets');
-        //   this.T_lastShot = Date.now();
-        // }
 
-        // if (this.gettingHit && Date.now() - this.T_lastHit > 100) {
-        //   this.gettingHit = false;
-        //   this.hitAngle = 0;
-        // }
+
+        if (this.gettingHit && Date.now() - this.T_lastHit > 100) {
+          this.gettingHit = false;
+        }
 
         // Draw
         const context = state.context;
         context.save();
         context.translate(this.position.x, this.position.y);
         context.rotate(this.rotation * Math.PI / 180);
-        context.strokeStyle = '#FF0000';
+        context.strokeStyle = '#ff0000';
         context.fillStyle = '#000000';
         context.lineWidth = 2;
         context.beginPath();
@@ -216,14 +214,14 @@ export default class Enemy {
         context.fill();
         context.stroke();
         
-        // //draw Energy Shield
-        // if(this.gettingHit) {
-        //   context.beginPath();
-        //   //TODO: change shield size with distance
-        //   context.arc(0, 0, 50, this.hitAngle - this.rotation * Math.PI / 180, Math.PI + this.hitAngle - this.rotation * Math.PI / 180);
-        //   context.strokeStyle = '#901aeb';
-        //   context.stroke();
-        // }
+        //draw Energy Shield
+        if(this.gettingHit) {
+          context.beginPath();
+          //TODO: change shield size with distance
+          context.arc(0, 0, this.radius + 5, 0, 360);
+          context.strokeStyle = '#fcad03';
+          context.stroke();
+        }
         context.restore();
       }
 }

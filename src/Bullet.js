@@ -26,12 +26,17 @@ export default class Bullet {
     destroy(){
         this.delete = true;
     }
+
+    //TODO: remove this
+    hit() {
+
+    };
   
     render(state){
         
         // Move
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x - state.shipVelocity.x;
+        this.position.y += this.velocity.y - state.shipVelocity.x;
 
         // check edges
         if ( this.position.x < 0

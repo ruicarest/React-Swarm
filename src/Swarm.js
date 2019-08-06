@@ -60,6 +60,7 @@ export class Swarm extends Component {
         }
 
         this.bullets = [];
+        this.enemyBullets = [];
         this.ship = [];
         this.asteroids = [];
         this.particles = [];
@@ -230,16 +231,20 @@ export class Swarm extends Component {
       
       // Check for colisions
       this.checkCollisionsWith(this.bullets, this.asteroids);
+      this.checkCollisionsWith(this.bullets, this.enemies);
       this.checkCollisionsWith(this.ship, this.asteroids);
       this.checkCollisionsWith(this.ship, this.energy);
+      this.checkCollisionsWith(this.ship, this.enemyBullets);
 
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
       this.updateObjects(this.ship, 'ship');
       this.updateObjects(this.bullets, 'bullets');
+      this.updateObjects(this.enemyBullets, 'enemyBullets');
       this.updateObjects(this.particles, 'particles');
       this.updateObjects(this.energy, 'energy');
-            //TODO: remove args and use state instead (part2)
+
+      //TODO: remove args and use state instead (part2)
       if(this.state.inGame) {
         this.updateObjects(this.enemies, 'enemy', this.ship[0].position);
       }
@@ -268,6 +273,10 @@ export class Swarm extends Component {
                   item1.hit(item2.toughness, collision.angle);
                 }
                 else if(item2.type === "pickable") {
+                  item2.destroy();
+                }
+                else if(item2.type === "bullet") {
+                  item1.hit(item2.toughness, collision.angle);
                   item2.destroy();
                 }
             }
