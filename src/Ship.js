@@ -120,7 +120,11 @@ export default class Ship {
           this.rotate('RIGHT');
         }
         if(state.keys.space && Date.now() - this.T_lastShot > 300){
-          const bullet = new Bullet({ship: this, damage: 10});
+          const bullet = new Bullet({
+            ship: this, 
+            damage: 10,
+            create:this.create.bind(this)
+          });
           this.create(bullet, 'bullets');
           this.T_lastShot = Date.now();
         }

@@ -41,7 +41,8 @@ export default class Asteroid {
           velocity: {
             x: randomNumBetween(-1.5, 1.5),
             y: randomNumBetween(-1.5, 1.5)
-          }
+          },
+          create:this.create.bind(this)
         });
         this.create(particle, 'particles');
       }

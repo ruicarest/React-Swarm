@@ -152,7 +152,11 @@ export default class Enemy {
             }
 
             if(Date.now() - this.T_lastShot > 1000){
-                const bullet = new Bullet({ship: this, damage: 10});
+                const bullet = new Bullet({
+                  ship: this, 
+                  amage: 10,
+                  create:this.create.bind(this)
+                });
                 this.create(bullet, 'enemyBullets');
                 this.T_lastShot = Date.now();
               }

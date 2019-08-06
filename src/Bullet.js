@@ -1,4 +1,5 @@
-import { rotatePoint } from './utils';
+import { rotatePoint, randomNumBetween } from './utils';
+import Particle from './Particle';
 
 export default class Bullet {
     constructor(args) {
@@ -16,6 +17,8 @@ export default class Bullet {
             x:posDelta.x / 2,
             y:posDelta.y / 2
         };
+
+        this.create = args.create;
         this.radius = 2;
 
         this.type = "bullet";
@@ -25,6 +28,23 @@ export default class Bullet {
   
     destroy(){
         this.delete = true;
+
+              // Explode
+      for (let i = 0; i < 10; i++) {
+        const particle = new Particle({
+          lifeSpan: randomNumBetween(20, 50),
+          size: randomNumBetween(0.5, 1),
+          position: {
+            x: randomNumBetween(-this.radius/4, this.radius/4) + this.position.x,
+            y: randomNumBetween(-this.radius/4, this.radius/4) + this.position.y
+          },
+          velocity: {
+            x: randomNumBetween(-1.5, 1.5),
+            y: randomNumBetween(-1.5, 1.5)
+          }
+        });
+        this.create(particle, 'particles');
+      }
     }
 
     //TODO: remove this
