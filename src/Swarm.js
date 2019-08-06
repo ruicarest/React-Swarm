@@ -246,7 +246,7 @@ export class Swarm extends Component {
 
       //TODO: remove args and use state instead (part2)
       if(this.state.inGame) {
-        this.updateObjects(this.enemies, 'enemy', this.ship[0].position);
+        this.updateObjects(this.enemies, 'enemies', this.ship[0].position);
       }
 
       context.restore();
