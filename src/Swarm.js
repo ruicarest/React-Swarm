@@ -12,75 +12,76 @@ const CFGS = {
 };
 
 const KEY = {
-    LEFT:  37,
-    RIGHT: 39,
-    UP: 38,
-    A: 65,
-    D: 68,
-    W: 87,
-    SPACE: 32
+  LEFT:  37,
+  RIGHT: 39,
+  UP: 38,
+  A: 65,
+  D: 68,
+  W: 87,
+  SPACE: 32
 };
 
 const MAP = {
-    width: 40,
-    height: 24,
-    asteroids: 32,
-    energy: 10,
-    enemies: 10
+  width: 40,
+  height: 24,
+  asteroids: 32,
+  energy: 10,
+  enemies: 10
 };
 
 export class Swarm extends Component {
     constructor() {
-        super();
-        
-        this.state = {
-            context: null,
-            keys : {
-              left  : 0,
-              right : 0,
-              up    : 0,
-              down  : 0,
-              space : 0,
-            },
-            map : {
-              width: CFGS.TILE_SIZE * MAP.width,
-              height: CFGS.TILE_SIZE * MAP.height,
-            },
-            screen:  {
-                width: window.innerWidth,
-                height: window.innerHeight,
-                ratio: window.devicePixelRatio || 1,
-            },
-            currentScore: 0,
-            inGame: false,
-            asteroidCount: MAP.asteroids,
-            energyCount: MAP.energy,
-            enemiesCount: MAP.enemies,
-            shipVelocity: {
-                x: 0,
-                y: 0,
-            },
-            minimapScale: 10,
-        }
+      super();
+      
+      this.state = {
+          context: null,
+          keys : {
+            left  : 0,
+            right : 0,
+            up    : 0,
+            down  : 0,
+            space : 0,
+          },
+          map : {
+            width: CFGS.TILE_SIZE * MAP.width,
+            height: CFGS.TILE_SIZE * MAP.height,
+          },
+          screen:  {
+              width: window.innerWidth,
+              height: window.innerHeight,
+              ratio: window.devicePixelRatio || 1,
+          },
+          currentScore: 0,
+          inGame: false,
+          asteroidCount: MAP.asteroids,
+          energyCount: MAP.energy,
+          enemiesCount: MAP.enemies,
+          shipVelocity: {
+            x: 0,
+            y: 0,
+          },
+          minimapScale: 10,
+      }
 
-        this.bullets = [];
-        this.enemyBullets = [];
-        this.ship = [];
-        this.asteroids = [];
-        this.particles = [];
-        this.energy = [];
-        this.enemies = [];
+      this.bullets = [];
+      this.enemyBullets = [];
+      this.ship = [];
+      this.asteroids = [];
+      this.particles = [];
+      this.energy = [];
+      this.EZT = [];
+      this.enemies = [];
     }
 
     handleResize(value, e){
-        this.setState({
-          screen : {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            ratio: window.devicePixelRatio || 1,
-          }
-        });
-      }
+      this.setState({
+        screen : {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          ratio: window.devicePixelRatio || 1,
+        }
+      });
+    }
 
     handleKeys(value, e){
         let keys = this.state.keys;
@@ -94,47 +95,46 @@ export class Swarm extends Component {
       }
 
     componentDidMount() {
-    
-        window.addEventListener('keyup',   this.handleKeys.bind(this, false));
-        window.addEventListener('keydown', this.handleKeys.bind(this, true));
-        window.addEventListener('resize',  this.handleResize.bind(this, false));
+      window.addEventListener('keyup',   this.handleKeys.bind(this, false));
+      window.addEventListener('keydown', this.handleKeys.bind(this, true));
+      window.addEventListener('resize',  this.handleResize.bind(this, false));
 
-        const context = this.refs.gameWindow.getContext('2d');
-        this.setState({ context: context });
-        this.startGame();
-        requestAnimationFrame(() => {this.update()});
+      const context = this.refs.gameWindow.getContext('2d');
+      this.setState({ context: context });
 
+      this.startGame();
+      requestAnimationFrame(() => {this.update()});
     }
 
     startGame() {
-        // Make ship
-        let ship = new Ship({
-            position: {
-                x: this.state.screen.width/2,
-                y: this.state.screen.height/2,
-            },
-            create: this.createObject.bind(this),
-            onDie: this.gameOver.bind(this),
-            updateVelocity: this.updateShipVelocity.bind(this)
-        });
+      // Make ship
+      let ship = new Ship({
+          position: {
+              x: this.state.screen.width/2,
+              y: this.state.screen.height/2,
+          },
+          create: this.createObject.bind(this),
+          onDie: this.gameOver.bind(this),
+          updateVelocity: this.updateShipVelocity.bind(this)
+      });
 
-        this.createObject(ship, 'ship');
+      this.createObject(ship, 'ship');
 
-        // Make asteroids
-        this.asteroids = [];
-        this.generateAsteroids(this.state.asteroidCount);
+      // Make asteroids
+      this.asteroids = [];
+      this.generateAsteroids(this.state.asteroidCount);
 
-        // Make energy
-        this.energy = [];
-        this.generateEnergy(this.state.energyCount);
+      // Make energy
+      this.energy = [];
+      this.generateEnergy(this.state.energyCount);
 
-        // Make enemies
-        this.enemies = [];
-        this.generateEnemies(this.state.enemiesCount);
+      // Make enemies
+      this.enemies = [];
+      this.generateEnemies(this.state.enemiesCount);
 
-        this.setState({
-          inGame: true,
-          currentScore: 0,
+      this.setState({
+        inGame: true,
+        currentScore: 0,
       });
     }
 
@@ -149,77 +149,77 @@ export class Swarm extends Component {
     }
 
     generateAsteroids(howMany){
-        for (let i = 0; i < howMany; i++) {
-          let asteroid = new Asteroid({
-            size: Math.floor(randomNumBetween(30, 80)),
-            position: {
-              x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-              y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
-            },
-            create: this.createObject.bind(this),
-            addScore: this.addScore.bind(this)
-          });
-          this.createObject(asteroid, 'asteroids');
-        }
-      }
-
-      generateEnergy(howMany){
-        for (let i = 0; i < howMany; i++) {
-          let energy = new Energy({
-            size: 20,
-            position: {
-              x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-              y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
-            },
-            addEnergy: this.addEnergy.bind(this)
-          });
-          this.createObject(energy, 'energy');
-        }
-      }
-
-      generateEnemies(howMany){
-        for (let i = 0; i < howMany; i++) {
-          let enemy = new Enemy({
+      for (let i = 0; i < howMany; i++) {
+        let asteroid = new Asteroid({
+          size: Math.floor(randomNumBetween(30, 80)),
           position: {
             x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
             y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
           },
           create: this.createObject.bind(this),
-          });
-          this.createObject(enemy, 'enemies');
+          addScore: this.addScore.bind(this)
+        });
+        this.createObject(asteroid, 'asteroids');
+      }
+    }
+
+    generateEnergy(howMany){
+      for (let i = 0; i < howMany; i++) {
+        let energy = new Energy({
+          size: 20,
+          position: {
+            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          },
+          addEnergy: this.addEnergy.bind(this)
+        });
+        this.createObject(energy, 'energy');
+      }
+    }
+
+    generateEnemies(howMany){
+      for (let i = 0; i < howMany; i++) {
+        let enemy = new Enemy({
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+        },
+        create: this.createObject.bind(this),
+        });
+        this.createObject(enemy, 'enemies');
+      }
+    }
+
+    createObject(item, group){
+      this[group].push(item);
+    }
+
+    //TODO: remove args and use state instead (part1)
+    updateObjects(items, group, args = null){
+      let index = 0;
+      for (let item of items) {
+        if (item.delete) {
+          this[group].splice(index, 1);
+        }else{
+          items[index].render(this.state, args);
         }
+        index++;
       }
+    }
 
-      createObject(item, group){
-        this[group].push(item);
-      }
+    updateShipVelocity(newVelocity) {
+      this.setState({
+          shipVelocity : newVelocity
+        });
+    }
 
-      //TODO: remove args and use state instead (part1)
-      updateObjects(items, group, args = null){
-        let index = 0;
-        for (let item of items) {
-          if (item.delete) {
-            this[group].splice(index, 1);
-          }else{
-            items[index].render(this.state, args);
-          }
-          index++;
-        }
-      }
-
-      updateShipVelocity(newVelocity) {
+    addScore(points){
+      if(this.state.inGame){
         this.setState({
-            shipVelocity : newVelocity
-          });
+          currentScore: this.state.currentScore + points,
+        });
       }
-
-      addScore(points){
-        if(this.state.inGame){
-          this.setState({
-            currentScore: this.state.currentScore + points,
-          });
-        }
-      }
+    }
 
     update() {
       const context = this.state.context;
@@ -228,7 +228,7 @@ export class Swarm extends Component {
       context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
       // Motion trail
-      context.fillStyle = '#000';
+      context.fillStyle = 'rgba(0,0,0,0.5)';
       context.globalAlpha = 0.8;
       context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
       context.globalAlpha = 1;
@@ -338,34 +338,33 @@ export class Swarm extends Component {
         )
       }
 
-        return (
-            <div key={"app"}>
-              <span className="UI">
-                <span className="controls">
-                  Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
-                  Use [SPACE] to SHOOT
-                </span>
-                <span className="stats">
-                  {shipHP} HP
-                </span>
-                { endgame }
-              </span>
+      return (
+        <div key={"app"}>
+          <span className="UI">
+            <span className="controls">
+              Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
+              Use [SPACE] to SHOOT
+            </span>
+            <span className="stats">
+              {shipHP} HP
+            </span>
+            { endgame }
+          </span>
 
 
 
               <canvas className="gameWindow" ref="gameWindow"
-                  width={this.state.screen.width * this.state.screen.ratio}
-                  height={this.state.screen.height * this.state.screen.ratio}
-              />
-              <div key={"backgrounddiv"} >
-                <Background key ={"Background"}></Background>
-              </div>
-              <div key={"minimapdiv"} >
-                <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} Energy = {this.energy} ></Minimap>
-              </div>
+          <canvas className="gameWindow" ref="gameWindow"
+              width={this.state.screen.width * this.state.screen.ratio}
+              height={this.state.screen.height * this.state.screen.ratio}
+          />
 
-            </div>
-            );
+          <div key={"minimapdiv"} >
+            <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} Energy = {this.energy} ></Minimap>
+          </div>
+
+        </div>
+      );
     }
 }
 
