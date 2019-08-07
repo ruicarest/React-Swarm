@@ -351,9 +351,9 @@ export class Swarm extends Component {
             { endgame }
           </span>
 
-
-
-              <canvas className="gameWindow" ref="gameWindow"
+          {/* <div key={"backgrounddiv"} >
+            <Background key ={"Background"}></Background>
+          </div> */}
           <canvas className="gameWindow" ref="gameWindow"
               width={this.state.screen.width * this.state.screen.ratio}
               height={this.state.screen.height * this.state.screen.ratio}
