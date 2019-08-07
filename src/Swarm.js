@@ -7,6 +7,10 @@ import Energy from './Energy';
 import Enemy from './Enemy';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
+const CFGS = {
+  TILE_SIZE: 64,
+};
+
 const KEY = {
     LEFT:  37,
     RIGHT: 39,
@@ -15,14 +19,14 @@ const KEY = {
     D: 68,
     W: 87,
     SPACE: 32
-  };
+};
 
 const MAP = {
     width: 40,
     height: 24,
     asteroids: 32,
     energy: 10,
-    enemies: 1
+    enemies: 10
 };
 
 export class Swarm extends Component {
@@ -39,8 +43,8 @@ export class Swarm extends Component {
               space : 0,
             },
             map : {
-              width: 64 * MAP.width,
-              height: 64 * MAP.height,
+              width: CFGS.TILE_SIZE * MAP.width,
+              height: CFGS.TILE_SIZE * MAP.height,
             },
             screen:  {
                 width: window.innerWidth,
