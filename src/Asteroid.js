@@ -32,10 +32,10 @@ export default class Asteroid {
       //explode
       for (let i = 0; i < this.radius; i++) {
         const particle = new Particle({
-          lifeSpan: randomNumBetween(60, 100),
+          lifeSpan: randomNumBetween(2*this.radius, 4*this.radius),
           size: randomNumBetween(1, 3),
           position: {
-            x: randomNumBetween(-this.radius/2, this.radius/4) + this.position.x,
+            x: randomNumBetween(-this.radius/2, this.radius/2) + this.position.x,
             y: randomNumBetween(-this.radius/2, this.radius/2) + this.position.y
           },
           velocity: {
