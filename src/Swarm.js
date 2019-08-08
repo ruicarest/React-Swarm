@@ -360,7 +360,12 @@ export class Swarm extends Component {
           />
 
           <div key={"minimapdiv"} >
-            <Minimap key ={"Minimap"} {...this.state} Ship = {this.ship} Asteroids = {this.asteroids} Energy = {this.energy} ></Minimap>
+            <Minimap key ={"Minimap"} {...this.state} 
+            Ship = {this.ship} 
+            Asteroids = {this.asteroids} 
+            Energy = {this.energy}
+            Enemies = {this.enemies}
+            ></Minimap>
           </div>
 
         </div>
