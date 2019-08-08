@@ -3,7 +3,7 @@ import Ship from './Ship';
 import {Minimap} from './Minimap';
 import {Background} from './Background';
 import Asteroid from './Asteroid';
-import Energy from './Energy';
+import Pickable from './Pickable';
 import Enemy from './Enemy';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
@@ -26,7 +26,8 @@ const MAP = {
   height: 24,
   asteroids: 32,
   energy: 10,
-  enemies: 10
+  enemies: 10,
+  EZT: 5,
 };
 
 export class Swarm extends Component {
@@ -55,6 +56,7 @@ export class Swarm extends Component {
           inGame: false,
           asteroidCount: MAP.asteroids,
           energyCount: MAP.energy,
+          EZTCount: MAP.EZT,
           enemiesCount: MAP.enemies,
           shipVelocity: {
             x: 0,
@@ -128,6 +130,9 @@ export class Swarm extends Component {
       this.energy = [];
       this.generateEnergy(this.state.energyCount);
 
+      this.EZT = [];
+      this.generateEZT(this.state.EZTCount);
+
       // Make enemies
       this.enemies = [];
       this.generateEnemies(this.state.enemiesCount);
@@ -142,10 +147,6 @@ export class Swarm extends Component {
       this.setState({
         inGame: false,
       });
-    }
-
-    addEnergy() {
-      this.ship[0].addEnergy(25);
     }
 
     generateAsteroids(howMany){
@@ -165,15 +166,38 @@ export class Swarm extends Component {
 
     generateEnergy(howMany){
       for (let i = 0; i < howMany; i++) {
-        let energy = new Energy({
+        let energy = new Pickable({
           size: 20,
           position: {
             x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
             y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
           },
-          addEnergy: this.addEnergy.bind(this)
+          action: () => {
+            this.ship[0].addEnergy(25)
+            ;},
+            color: '#901aeb'
         });
         this.createObject(energy, 'energy');
+      }
+    }
+
+    generateEZT(howMany){
+      for (let i = 0; i < howMany; i++) {
+        let EZT = new Pickable({
+          size: 20,
+          color: '#34deeb',
+          position: {
+            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          },
+          action: () => {
+            this.setState({
+              currentScore: this.state.currentScore + 1,
+            });
+            console.log(this.state.currentScore);
+            ;}
+        });
+        this.createObject(EZT, 'EZT');
       }
     }
 
@@ -239,6 +263,7 @@ export class Swarm extends Component {
       this.checkCollisionsWith(this.ship, this.asteroids);
       this.checkCollisionsWith(this.ship, this.energy);
       this.checkCollisionsWith(this.ship, this.enemyBullets);
+      this.checkCollisionsWith(this.ship, this.EZT);
 
       // Remove or render
       this.updateObjects(this.asteroids, 'asteroids');
@@ -247,6 +272,7 @@ export class Swarm extends Component {
       this.updateObjects(this.enemyBullets, 'enemyBullets');
       this.updateObjects(this.particles, 'particles');
       this.updateObjects(this.energy, 'energy');
+      this.updateObjects(this.EZT, 'EZT');
 
       //TODO: remove args and use state instead (part2)
       if(this.state.inGame) {
@@ -324,7 +350,8 @@ export class Swarm extends Component {
       let endgame;
 
       //get Ship HP
-      let shipHP = this.state.inGame ? this.ship[0].HP : 0;
+      const shipHP = this.state.inGame ? this.ship[0].HP : 0;
+      const EZT = this.state.inGame ? this.state.currentScore : 0;
 
       if(!this.state.inGame){
         endgame = (
@@ -346,7 +373,8 @@ export class Swarm extends Component {
               Use [SPACE] to SHOOT
             </span>
             <span className="stats">
-              {shipHP} HP
+              {shipHP} HP <br/>
+              {EZT}
             </span>
             { endgame }
           </span>
@@ -365,6 +393,7 @@ export class Swarm extends Component {
             Asteroids = {this.asteroids} 
             Energy = {this.energy}
             Enemies = {this.enemies}
+            EZT = {this.EZT}
             ></Minimap>
           </div>
 

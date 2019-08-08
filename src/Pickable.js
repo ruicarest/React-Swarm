@@ -1,19 +1,20 @@
-export default class Energy {
+export default class Pickable {
     constructor(args) {
         this.position = args.position;
 
         this.radius = args.size;
 
-        this.addEnergy = args.addEnergy;
+        this.action = args.action;
 
         this.type = "pickable";
-
+        
+        this.color = args.color;
     }
 
     destroy(){
       this.delete = true;
 
-      this.addEnergy();
+      this.action();
     }
 
     hit(){
@@ -43,7 +44,7 @@ export default class Energy {
     const context = state.context;
     context.save();
     context.translate(this.position.x, this.position.y);
-    context.strokeStyle = '#901aeb';
+    context.strokeStyle = this.color;
     context.lineWidth = 2;
     context.beginPath();
     context.arc(0, 0, this.radius, 0, Math.PI * 2);
