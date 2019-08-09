@@ -1,6 +1,8 @@
 import { rotatePoint, randomNumBetween } from './utils';
 import Particle from './Particle';
 import Bullet from './Bullet';
+import Bomb from './Bomb';
+
 
 export default class Ship {
     constructor(args) {
@@ -19,6 +21,7 @@ export default class Ship {
 
       //Timers
       this.T_lastShot = 0;
+      this.T_lastBombShot = 0;
       this.T_lastHit = 0;
 
       this.create = args.create;
@@ -118,6 +121,15 @@ export default class Ship {
         }
         if(state.keys.right){
           this.rotate('RIGHT');
+        }
+        if(state.keys.bomb && Date.now() - this.T_lastBombShot > 500){
+          const bomb = new Bomb({
+            position: this.position, 
+            size: 10,
+            damage: 200,
+          });
+          this.create(bomb, 'bullets');
+          this.T_lastBombShot = Date.now();
         }
         if(state.keys.space && Date.now() - this.T_lastShot > 300){
           const bullet = new Bullet({

@@ -18,7 +18,8 @@ const KEY = {
   A: 65,
   D: 68,
   W: 87,
-  SPACE: 32
+  SPACE: 32,
+  Q: 81
 };
 
 const MAP = {
@@ -42,6 +43,7 @@ export class Swarm extends Component {
             up    : 0,
             down  : 0,
             space : 0,
+            bomb  : 0
           },
           map : {
             width: CFGS.TILE_SIZE * MAP.width,
@@ -91,6 +93,7 @@ export class Swarm extends Component {
         if(e.keyCode === KEY.RIGHT  || e.keyCode === KEY.D) keys.right = value;
         if(e.keyCode === KEY.UP     || e.keyCode === KEY.W) keys.up    = value;
         if(e.keyCode === KEY.SPACE) keys.space = value;
+        if(e.keyCode === KEY.Q) keys.bomb = value;
         this.setState({
           keys : keys
         });
