@@ -14,15 +14,15 @@ export default class Bullet {
         };
         this.rotation = args.ship.rotation;
         this.velocity = {
-            x:posDelta.x / 2,
-            y:posDelta.y / 2
+            x:posDelta.x / 4,
+            y:posDelta.y / 4
         };
 
         this.create = args.create;
-        this.radius = 2;
+        this.radius = 1;
 
         this.type = "bullet";
-
+        this.isMainShip = args.isMainShip;
         this.toughness = args.damage;
     }
   
@@ -55,8 +55,13 @@ export default class Bullet {
     render(state){
         
         // Move
-        this.position.x += this.velocity.x - state.shipVelocity.x;
-        this.position.y += this.velocity.y - state.shipVelocity.x;
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+
+        if(!this.isMainShip) {
+          this.position.x -= state.shipVelocity.x;
+          this.position.y -= state.shipVelocity.y;
+        }
 
         // check edges
         if ( this.position.x < 0

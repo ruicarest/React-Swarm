@@ -123,7 +123,8 @@ export default class Ship {
           const bullet = new Bullet({
             ship: this, 
             damage: 10,
-            create:this.create.bind(this)
+            create:this.create.bind(this),
+            isMainShip: true
           });
           this.create(bullet, 'bullets');
           this.T_lastShot = Date.now();
