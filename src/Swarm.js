@@ -23,8 +23,8 @@ const KEY = {
 };
 
 const MAP = {
-  width: 40,
-  height: 24,
+  width: 60,
+  height: 36,
   asteroids: 32,
   energy: 10,
   enemies: 10,
@@ -378,7 +378,7 @@ export class Swarm extends Component {
             </span>
             <span className="stats">
               {shipHP} HP <br/>
-              {EZT}
+              {EZT} EZT
             </span>
             { endgame }
           </span>
