@@ -14,8 +14,9 @@ export default class Bomb {
 
         //this.color = args.color;
         this.color = "#537aed";
-        this.T_lastShot = Date.now();
-        this.T_shockwave = 2000;
+        this.T_shot = Date.now();
+        this.T_toExplode = 1000;
+        this.T_shockwave = 4000;
     }
 
     destroy(){
@@ -46,12 +47,14 @@ export default class Bomb {
         this.position.y = state.map.height + this.radius;
     }
 
-    if (Date.now() - this.T_lastShot > this.T_shockwave){
+    if (Date.now() - this.T_shot > this.T_shockwave){
         this.delete = true;
     }
 
-    //increase shockwave radius
-    this.radius++;
+    if(Date.now() - this.T_shot > this.T_toExplode) {
+        //increase shockwave radius
+        this.radius++;
+    }
 
     // Draw
     const context = state.context;
