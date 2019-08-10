@@ -11,13 +11,13 @@ export default class Bomb {
         };
 
         this.radius = args.size;
-        this.inertia = 0.99;
+        this.inertia = 0.95;
 
         //this.action = args.action;
 
         this.type = "bullet";
         this.toughness = args.damage;
-
+        this.exploded = false;
         //this.color = args.color;
         this.color = "#537aed";
         this.T_shot = Date.now();
@@ -31,6 +31,7 @@ export default class Bomb {
 
     hit(){
 
+        this.exploded = true;
     };
 
     render(state) {
@@ -57,7 +58,7 @@ export default class Bomb {
             this.delete = true;
         }
 
-        if(Date.now() - this.T_shot > this.T_toExplode) {
+        if(this.exploded || Date.now() - this.T_shot > this.T_toExplode ) {
             //increase shockwave radius
             this.shipInertia = {x: 0, y: 0};
             this.radius++;
