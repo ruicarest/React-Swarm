@@ -124,7 +124,8 @@ export default class Ship {
         }
         if(state.keys.bomb && Date.now() - this.T_lastBombShot > 500){
           const bomb = new Bomb({
-            position: this.position, 
+            position: this.position,
+            velocity: this.velocity,
             size: 10,
             damage: 200,
           });
