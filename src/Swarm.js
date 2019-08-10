@@ -264,6 +264,7 @@ export class Swarm extends Component {
       this.checkCollisionsWith(this.bullets, this.asteroids);
       this.checkCollisionsWith(this.bullets, this.enemies);
       this.checkCollisionsWith(this.enemyBullets, this.asteroids);
+      this.checkCollisionsWith(this.enemyBullets, this.bullets);
       this.checkCollisionsWith(this.ship, this.asteroids);
       this.checkCollisionsWith(this.ship, this.energy);
       this.checkCollisionsWith(this.ship, this.enemyBullets);
