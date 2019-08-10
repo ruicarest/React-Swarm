@@ -16,7 +16,7 @@ export default class Enemy {
       this.acceleration = 4;
       this.inertia = 0.99;
       this.radius = 20;
-
+      this.sight = 500;
       //Timers
       this.T_lastShot = 0;
       this.T_lastHit = 0;
@@ -124,7 +124,7 @@ export default class Enemy {
             this.rotation += 360;
         }
 
-        if(distance < 1000) {
+        if(distance < this.sight) {
 
             if(this.rotation > angle) {
                 if(((360 - Math.abs(this.rotation - angle)) < (angle - this.rotation))) {
