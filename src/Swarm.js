@@ -360,7 +360,7 @@ export class Swarm extends Component {
           <span className="UI">
             <span className="controls">
               Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
-              Use [SPACE] to SHOOT
+              Use [SPACE] to SHOOT & [Q] to MINE
             </span>
             <span className="stats">
               {shipHP} HP <br/>
