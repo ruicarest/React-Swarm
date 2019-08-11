@@ -323,7 +323,7 @@ export class Swarm extends Component {
       }
 
       //length^2 <= (object radius)^2
-      return ({happened: length <= Math.pow(obj1.radius + obj2.radius, 2), angle: hitAngle});
+      return ({happened: length <= Math.pow(obj1.radius-2 + obj2.radius-2, 2), angle: hitAngle});
     }
 
     DisplayShipHP () {
