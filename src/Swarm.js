@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Ship from './Ship';
 import {Minimap} from './Minimap';
-import {Background} from './Background';
 import Asteroid from './Asteroid';
 import Pickable from './Pickable';
 import Enemy from './Enemy';
