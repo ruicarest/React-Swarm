@@ -33,9 +33,9 @@ export default class Bullet {
 
     //onCollision
     destroy(){
-        this.delete = true;
+      this.delete = true;
 
-              // Explode
+      // Explode
       for (let i = 0; i < 10; i++) {
         const particle = new Particle({
           lifeSpan: randomNumBetween(20, 50),
