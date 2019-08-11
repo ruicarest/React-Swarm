@@ -1,5 +1,6 @@
 import Particle from './Particle';
 import { randomNumBetween } from './utils';
+
 export default class Mine {
     constructor(args) {
         this.position = {
@@ -13,8 +14,9 @@ export default class Mine {
         };
 
         this.create = args.create;
+
         this.radius = args.size;
-        this.inertia = 0.95;
+        this.inertia = 0.99;
 
         this.type = "bullet";
         this.toughness = args.damage;
@@ -38,8 +40,11 @@ export default class Mine {
     render(state) {
 
         // Move
-        this.position.x -= state.shipVelocity.x - this.shipInertia.x * this.inertia;
-        this.position.y -= state.shipVelocity.y - this.shipInertia.y * this.inertia;
+        this.position.x -= state.shipVelocity.x - this.shipInertia.x;
+        this.position.y -= state.shipVelocity.y - this.shipInertia.y;
+
+        this.shipInertia.x *=  this.inertia;
+        this.shipInertia.y *=  this.inertia;
 
         // Screen edges
         if(this.position.x > state.map.width + this.radius) {
