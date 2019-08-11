@@ -66,7 +66,7 @@ export default class Ship {
       }
       this.hitAngle = angle;
 
-      if(Date.now() - this.T_lastHit > 100){
+      if(Date.now() - this.T_lastHit > 10){
         this.HP -= damage;
         this.T_lastHit = Date.now();
         this.gettingHit = true;
