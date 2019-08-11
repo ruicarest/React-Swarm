@@ -1,4 +1,4 @@
-export default class Bomb {
+export default class Mine {
     constructor(args) {
         this.position = {
             x: args.position.x,

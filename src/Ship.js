@@ -1,7 +1,7 @@
 import { rotatePoint, randomNumBetween } from './utils';
 import Particle from './Particle';
 import Bullet from './Bullet';
-import Bomb from './Bomb';
+import Mine from './Mine';
 
 
 export default class Ship {
@@ -21,7 +21,7 @@ export default class Ship {
 
       //Timers
       this.T_lastShot = 0;
-      this.T_lastBombShot = 0;
+      this.T_lastMineDrop = 0;
       this.T_lastHit = 0;
 
       this.create = args.create;
@@ -115,6 +115,10 @@ export default class Ship {
       }
 
       render(state){
+
+        //get current time
+        const timeNow = Date.now();
+
         // Controls
         if(state.keys.up){
           this.accelerate(1);
@@ -125,17 +129,17 @@ export default class Ship {
         if(state.keys.right){
           this.rotate('RIGHT');
         }
-        if(state.keys.bomb && Date.now() - this.T_lastBombShot > 500){
-          const bomb = new Bomb({
+        if(state.keys.mine && timeNow - this.T_lastMineDrop > 500){
+          const mine = new Mine({
             position: this.position,
             velocity: this.velocity,
             size: 10,
             damage: 200,
           });
-          this.create(bomb, 'bullets');
-          this.T_lastBombShot = Date.now();
+          this.create(mine, 'bullets');
+          this.T_lastMineDrop = timeNow;
         }
-        if(state.keys.space && Date.now() - this.T_lastShot > 300){
+        if(state.keys.space && timeNow - this.T_lastShot > 300){
           const bullet = new Bullet({
             ship: this, 
             damage: 10,
@@ -143,7 +147,7 @@ export default class Ship {
             isMainShip: true
           });
           this.create(bullet, 'bullets');
-          this.T_lastShot = Date.now();
+          this.T_lastShot = timeNow;
         }
 
         this.updateVelocity(this.velocity);
@@ -159,7 +163,7 @@ export default class Ship {
           this.rotation += 360;
         }
 
-        if (this.gettingHit && Date.now() - this.T_lastHit > 100) {
+        if (this.gettingHit && timeNow - this.T_lastHit > 100) {
           this.gettingHit = false;
           this.hitAngle = 0;
         }
