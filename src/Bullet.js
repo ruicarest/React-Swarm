@@ -65,8 +65,8 @@ export default class Bullet {
         this.position.y += this.velocity.y;
 
         if(!this.isMainShip) {
-          this.position.x -= state.shipVelocity.x;
-          this.position.y -= state.shipVelocity.y;
+          this.position.x -= state.ship.velocity.x;
+          this.position.y -= state.ship.velocity.y;
         }
 
         // check edges

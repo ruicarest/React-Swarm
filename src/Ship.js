@@ -26,7 +26,7 @@ export default class Ship {
 
       this.create = args.create;
       this.onDie = args.onDie;
-      this.updateVelocity = args.updateVelocity;
+      this.updateShipState = args.updateShipState;
 
       this.gettingHit = false;
       this.hitAngle = 0;
@@ -39,7 +39,7 @@ export default class Ship {
       this.onDie();
 
       //stop moving
-      this.updateVelocity({x: 0, y: 0});
+      this.updateShipState({x: 0, y: 0}, {x: 0, y:0});
   
       // Explode
       for (let i = 0; i < 60; i++) {
@@ -151,7 +151,7 @@ export default class Ship {
           this.T_lastShot = timeNow;
         }
 
-        this.updateVelocity(this.velocity);
+        this.updateShipState(this.velocity, this.position);
 
         this.velocity.x *= this.inertia;
         this.velocity.y *= this.inertia;

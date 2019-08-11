@@ -13,8 +13,8 @@ export default class Particle {
   
     render(state){
       // Move
-      this.position.x += this.velocity.x - state.shipVelocity.x;
-      this.position.y += this.velocity.y - state.shipVelocity.y;
+      this.position.x += this.velocity.x - state.ship.velocity.x;
+      this.position.y += this.velocity.y - state.ship.velocity.y;
       this.velocity.x *= this.inertia;
       this.velocity.y *= this.inertia;
   

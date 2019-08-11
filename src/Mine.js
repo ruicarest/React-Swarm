@@ -67,8 +67,8 @@ export default class Mine {
     render(state) {
 
         // Move
-        this.position.x -= state.shipVelocity.x - this.shipInertia.x;
-        this.position.y -= state.shipVelocity.y - this.shipInertia.y;
+        this.position.x -= state.ship.velocity.x - this.shipInertia.x;
+        this.position.y -= state.ship.velocity.y - this.shipInertia.y;
 
         this.shipInertia.x *=  this.inertia;
         this.shipInertia.y *=  this.inertia;

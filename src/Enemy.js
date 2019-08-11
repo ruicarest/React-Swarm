@@ -163,8 +163,8 @@ export default class Enemy {
         }
 
         // Move
-        this.position.x += this.velocity.x - state.shipVelocity.x;
-        this.position.y += this.velocity.y - state.shipVelocity.y;
+        this.position.x += this.velocity.x - state.ship.velocity.x;
+        this.position.y += this.velocity.y - state.ship.velocity.y;
 
         // Screen edges
         if(this.position.x > state.map.width + this.radius) {

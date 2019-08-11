@@ -59,11 +59,17 @@ export class Swarm extends Component {
           energyCount: MAP.energy,
           EZTCount: MAP.EZT,
           enemiesCount: MAP.enemies,
-          shipVelocity: {
-            x: 0,
-            y: 0,
-          },
           minimapScale: 10,
+          ship: {
+            position: {
+              x: 0,
+              y: 0
+            },
+            velocity: {
+              x: 0,
+              y: 0
+            }
+          }
       }
 
       this.bullets = [];
@@ -119,7 +125,7 @@ export class Swarm extends Component {
           },
           create: this.createObject.bind(this),
           onDie: this.gameOver.bind(this),
-          updateVelocity: this.updateShipVelocity.bind(this)
+          updateShipState: this.updateShipState.bind(this)
       });
 
       this.createObject(ship, 'ship');
@@ -232,9 +238,10 @@ export class Swarm extends Component {
       }
     }
 
-    updateShipVelocity(newVelocity) {
+    updateShipState(newVelocity, newPosition) {
       this.setState({
-          shipVelocity : newVelocity
+        ship : {velocity: newVelocity,
+                position: newPosition}
         });
     }
 
@@ -288,7 +295,6 @@ export class Swarm extends Component {
       requestAnimationFrame(() => {this.update()});
     }
 
-    //TODO: apply weapon damage on asteroids
     checkCollisionsWith(items1, items2) {
       var a = items1.length - 1;
       var b;
@@ -298,7 +304,6 @@ export class Swarm extends Component {
           var item1 = items1[a];
           var item2 = items2[b];
 
-          //TODO: review item type, go enum!
           const collision = this.checkCollision(item1, item2);
           if(collision.happened) {
             item1.hit(item2.toughness, collision.angle);
