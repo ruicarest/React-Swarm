@@ -176,8 +176,8 @@ export class Swarm extends Component {
             y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
           },
           action: () => {
-            this.ship[0].addEnergy(25)
-            ;},
+            this.ship[0].addEnergy(25);
+          },
             color: '#901aeb'
         });
         this.createObject(energy, 'energy');
@@ -197,7 +197,6 @@ export class Swarm extends Component {
             this.setState({
               currentScore: this.state.currentScore + 1,
             });
-            console.log(this.state.currentScore);
             ;}
         });
         this.createObject(EZT, 'EZT');
@@ -303,22 +302,8 @@ export class Swarm extends Component {
           //TODO: review item type, go enum!
           const collision = this.checkCollision(item1, item2);
           if(collision.happened) {
-            if(item1.type === "ship") {
-                if(item2.type === "asteroid") {
-                  item1.hit(item2.toughness, collision.angle);
-                }
-                else if(item2.type === "pickable") {
-                  item2.destroy();
-                }
-                else if(item2.type === "bullet") {
-                  item1.hit(item2.toughness, collision.angle);
-                  item2.destroy();
-                }
-            }
-            else {
-              item1.destroy();
-            }
-            item2.hit(item1.toughness);
+            item1.hit(item2.toughness, collision.angle);
+            item2.hit(item1.toughness, collision.angle);
           }
         }
       }

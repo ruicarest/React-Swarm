@@ -9,16 +9,17 @@ export default class Pickable {
         this.type = "pickable";
         
         this.color = args.color;
+
+        this.toughness = 0;
     }
 
     destroy(){
-      this.delete = true;
-
       this.action();
+      this.delete = true;
     }
 
     hit(){
-
+        this.destroy();
     };
 
     render(state) {

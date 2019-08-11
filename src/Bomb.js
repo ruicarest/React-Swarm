@@ -30,7 +30,6 @@ export default class Bomb {
     };
 
     hit(){
-
         this.exploded = true;
     };
 

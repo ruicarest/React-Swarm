@@ -49,7 +49,7 @@ export default class Bullet {
 
     //TODO: remove this
     hit() {
-
+      this.destroy();
     };
   
     render(state){

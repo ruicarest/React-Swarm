@@ -61,6 +61,9 @@ export default class Ship {
 
     hit(damage, angle) {
 
+      if(damage == 0) {
+        return 0;
+      }
       this.hitAngle = angle;
 
       if(Date.now() - this.T_lastHit > 100){
