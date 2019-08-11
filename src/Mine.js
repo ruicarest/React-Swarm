@@ -1,3 +1,5 @@
+import Particle from './Particle';
+import { randomNumBetween } from './utils';
 export default class Mine {
     constructor(args) {
         this.position = {
@@ -10,6 +12,7 @@ export default class Mine {
             y: args.velocity.y
         };
 
+        this.create = args.create;
         this.radius = args.size;
         this.inertia = 0.95;
 

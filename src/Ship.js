@@ -133,6 +133,7 @@ export default class Ship {
           const mine = new Mine({
             position: this.position,
             velocity: this.velocity,
+            create:this.create.bind(this),
             size: 10,
             damage: 200,
           });
