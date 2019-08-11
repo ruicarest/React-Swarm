@@ -100,8 +100,8 @@ export default class Enemy {
       }
 
       //TODO: remove args and use state instead (part3)
-      render(state, playerPosition){
-        const shipPos = playerPosition;
+      render(state){
+        const shipPos = state.ship.position;
 
         //calc distance to player ship
         let dx = this.position.x-shipPos.x;

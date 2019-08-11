@@ -225,14 +225,13 @@ export class Swarm extends Component {
       this[group].push(item);
     }
 
-    //TODO: remove args and use state instead (part1)
-    updateObjects(items, group, args = null){
+    updateObjects(items, group){
       let index = 0;
       for (let item of items) {
         if (item.delete) {
           this[group].splice(index, 1);
         }else{
-          items[index].render(this.state, args);
+          items[index].render(this.state);
         }
         index++;
       }
@@ -283,11 +282,8 @@ export class Swarm extends Component {
       this.updateObjects(this.particles, 'particles');
       this.updateObjects(this.energy, 'energy');
       this.updateObjects(this.EZT, 'EZT');
+      this.updateObjects(this.enemies, 'enemies');
 
-      //TODO: remove args and use state instead (part2)
-      if(this.state.inGame) {
-        this.updateObjects(this.enemies, 'enemies', this.ship[0].position);
-      }
 
       context.restore();
 
