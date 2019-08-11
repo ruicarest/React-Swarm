@@ -13,16 +13,15 @@ export default class Mine {
         this.radius = args.size;
         this.inertia = 0.95;
 
-        //this.action = args.action;
-
         this.type = "bullet";
         this.toughness = args.damage;
         this.exploded = false;
         //this.color = args.color;
         this.color = "#537aed";
         this.T_shot = Date.now();
+        this.T_explode = 0;
         this.T_toExplode = 1000;
-        this.T_shockwave = 4000;
+        this.T_shockwave = 3000;
     }
 
     destroy(){
@@ -53,14 +52,25 @@ export default class Mine {
             this.position.y = state.map.height + this.radius;
         }
 
-        if (Date.now() - this.T_shot > this.T_shockwave){
-            this.delete = true;
+        //explode mine
+        if(this.exploded || Date.now() - this.T_shot > this.T_toExplode ) {
+            //TODO: fix inertia to decrease velocity over time
+            this.shipInertia = {x: 0, y: 0};
+            //increase shockwave radius
+            this.radius++;
+            
+            if(this.T_explode == 0) {
+                //save exploding timestamp
+                this.T_explode = Date.now();
+            }
+
+            //exploded
+            this.exploded = true;
         }
 
-        if(this.exploded || Date.now() - this.T_shot > this.T_toExplode ) {
-            //increase shockwave radius
-            this.shipInertia = {x: 0, y: 0};
-            this.radius++;
+        //delete mine
+        if (this.exploded && Date.now() - this.T_explode > this.T_shockwave){
+            this.delete = true;
         }
 
         // Draw
