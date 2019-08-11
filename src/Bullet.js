@@ -26,6 +26,12 @@ export default class Bullet {
         this.toughness = args.damage;
     }
   
+    //leaving map borders
+    remove() {
+      this.delete = true;
+    }
+
+    //onCollision
     destroy(){
         this.delete = true;
 
@@ -68,7 +74,7 @@ export default class Bullet {
         || this.position.y < 0
         || this.position.x > state.screen.width
         || this.position.y > state.screen.height ) {
-            this.destroy();
+            this.remove();
         }
 
         // Draw
