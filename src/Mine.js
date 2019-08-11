@@ -89,7 +89,6 @@ export default class Mine {
 
         //explode mine
         if (this.exploded || Date.now() - this.T_shot > this.T_toExplode) {
-            //TODO: fix inertia to decrease velocity over time
             this.shipInertia = { x: 0, y: 0 };
             //increase shockwave radius
             this.radius++;

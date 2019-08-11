@@ -99,7 +99,6 @@ export default class Enemy {
     this.create(particle, 'particles');
   }
 
-  //TODO: remove args and use state instead (part3)
   render(state) {
     const shipPos = state.ship.position;
 

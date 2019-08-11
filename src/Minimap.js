@@ -34,31 +34,26 @@ export class Minimap extends Component {
 
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
-      //TODO: correct edges transition
       this.drawOnMinimap(asteroid.position, '#ffffff', asteroid.radius);
     });
 
     //draw ship on minimap
     Ship.forEach(ship => {
-      //TODO: correct edges transition
       this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
     });
 
     //draw energy on minimap
     Energy.forEach(energy => {
-      //TODO: correct edges transition
       this.drawOnMinimap(energy.position, energy.color, energy.radius);
     });
 
     //draw enemies on minimap
     Enemies.forEach(enemy => {
-      //TODO: correct edges transition
       this.drawOnMinimap(enemy.position, '#FF0000', enemy.radius);
     });
 
     //draw ezt on minimap
     EZT.forEach(ezt => {
-      //TODO: correct edges transition
       this.drawOnMinimap(ezt.position, ezt.color, ezt.radius);
     });
   }
