@@ -29,19 +29,19 @@ export default class Mine {
         this.T_shockwave = 3000;
     }
 
-    destroy(){
+    destroy() {
 
     };
 
-    hit(){
+    hit() {
         this.explode();
     };
 
     explode() {
         this.exploded = true;
-        
+
         //explode!
-        if(this.T_explode == 0) {
+        if (this.T_explode == 0) {
             //set explode timestamp
             this.T_explode = Date.now();
 
@@ -51,8 +51,8 @@ export default class Mine {
                     lifeSpan: randomNumBetween(40, 70),
                     size: randomNumBetween(1, 1.5),
                     position: {
-                        x: randomNumBetween(-this.radius/4, this.radius/4) + this.position.x,
-                        y: randomNumBetween(-this.radius/4, this.radius/4) + this.position.y
+                        x: randomNumBetween(-this.radius / 4, this.radius / 4) + this.position.x,
+                        y: randomNumBetween(-this.radius / 4, this.radius / 4) + this.position.y
                     },
                     velocity: {
                         x: randomNumBetween(-1.5, 1.5),
@@ -70,27 +70,27 @@ export default class Mine {
         this.position.x -= state.ship.velocity.x - this.shipInertia.x;
         this.position.y -= state.ship.velocity.y - this.shipInertia.y;
 
-        this.shipInertia.x *=  this.inertia;
-        this.shipInertia.y *=  this.inertia;
+        this.shipInertia.x *= this.inertia;
+        this.shipInertia.y *= this.inertia;
 
         // Screen edges
-        if(this.position.x > state.map.width + this.radius) {
+        if (this.position.x > state.map.width + this.radius) {
             this.position.x = -this.radius;
         }
-        else if(this.position.x < -this.radius) { 
+        else if (this.position.x < -this.radius) {
             this.position.x = state.map.width + this.radius;
         }
-        if(this.position.y > state.map.height + this.radius) {
+        if (this.position.y > state.map.height + this.radius) {
             this.position.y = -this.radius;
         }
-        else if(this.position.y < -this.radius) {
+        else if (this.position.y < -this.radius) {
             this.position.y = state.map.height + this.radius;
         }
 
         //explode mine
-        if(this.exploded || Date.now() - this.T_shot > this.T_toExplode ) {
+        if (this.exploded || Date.now() - this.T_shot > this.T_toExplode) {
             //TODO: fix inertia to decrease velocity over time
-            this.shipInertia = {x: 0, y: 0};
+            this.shipInertia = { x: 0, y: 0 };
             //increase shockwave radius
             this.radius++;
             //explode!
@@ -98,7 +98,7 @@ export default class Mine {
         }
 
         //delete mine
-        if (this.exploded && Date.now() - this.T_explode > this.T_shockwave){
+        if (this.exploded && Date.now() - this.T_explode > this.T_shockwave) {
             this.delete = true;
         }
 
@@ -107,7 +107,7 @@ export default class Mine {
         context.save();
         context.translate(this.position.x, this.position.y);
         context.strokeStyle = this.color;
-        context.lineWidth = 2 - this.radius/100;
+        context.lineWidth = 2 - this.radius / 100;
         context.beginPath();
         context.arc(0, 0, this.radius, 0, Math.PI * 2);
         context.closePath();

@@ -18,12 +18,12 @@ export class Background extends Component {
     )
     this.camera.position.z = 10;
     //ADD RENDERER
-    this.renderer = new THREE.WebGLRenderer({alpha: true, antialias: true})
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     this.renderer.setSize(width, height)
     this.mount.appendChild(this.renderer.domElement)
     //ADD CUBE
     const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshBasicMaterial({ color: '#433F81'})
+    const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
     this.cube = new THREE.Mesh(geometry, material)
     this.scene.add(this.cube)
 
@@ -35,23 +35,23 @@ export class Background extends Component {
       this.frameId = requestAnimationFrame(this.animate)
     }
   }
-    
+
   stop = () => {
     cancelAnimationFrame(this.frameId)
   }
 
-animate = () => {
-   this.cube.rotation.x += 0.01
-   this.cube.rotation.y += 0.01
-   this.renderScene()
-   this.frameId = window.requestAnimationFrame(this.animate)
-   //this.scene.background = new THREE.Color( 0xff0000 );
- }
-renderScene = () => {
-  this.renderer.render(this.scene, this.camera)
-}
+  animate = () => {
+    this.cube.rotation.x += 0.01
+    this.cube.rotation.y += 0.01
+    this.renderScene()
+    this.frameId = window.requestAnimationFrame(this.animate)
+    //this.scene.background = new THREE.Color( 0xff0000 );
+  }
+  renderScene = () => {
+    this.renderer.render(this.scene, this.camera)
+  }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.stop()
     this.mount.removeChild(this.renderer.domElement)
   }
@@ -61,11 +61,11 @@ renderScene = () => {
   }
 
   render = () => {
-      return (
-        <div         
-        style={{position: 'absolute', width: '400px', height: '400px' }}
+    return (
+      <div
+        style={{ position: 'absolute', width: '400px', height: '400px' }}
         ref={(mount) => { this.mount = mount }} />
-      );
+    );
   }
 
 }

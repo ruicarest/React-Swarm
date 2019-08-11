@@ -4,7 +4,7 @@ export class Minimap extends Component {
 
   state = {};          //component state
   centeringFactor = {  //ship center position correction factor
-    x: 0, 
+    x: 0,
     y: 0
   };
   firstUpdate = false; // first update flag 
@@ -16,15 +16,15 @@ export class Minimap extends Component {
     //get minimap canvas context
     this.state.ctx = this.refs.minimap.getContext('2d');
     //calc canvas size
-    this.state.ctx.canvas.width = this.props.map.width/this.scale;
-    this.state.ctx.canvas.height = this.props.map.height/this.scale;
+    this.state.ctx.canvas.width = this.props.map.width / this.scale;
+    this.state.ctx.canvas.height = this.props.map.height / this.scale;
   }
 
   componentDidUpdate = () => {
-    const { Asteroids , Ship, Energy, Enemies, EZT } = this.props;
+    const { Asteroids, Ship, Energy, Enemies, EZT } = this.props;
 
     //TODO: move this from here please!
-    if(this.firstUpdate == false) {
+    if (this.firstUpdate == false) {
       //calc ship centering factor
       this.calcCenteringFactor(Ship[0].position);
       this.firstUpdate = true;
@@ -35,31 +35,31 @@ export class Minimap extends Component {
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
       //TODO: correct edges transition
-       this.drawOnMinimap(asteroid.position, '#ffffff', asteroid.radius);
+      this.drawOnMinimap(asteroid.position, '#ffffff', asteroid.radius);
     });
 
     //draw ship on minimap
     Ship.forEach(ship => {
       //TODO: correct edges transition
-        this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
+      this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
     });
 
     //draw energy on minimap
     Energy.forEach(energy => {
       //TODO: correct edges transition
-        this.drawOnMinimap(energy.position, energy.color, energy.radius);
+      this.drawOnMinimap(energy.position, energy.color, energy.radius);
     });
 
     //draw enemies on minimap
     Enemies.forEach(enemy => {
       //TODO: correct edges transition
-        this.drawOnMinimap(enemy.position, '#FF0000', enemy.radius);
+      this.drawOnMinimap(enemy.position, '#FF0000', enemy.radius);
     });
 
     //draw ezt on minimap
     EZT.forEach(ezt => {
       //TODO: correct edges transition
-        this.drawOnMinimap(ezt.position, ezt.color, ezt.radius);
+      this.drawOnMinimap(ezt.position, ezt.color, ezt.radius);
     });
   }
 
@@ -78,27 +78,27 @@ export class Minimap extends Component {
 
   //called once
   calcCenteringFactor = (shipPos) => {
-    this.centeringFactor.x = this.state.ctx.canvas.width/2 - shipPos.x/this.scale;
-    this.centeringFactor.y = this.state.ctx.canvas.height/2 - shipPos.y/this.scale;
+    this.centeringFactor.x = this.state.ctx.canvas.width / 2 - shipPos.x / this.scale;
+    this.centeringFactor.y = this.state.ctx.canvas.height / 2 - shipPos.y / this.scale;
   }
 
   drawOnMinimap = (currPos, colour, radiusRaw) => {
 
     //object radius
-    let radius = radiusRaw/this.scale;
+    let radius = radiusRaw / this.scale;
 
     //object position
     let xPos = currPos.x / this.scale + this.centeringFactor.x;
     let yPos = currPos.y / this.scale + this.centeringFactor.y;
 
     // Minimap edges
-    if(xPos >= this.state.ctx.canvas.width + radius) {
-      xPos = xPos - this.state.ctx.canvas.width - radius*2;
+    if (xPos >= this.state.ctx.canvas.width + radius) {
+      xPos = xPos - this.state.ctx.canvas.width - radius * 2;
     }
-    if(yPos >= this.state.ctx.canvas.height + radius) {
-      yPos = yPos - this.state.ctx.canvas.height - radius*2;
+    if (yPos >= this.state.ctx.canvas.height + radius) {
+      yPos = yPos - this.state.ctx.canvas.height - radius * 2;
     }
-   
+
     //draw circles on minimap
     this.drawCircle(xPos, yPos, colour, radius);
   }
@@ -108,11 +108,11 @@ export class Minimap extends Component {
   }
 
   render = () => {
-      return (
-        <div>
-          <canvas className="minimap" ref="minimap"/>
-        </div>
-      );
+    return (
+      <div>
+        <canvas className="minimap" ref="minimap" />
+      </div>
+    );
   }
 
 }

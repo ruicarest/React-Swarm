@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Ship from './Ship';
-import {Minimap} from './Minimap';
+import { Minimap } from './Minimap';
 import Asteroid from './Asteroid';
 import Pickable from './Pickable';
 import Enemy from './Enemy';
@@ -11,7 +11,7 @@ const CFGS = {
 };
 
 const KEY = {
-  LEFT:  37,
+  LEFT: 37,
   RIGHT: 39,
   UP: 38,
   A: 65,
@@ -31,365 +31,368 @@ const MAP = {
 };
 
 export class Swarm extends Component {
-    constructor() {
-      super();
-      
-      this.state = {
-          context: null,
-          keys : {
-            left  : 0,
-            right : 0,
-            up    : 0,
-            down  : 0,
-            space : 0,
-            mine  : 0
-          },
-          map : {
-            width: CFGS.TILE_SIZE * MAP.width,
-            height: CFGS.TILE_SIZE * MAP.height,
-          },
-          screen:  {
-              width: window.innerWidth,
-              height: window.innerHeight,
-              ratio: window.devicePixelRatio || 1,
-          },
-          currentScore: 0,
-          inGame: false,
-          asteroidCount: MAP.asteroids,
-          energyCount: MAP.energy,
-          EZTCount: MAP.EZT,
-          enemiesCount: MAP.enemies,
-          minimapScale: 10,
-          ship: {
-            position: {
-              x: 0,
-              y: 0
-            },
-            velocity: {
-              x: 0,
-              y: 0
-            }
-          }
-      }
+  constructor() {
+    super();
 
-      this.bullets = [];
-      this.enemyBullets = [];
-      this.ship = [];
-      this.asteroids = [];
-      this.particles = [];
-      this.energy = [];
-      this.EZT = [];
-      this.enemies = [];
-    }
-
-    handleResize(value, e){
-      this.setState({
-        screen : {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          ratio: window.devicePixelRatio || 1,
+    this.state = {
+      context: null,
+      keys: {
+        left: 0,
+        right: 0,
+        up: 0,
+        down: 0,
+        space: 0,
+        mine: 0
+      },
+      map: {
+        width: CFGS.TILE_SIZE * MAP.width,
+        height: CFGS.TILE_SIZE * MAP.height,
+      },
+      screen: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        ratio: window.devicePixelRatio || 1,
+      },
+      currentScore: 0,
+      inGame: false,
+      asteroidCount: MAP.asteroids,
+      energyCount: MAP.energy,
+      EZTCount: MAP.EZT,
+      enemiesCount: MAP.enemies,
+      minimapScale: 10,
+      ship: {
+        position: {
+          x: 0,
+          y: 0
+        },
+        velocity: {
+          x: 0,
+          y: 0
         }
-      });
-    }
-
-    handleKeys(value, e){
-        let keys = this.state.keys;
-        if(e.keyCode === KEY.LEFT   || e.keyCode === KEY.A) keys.left  = value;
-        if(e.keyCode === KEY.RIGHT  || e.keyCode === KEY.D) keys.right = value;
-        if(e.keyCode === KEY.UP     || e.keyCode === KEY.W) keys.up    = value;
-        if(e.keyCode === KEY.SPACE) keys.space = value;
-        if(e.keyCode === KEY.Q) keys.mine = value;
-        this.setState({
-          keys : keys
-        });
-      }
-
-    componentDidMount() {
-      window.addEventListener('keyup',   this.handleKeys.bind(this, false));
-      window.addEventListener('keydown', this.handleKeys.bind(this, true));
-      window.addEventListener('resize',  this.handleResize.bind(this, false));
-
-      const context = this.refs.gameWindow.getContext('2d');
-      this.setState({ context: context });
-
-      this.startGame();
-      requestAnimationFrame(() => {this.update()});
-    }
-
-    startGame() {
-      // Make ship
-      let ship = new Ship({
-          position: {
-              x: this.state.screen.width/2,
-              y: this.state.screen.height/2,
-          },
-          create: this.createObject.bind(this),
-          onDie: this.gameOver.bind(this),
-          updateShipState: this.updateShipState.bind(this)
-      });
-
-      this.createObject(ship, 'ship');
-
-      // Make asteroids
-      this.asteroids = [];
-      this.generateAsteroids(this.state.asteroidCount);
-
-      // Make energy
-      this.energy = [];
-      this.generateEnergy(this.state.energyCount);
-
-      this.EZT = [];
-      this.generateEZT(this.state.EZTCount);
-
-      // Make enemies
-      this.enemies = [];
-      this.generateEnemies(this.state.enemiesCount);
-
-      this.setState({
-        inGame: true,
-        currentScore: 0,
-      });
-    }
-
-    gameOver(){
-      this.setState({
-        inGame: false,
-      });
-    }
-
-    generateAsteroids(howMany){
-      for (let i = 0; i < howMany; i++) {
-        let asteroid = new Asteroid({
-          size: Math.floor(randomNumBetween(30, 80)),
-          position: {
-            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
-          },
-          create: this.createObject.bind(this),
-          addScore: this.addScore.bind(this)
-        });
-        this.createObject(asteroid, 'asteroids');
       }
     }
 
-    generateEnergy(howMany){
-      for (let i = 0; i < howMany; i++) {
-        let energy = new Pickable({
-          size: 20,
-          position: {
-            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
-          },
-          action: () => {
-            this.ship[0].addEnergy(25);
-          },
-            color: '#901aeb'
-        });
-        this.createObject(energy, 'energy');
-      }
-    }
+    this.bullets = [];
+    this.enemyBullets = [];
+    this.ship = [];
+    this.asteroids = [];
+    this.particles = [];
+    this.energy = [];
+    this.EZT = [];
+    this.enemies = [];
+  }
 
-    generateEZT(howMany){
-      for (let i = 0; i < howMany; i++) {
-        let EZT = new Pickable({
-          size: 20,
-          color: '#34deeb',
-          position: {
-            x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-            y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
-          },
-          action: () => {
-            this.setState({
-              currentScore: this.state.currentScore + 1,
-            });
-            ;}
-        });
-        this.createObject(EZT, 'EZT');
+  handleResize(value, e) {
+    this.setState({
+      screen: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        ratio: window.devicePixelRatio || 1,
       }
-    }
+    });
+  }
 
-    generateEnemies(howMany){
-      for (let i = 0; i < howMany; i++) {
-        let enemy = new Enemy({
+  handleKeys(value, e) {
+    let keys = this.state.keys;
+    if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
+    if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
+    if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
+    if (e.keyCode === KEY.SPACE) keys.space = value;
+    if (e.keyCode === KEY.Q) keys.mine = value;
+    this.setState({
+      keys: keys
+    });
+  }
+
+  componentDidMount() {
+    window.addEventListener('keyup', this.handleKeys.bind(this, false));
+    window.addEventListener('keydown', this.handleKeys.bind(this, true));
+    window.addEventListener('resize', this.handleResize.bind(this, false));
+
+    const context = this.refs.gameWindow.getContext('2d');
+    this.setState({ context: context });
+
+    this.startGame();
+    requestAnimationFrame(() => { this.update() });
+  }
+
+  startGame() {
+    // Make ship
+    let ship = new Ship({
+      position: {
+        x: this.state.screen.width / 2,
+        y: this.state.screen.height / 2,
+      },
+      create: this.createObject.bind(this),
+      onDie: this.gameOver.bind(this),
+      updateShipState: this.updateShipState.bind(this)
+    });
+
+    this.createObject(ship, 'ship');
+
+    // Make asteroids
+    this.asteroids = [];
+    this.generateAsteroids(this.state.asteroidCount);
+
+    // Make energy
+    this.energy = [];
+    this.generateEnergy(this.state.energyCount);
+
+    this.EZT = [];
+    this.generateEZT(this.state.EZTCount);
+
+    // Make enemies
+    this.enemies = [];
+    this.generateEnemies(this.state.enemiesCount);
+
+    this.setState({
+      inGame: true,
+      currentScore: 0,
+    });
+  }
+
+  gameOver() {
+    this.setState({
+      inGame: false,
+    });
+  }
+
+  generateAsteroids(howMany) {
+    for (let i = 0; i < howMany; i++) {
+      let asteroid = new Asteroid({
+        size: Math.floor(randomNumBetween(30, 80)),
         position: {
           x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
           y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
         },
         create: this.createObject.bind(this),
-        });
-        this.createObject(enemy, 'enemies');
-      }
+        addScore: this.addScore.bind(this)
+      });
+      this.createObject(asteroid, 'asteroids');
     }
+  }
 
-    createObject(item, group){
-      this[group].push(item);
+  generateEnergy(howMany) {
+    for (let i = 0; i < howMany; i++) {
+      let energy = new Pickable({
+        size: 20,
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+        },
+        action: () => {
+          this.ship[0].addEnergy(25);
+        },
+        color: '#901aeb'
+      });
+      this.createObject(energy, 'energy');
     }
+  }
 
-    updateObjects(items, group){
-      let index = 0;
-      for (let item of items) {
-        if (item.delete) {
-          this[group].splice(index, 1);
-        }else{
-          items[index].render(this.state);
+  generateEZT(howMany) {
+    for (let i = 0; i < howMany; i++) {
+      let EZT = new Pickable({
+        size: 20,
+        color: '#34deeb',
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+        },
+        action: () => {
+          this.setState({
+            currentScore: this.state.currentScore + 1,
+          });
+          ;
         }
-        index++;
-      }
+      });
+      this.createObject(EZT, 'EZT');
     }
+  }
 
-    updateShipState(newVelocity, newPosition) {
+  generateEnemies(howMany) {
+    for (let i = 0; i < howMany; i++) {
+      let enemy = new Enemy({
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
+          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+        },
+        create: this.createObject.bind(this),
+      });
+      this.createObject(enemy, 'enemies');
+    }
+  }
+
+  createObject(item, group) {
+    this[group].push(item);
+  }
+
+  updateObjects(items, group) {
+    let index = 0;
+    for (let item of items) {
+      if (item.delete) {
+        this[group].splice(index, 1);
+      } else {
+        items[index].render(this.state);
+      }
+      index++;
+    }
+  }
+
+  updateShipState(newVelocity, newPosition) {
+    this.setState({
+      ship: {
+        velocity: newVelocity,
+        position: newPosition
+      }
+    });
+  }
+
+  addScore(points) {
+    if (this.state.inGame) {
       this.setState({
-        ship : {velocity: newVelocity,
-                position: newPosition}
-        });
+        currentScore: this.state.currentScore + points,
+      });
     }
+  }
 
-    addScore(points){
-      if(this.state.inGame){
-        this.setState({
-          currentScore: this.state.currentScore + points,
-        });
-      }
-    }
+  update() {
+    const context = this.state.context;
 
-    update() {
-      const context = this.state.context;
+    context.save();
+    context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
-      context.save();
-      context.scale(this.state.screen.ratio, this.state.screen.ratio);
+    // Motion trail
+    context.fillStyle = 'rgba(0,0,0,0.5)';
+    context.globalAlpha = 0.8;
+    context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+    context.globalAlpha = 1;
 
-      // Motion trail
-      context.fillStyle = 'rgba(0,0,0,0.5)';
-      context.globalAlpha = 0.8;
-      context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
-      context.globalAlpha = 1;
-      
-      // Check for colisions
-      this.checkCollisionsWith(this.bullets, this.asteroids);
-      this.checkCollisionsWith(this.bullets, this.enemies);
-      this.checkCollisionsWith(this.enemyBullets, this.asteroids);
-      this.checkCollisionsWith(this.enemyBullets, this.bullets);
-      this.checkCollisionsWith(this.ship, this.asteroids);
-      this.checkCollisionsWith(this.ship, this.energy);
-      this.checkCollisionsWith(this.ship, this.enemyBullets);
-      this.checkCollisionsWith(this.ship, this.EZT);
+    // Check for colisions
+    this.checkCollisionsWith(this.bullets, this.asteroids);
+    this.checkCollisionsWith(this.bullets, this.enemies);
+    this.checkCollisionsWith(this.enemyBullets, this.asteroids);
+    this.checkCollisionsWith(this.enemyBullets, this.bullets);
+    this.checkCollisionsWith(this.ship, this.asteroids);
+    this.checkCollisionsWith(this.ship, this.energy);
+    this.checkCollisionsWith(this.ship, this.enemyBullets);
+    this.checkCollisionsWith(this.ship, this.EZT);
 
-      // Remove or render
-      this.updateObjects(this.asteroids, 'asteroids');
-      this.updateObjects(this.ship, 'ship');
-      this.updateObjects(this.bullets, 'bullets');
-      this.updateObjects(this.enemyBullets, 'enemyBullets');
-      this.updateObjects(this.particles, 'particles');
-      this.updateObjects(this.energy, 'energy');
-      this.updateObjects(this.EZT, 'EZT');
-      this.updateObjects(this.enemies, 'enemies');
+    // Remove or render
+    this.updateObjects(this.asteroids, 'asteroids');
+    this.updateObjects(this.ship, 'ship');
+    this.updateObjects(this.bullets, 'bullets');
+    this.updateObjects(this.enemyBullets, 'enemyBullets');
+    this.updateObjects(this.particles, 'particles');
+    this.updateObjects(this.energy, 'energy');
+    this.updateObjects(this.EZT, 'EZT');
+    this.updateObjects(this.enemies, 'enemies');
 
 
-      context.restore();
+    context.restore();
 
-      // Next frame
-      requestAnimationFrame(() => {this.update()});
-    }
+    // Next frame
+    requestAnimationFrame(() => { this.update() });
+  }
 
-    checkCollisionsWith(items1, items2) {
-      var a = items1.length - 1;
-      var b;
-      for(a; a > -1; --a){
-        b = items2.length - 1;
-        for(b; b > -1; --b){
-          var item1 = items1[a];
-          var item2 = items2[b];
+  checkCollisionsWith(items1, items2) {
+    var a = items1.length - 1;
+    var b;
+    for (a; a > -1; --a) {
+      b = items2.length - 1;
+      for (b; b > -1; --b) {
+        var item1 = items1[a];
+        var item2 = items2[b];
 
-          const collision = this.checkCollision(item1, item2);
-          if(collision.happened) {
-            item1.hit(item2.toughness, collision.angle);
-            item2.hit(item1.toughness, collision.angle);
-          }
+        const collision = this.checkCollision(item1, item2);
+        if (collision.happened) {
+          item1.hit(item2.toughness, collision.angle);
+          item2.hit(item1.toughness, collision.angle);
         }
       }
     }
+  }
 
-    checkCollision(obj1, obj2){
-      let hitAngle = 0;
+  checkCollision(obj1, obj2) {
+    let hitAngle = 0;
 
-      var vx = obj1.position.x - obj2.position.x;
-      var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
+    var vx = obj1.position.x - obj2.position.x;
+    var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
 
-      //length squared (avoid sqrt usage)
-      var length = vx * vx + vy * vy;
-      
-      if(obj1.type == "ship") {
-        hitAngle = Math.atan2(vx, vy);
-      }
+    //length squared (avoid sqrt usage)
+    var length = vx * vx + vy * vy;
 
-      //length^2 <= (object radius)^2
-      return ({happened: length <= Math.pow(obj1.radius-2 + obj2.radius-2, 2), angle: hitAngle});
+    if (obj1.type == "ship") {
+      hitAngle = Math.atan2(vx, vy);
     }
 
-    DisplayShipHP () {
-      if(props.state) {
-        const inGame = this.state.inGame;
-        if (inGame) {
-          return <span> 5 HP</span>;
-        }
+    //length^2 <= (object radius)^2
+    return ({ happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2), angle: hitAngle });
+  }
+
+  DisplayShipHP() {
+    if (props.state) {
+      const inGame = this.state.inGame;
+      if (inGame) {
+        return <span> 5 HP</span>;
       }
-      return <span> 0 HP </span>;
     }
+    return <span> 0 HP </span>;
+  }
 
-    render() {
-      let endgame;
+  render() {
+    let endgame;
 
-      //get Ship HP
-      const shipHP = this.state.inGame ? this.ship[0].HP : 0;
-      const EZT = this.state.inGame ? this.state.currentScore : 0;
+    //get Ship HP
+    const shipHP = this.state.inGame ? this.ship[0].HP : 0;
+    const EZT = this.state.inGame ? this.state.currentScore : 0;
 
-      if(!this.state.inGame){
-        endgame = (
-          <span className="endgame">
-            <p>Game over!</p>
-            <button
-              onClick={ this.startGame.bind(this) }>
-              Restart
+    if (!this.state.inGame) {
+      endgame = (
+        <span className="endgame">
+          <p>Game over!</p>
+          <button
+            onClick={this.startGame.bind(this)}>
+            Restart
             </button>
-          </span>
-        )
-      }
+        </span>
+      )
+    }
 
-      return (
-        <div key={"app"}>
-          <span className="UI">
-            <span className="controls">
-              Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br/>
-              Use [SPACE] to SHOOT & [Q] to MINE
+    return (
+      <div key={"app"}>
+        <span className="UI">
+          <span className="controls">
+            Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
+            Use [SPACE] to SHOOT & [Q] to MINE
             </span>
-            <span className="stats">
-              {shipHP} HP <br/>
-              {EZT} EZT
+          <span className="stats">
+            {shipHP} HP <br />
+            {EZT} EZT
             </span>
-            { endgame }
-          </span>
+          {endgame}
+        </span>
 
-          {/* <div key={"backgrounddiv"} >
+        {/* <div key={"backgrounddiv"} >
             <Background key ={"Background"}></Background>
           </div> */}
-          <canvas className="gameWindow" ref="gameWindow"
-              width={this.state.screen.width * this.state.screen.ratio}
-              height={this.state.screen.height * this.state.screen.ratio}
-          />
+        <canvas className="gameWindow" ref="gameWindow"
+          width={this.state.screen.width * this.state.screen.ratio}
+          height={this.state.screen.height * this.state.screen.ratio}
+        />
 
-          <div key={"minimapdiv"} >
-            <Minimap key ={"Minimap"} {...this.state} 
-            Ship = {this.ship} 
-            Asteroids = {this.asteroids} 
-            Energy = {this.energy}
-            Enemies = {this.enemies}
-            EZT = {this.EZT}
-            ></Minimap>
-          </div>
-
+        <div key={"minimapdiv"} >
+          <Minimap key={"Minimap"} {...this.state}
+            Ship={this.ship}
+            Asteroids={this.asteroids}
+            Energy={this.energy}
+            Enemies={this.enemies}
+            EZT={this.EZT}
+          ></Minimap>
         </div>
-      );
-    }
+
+      </div>
+    );
+  }
 }
 
 
