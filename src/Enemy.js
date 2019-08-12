@@ -11,7 +11,7 @@ export default class Enemy {
     }
 
     this.type = "enemy";
-    this.rotation = 0;
+    this.rotation = args.rotation;
     this.rotationSpeed = 6;
     this.acceleration = 4;
     this.inertia = 0.99;
@@ -165,6 +165,11 @@ export default class Enemy {
         this.create(bullet, 'enemyBullets');
         this.T_lastShot = Date.now();
       }
+    }
+    else {
+      //TODO: fix enemy velocity
+      this.velocity.x = - Math.sin(-this.rotation * Math.PI / 180) * this.acceleration;
+      this.velocity.y = - Math.cos(-this.rotation * Math.PI / 180) * this.acceleration;
     }
 
     // Move
