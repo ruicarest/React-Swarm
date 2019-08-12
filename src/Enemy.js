@@ -123,10 +123,14 @@ export default class Enemy {
       this.rotation += 360;
     }
 
+    //if around 360 then is looking at player
+    let lookingAtAngle = 360 - Math.abs(this.rotation - angle);
+
+    //player ship on sight
     if (distance < this.sight) {
 
       if (this.rotation > angle) {
-        if (((360 - Math.abs(this.rotation - angle)) < (angle - this.rotation))) {
+        if (lookingAtAngle < (angle - this.rotation)) {
           this.rotate('RIGHT');
         }
         else {
@@ -134,7 +138,7 @@ export default class Enemy {
         }
       }
       else {
-        if (((360 - Math.abs(this.rotation - angle)) < (angle - this.rotation))) {
+        if (lookingAtAngle < (angle - this.rotation)) {
           this.rotate('LEFT');
         }
         else {
@@ -146,11 +150,13 @@ export default class Enemy {
       this.velocity.x = - Math.sin(-this.rotation * Math.PI / 180) * this.acceleration;
       this.velocity.y = - Math.cos(-this.rotation * Math.PI / 180) * this.acceleration;
 
+      //stop on certain range
       if (distance < 200) {
         this.velocity = { x: 0, y: 0 };
       }
 
-      if (Date.now() - this.T_lastShot > 1000) {
+      //shoot if ready && if looking at player
+      if (Date.now() - this.T_lastShot > 1000 && 360 - lookingAtAngle < 10 ) {
         const bullet = new Bullet({
           ship: this,
           damage: 10,
