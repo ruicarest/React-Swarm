@@ -333,16 +333,6 @@ export class Swarm extends Component {
     return ({ happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2), angle: hitAngle });
   }
 
-  DisplayShipHP() {
-    if (props.state) {
-      const inGame = this.state.inGame;
-      if (inGame) {
-        return <span> 5 HP</span>;
-      }
-    }
-    return <span> 0 HP </span>;
-  }
-
   render() {
     let endgame;
 
