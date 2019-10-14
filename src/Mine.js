@@ -25,8 +25,8 @@ export default class Mine {
         this.color = "#537aed";
         this.T_shot = Date.now();
         this.T_explode = 0;
-        this.T_toExplode = 1500;
-        this.T_shockwave = 3000;
+        this.T_toExplode = 1400;
+        this.T_shockwave = 1500;
     }
 
     destroy() {
@@ -38,10 +38,8 @@ export default class Mine {
     };
 
     explode() {
-        this.exploded = true;
-
         //explode!
-        if (this.T_explode == 0) {
+        if (this.T_explode == 0 && !this.exploded) {
             //set explode timestamp
             this.T_explode = Date.now();
 
@@ -61,6 +59,7 @@ export default class Mine {
                 });
                 this.create(particle, 'particles');
             }
+            this.exploded = true;
         }
     };
 
@@ -91,6 +90,7 @@ export default class Mine {
         if (this.exploded || Date.now() - this.T_shot > this.T_toExplode) {
             this.shipInertia = { x: 0, y: 0 };
             //increase shockwave radius
+            this.radius++;
             this.radius++;
             //explode!
             this.explode();
