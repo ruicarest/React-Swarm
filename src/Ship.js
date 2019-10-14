@@ -151,7 +151,7 @@ export default class Ship {
       this.T_lastShot = timeNow;
     }
 
-    this.updateShipState(this.velocity, this.position);
+    this.updateShipState(this.velocity, this.position, this.HP);
 
     this.velocity.x *= this.inertia;
     this.velocity.y *= this.inertia;

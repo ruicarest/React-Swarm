@@ -127,7 +127,7 @@ export default class Enemy {
     let lookingAtAngle = 360 - Math.abs(this.rotation - angle);
 
     //player ship on sight
-    if (distance < this.sight) {
+    if (distance < this.sight && state.ship.HP > 0) {
 
       if (this.rotation > angle) {
         if (lookingAtAngle < (angle - this.rotation)) {

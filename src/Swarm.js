@@ -68,7 +68,8 @@ export class Swarm extends Component {
         velocity: {
           x: 0,
           y: 0
-        }
+        },
+        HP: 0
       }
     }
 
@@ -239,11 +240,13 @@ export class Swarm extends Component {
     }
   }
 
-  updateShipState(newVelocity, newPosition) {
+  //TODO: IMPROVE THIS
+  updateShipState(newVelocity, newPosition, currentHP = 0) {
     this.setState({
       ship: {
         velocity: newVelocity,
-        position: newPosition
+        position: newPosition,
+        HP: currentHP
       }
     });
   }
