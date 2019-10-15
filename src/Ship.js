@@ -35,6 +35,7 @@ export default class Ship {
   }
 
   destroy() {
+    //TODO: if delete is deleted game wont stop
     this.delete = true;
     this.onDie();
 
