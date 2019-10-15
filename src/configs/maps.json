@@ -1,0 +1,20 @@
+{
+  "maps": [
+  {
+  "width": 30,
+  "height": 18,
+  "asteroids": 10,
+  "energy": 5,
+  "enemies": 5,
+  "EZT": 1
+  },
+  {
+  "width": 60,
+  "height": 36,
+  "asteroids": 32,
+  "energy": 10,
+  "enemies": 10,
+  "EZT": 5
+  }
+  ]
+}
