@@ -4,6 +4,7 @@ import { Minimap } from './Minimap';
 import Asteroid from './Asteroid';
 import Pickable from './Pickable';
 import Enemy from './Enemy';
+import {maps} from './configs/maps.json';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 
 const CFGS = {
@@ -21,18 +22,11 @@ const KEY = {
   Q: 81
 };
 
-const MAP = {
-  width: 60,
-  height: 36,
-  asteroids: 32,
-  energy: 10,
-  enemies: 10,
-  EZT: 5,
-};
-
 export class Swarm extends Component {
   constructor() {
     super();
+
+    this.MAP = maps[0];
 
     this.state = {
       context: null,
@@ -45,8 +39,8 @@ export class Swarm extends Component {
         mine: 0
       },
       map: {
-        width: CFGS.TILE_SIZE * MAP.width,
-        height: CFGS.TILE_SIZE * MAP.height,
+        width: CFGS.TILE_SIZE * this.MAP.width,
+        height: CFGS.TILE_SIZE * this.MAP.height,
       },
       screen: {
         width: window.innerWidth,
@@ -55,10 +49,11 @@ export class Swarm extends Component {
       },
       currentScore: 0,
       inGame: false,
-      asteroidCount: MAP.asteroids,
-      energyCount: MAP.energy,
-      EZTCount: MAP.EZT,
-      enemiesCount: MAP.enemies,
+      asteroidCount: this.MAP.asteroids,
+      energyCount: this.MAP.energy,
+      EZTCount: this.MAP.EZT,
+      enemiesCount: this.MAP.enemies,
+      currentStage: 0,
       minimapScale: 10,
       ship: {
         position: {
