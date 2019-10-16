@@ -126,7 +126,8 @@ export class Swarm extends Component {
         },
         create: this.createObject.bind(this),
         onDie: this.gameOver.bind(this),
-        updateShipState: this.updateShipState.bind(this)
+        updateShipState: this.updateShipState.bind(this),
+        currentMap: this.state.currentMap
       });
       this.createObject(ship, 'ship');
   }
@@ -159,14 +160,33 @@ export class Swarm extends Component {
 
   //load next map on maps array
   loadNextMap() {
-    if(this.currentMap == maps.length) {
+    if(this.currentMap + 1 == maps.length) {
       this.currentMap = 0;
     } else {
       this.currentMap ++;
     }
 
+    this.MAP = maps[this.currentMap];
+
     this.setState({
-      currentMap: this.currentMap
+      map: {
+        width: CFGS.TILE_SIZE * this.MAP.width,
+        height: CFGS.TILE_SIZE * this.MAP.height,
+      },
+      screen: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        ratio: window.devicePixelRatio || 1,
+      },
+      currentMap: this.currentMap,
+      currentScore: 0,
+      inGame: false,
+      asteroidCount: this.MAP.asteroids,
+      energyCount: this.MAP.energy,
+      EZTCount: this.MAP.EZT,
+      enemiesCount: this.MAP.enemies,
+      currentStage: 0,
+      minimapScale: 10,
     });
   }
 
@@ -303,7 +323,7 @@ export class Swarm extends Component {
     this.updateObjects(this.EZT, 'EZT');
     this.updateObjects(this.enemies, 'enemies');
 
-    //finish level
+    //Win conditions
     if(this.state.inGame && this.state.currentScore == this.state.EZTCount) {
       //load next level
       this.loadNextMap();

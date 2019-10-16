@@ -32,6 +32,9 @@ export default class Ship {
     this.hitAngle = 0;
     this.toughness = 10;
     this.HP = 100;
+
+    //map
+    this.currentMap = args.currentMap;
   }
 
   destroy() {
@@ -116,6 +119,15 @@ export default class Ship {
   }
 
   render(state) {
+
+    if(state.currentMap != this.currentMap) {
+      console.log("different Map");
+      this.position = {
+        x: state.screen.width / 2,
+        y: state.screen.height / 2,
+      }
+      this.currentMap = state.currentMap;
+    }
 
     //get current time
     const timeNow = Date.now();
