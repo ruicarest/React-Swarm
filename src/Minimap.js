@@ -9,6 +9,7 @@ export class Minimap extends Component {
   };
   firstUpdate = false; // first update flag 
   scale = null;        //minimap scale
+  currentMap = this.props.currentMap;
 
   componentDidMount = () => {
     //load minimapScale
@@ -29,6 +30,16 @@ export class Minimap extends Component {
       this.calcCenteringFactor(Ship[0].position);
       this.firstUpdate = true;
     }
+
+    //map changed
+    if(this.currentMap != this.props.currentMap) {
+      //update minimap scale
+      this.state.ctx.canvas.width = this.props.map.width / this.scale;
+      this.state.ctx.canvas.height = this.props.map.height / this.scale;
+      //update current map
+      this.currentMap = this.props.currentMap;
+    }
+
     //clear canvas
     this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
 
