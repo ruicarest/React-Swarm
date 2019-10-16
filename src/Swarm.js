@@ -26,7 +26,9 @@ export class Swarm extends Component {
   constructor() {
     super();
 
-    this.MAP = maps[0];
+    this.currentMap = 0;
+
+    this.MAP = maps[this.currentMap];
 
     this.state = {
       context: null,
@@ -47,6 +49,7 @@ export class Swarm extends Component {
         height: window.innerHeight,
         ratio: window.devicePixelRatio || 1,
       },
+      currentMap: this.currentMap,
       currentScore: 0,
       inGame: false,
       asteroidCount: this.MAP.asteroids,
@@ -113,19 +116,20 @@ export class Swarm extends Component {
   }
 
   startGame() {
-    // Make ship
-    let ship = new Ship({
-      position: {
-        x: this.state.screen.width / 2,
-        y: this.state.screen.height / 2,
-      },
-      create: this.createObject.bind(this),
-      onDie: this.gameOver.bind(this),
-      updateShipState: this.updateShipState.bind(this)
-    });
 
-    this.createObject(ship, 'ship');
-
+    if(!this.ship[0]) {
+      // Make ship
+      let ship = new Ship({
+        position: {
+          x: this.state.screen.width / 2,
+          y: this.state.screen.height / 2,
+        },
+        create: this.createObject.bind(this),
+        onDie: this.gameOver.bind(this),
+        updateShipState: this.updateShipState.bind(this)
+      });
+      this.createObject(ship, 'ship');
+  }
     // Make asteroids
     this.asteroids = [];
     this.generateAsteroids(this.state.asteroidCount);
@@ -150,6 +154,19 @@ export class Swarm extends Component {
   gameOver() {
     this.setState({
       inGame: false,
+    });
+  }
+
+  //load next map on maps array
+  loadNextMap() {
+    if(this.currentMap == maps.length) {
+      this.currentMap = 0;
+    } else {
+      this.currentMap ++;
+    }
+
+    this.setState({
+      currentMap: this.currentMap
     });
   }
 
@@ -286,6 +303,12 @@ export class Swarm extends Component {
     this.updateObjects(this.EZT, 'EZT');
     this.updateObjects(this.enemies, 'enemies');
 
+    //finish level
+    if(this.state.inGame && this.state.currentScore == this.state.EZTCount) {
+      //load next level
+      this.loadNextMap();
+      this.startGame();
+    }
 
     context.restore();
 
