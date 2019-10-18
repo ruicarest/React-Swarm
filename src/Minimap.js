@@ -7,7 +7,7 @@ export class Minimap extends Component {
     x: 0,
     y: 0
   };
-  firstUpdate = false; // first update flag 
+  firstUpdate = true; // first update flag 
   scale = null;        //minimap scale
   currentMap = this.props.currentMap;
 
@@ -25,10 +25,10 @@ export class Minimap extends Component {
     const { Asteroids, Ship, Energy, Enemies, EZT } = this.props;
 
     //TODO: move this from here please!
-    if (this.firstUpdate == false) {
+    if (this.firstUpdate == true) {
       //calc ship centering factor
       this.calcCenteringFactor(Ship[0].position);
-      this.firstUpdate = true;
+      this.firstUpdate = false;
     }
 
     //map changed
@@ -38,6 +38,8 @@ export class Minimap extends Component {
       this.state.ctx.canvas.height = this.props.map.height / this.scale;
       //update current map
       this.currentMap = this.props.currentMap;
+      //re calc ship centering factor on minimap
+      this.calcCenteringFactor(Ship[0].position);
     }
 
     //clear canvas
