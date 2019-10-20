@@ -55,7 +55,7 @@ export class Swarm extends Component {
       asteroidCount: this.MAP.asteroids,
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
-      enemiesCount: this.MAP.enemies,
+      currentLevelEnemies: this.MAP.enemies,
       currentStage: 0,
       minimapScale: 10,
       ship: {
@@ -115,8 +115,12 @@ export class Swarm extends Component {
     requestAnimationFrame(() => { this.update() });
   }
 
+  componentDidUpdate(){
+  }
+
   startGame() {
 
+    //first ship
     if(!this.ship[0]) {
       // Make ship
       let ship = new Ship({
@@ -130,7 +134,7 @@ export class Swarm extends Component {
         currentMap: this.state.currentMap
       });
       this.createObject(ship, 'ship');
-  }
+    }
     // Make asteroids
     this.asteroids = [];
     this.generateAsteroids(this.state.asteroidCount);
@@ -144,7 +148,9 @@ export class Swarm extends Component {
 
     // Make enemies
     this.enemies = [];
-    this.generateEnemies(this.state.enemiesCount);
+    this.state.currentLevelEnemies.map( (enemyType, index) => 
+      this.generateEnemies(enemyType, index)
+    );
 
     this.setState({
       inGame: true,
@@ -193,10 +199,11 @@ export class Swarm extends Component {
       asteroidCount: this.MAP.asteroids,
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
-      enemiesCount: this.MAP.enemies,
+      currentLevelEnemies: this.MAP.enemies,
       currentStage: 0,
       minimapScale: 10,
     });
+
     this.startGame();
   }
 
@@ -252,7 +259,7 @@ export class Swarm extends Component {
     }
   }
 
-  generateEnemies(howMany) {
+  generateEnemies(howMany, type) {
     for (let i = 0; i < howMany; i++) {
       let enemy = new Enemy({
         position: {
@@ -261,6 +268,7 @@ export class Swarm extends Component {
         },
         rotation: randomNumBetween(0, 360),
         create: this.createObject.bind(this),
+        typeEnemy: type,
       });
       this.createObject(enemy, 'enemies');
     }
@@ -313,6 +321,7 @@ export class Swarm extends Component {
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
 
+    //TODO: only check colissions if in game
     // Check for colisions
     this.checkCollisionsWith(this.bullets, this.asteroids);
     this.checkCollisionsWith(this.bullets, this.enemies);
@@ -337,7 +346,6 @@ export class Swarm extends Component {
     if(this.state.inGame && this.state.currentScore == this.state.EZTCount) {
       //load next level
       this.loadNextMap();
-      this.startGame();
     }
 
     context.restore();
