@@ -159,12 +159,21 @@ export class Swarm extends Component {
   }
 
   //load next map on maps array
-  loadNextMap() {
-    if(this.currentMap + 1 == maps.length) {
-      this.currentMap = 0;
-    } else {
-      this.currentMap ++;
+  loadNextMap(next = -1) {
+
+    //load next map
+    if(next == -1) {
+      if(this.currentMap + 1 == maps.length) {
+        this.currentMap = 0;
+      } else {
+        this.currentMap ++;
+      }
     }
+    //load specific map
+    else {
+      this.currentMap = next;
+    }
+
 
     this.MAP = maps[this.currentMap];
 
@@ -188,6 +197,7 @@ export class Swarm extends Component {
       currentStage: 0,
       minimapScale: 10,
     });
+    this.startGame();
   }
 
   generateAsteroids(howMany) {
@@ -381,11 +391,16 @@ export class Swarm extends Component {
     if (!this.state.inGame) {
       endgame = (
         <span className="endgame">
-          <p>Game over!</p>
+          <p>Game over</p>
           <button
-            onClick={this.startGame.bind(this)}>
-            Restart
-            </button>
+            onClick={this.loadNextMap.bind(this, this.state.currentMap)}>
+            Restart Level
+          </button>
+          <br></br>
+          <button
+            onClick={this.loadNextMap.bind(this, 0)}>
+            New Game
+          </button>
         </span>
       )
     }
