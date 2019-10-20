@@ -118,15 +118,35 @@ export default class Ship {
     this.create(particle, 'particles');
   }
 
+  resetStats () {
+
+    this.rotation = 0;
+    this.rotationSpeed = 6;
+    this.speed = 0.15;
+    this.inertia = 0.99;
+    this.radius = 20;
+
+    //Timers
+    this.T_lastShot = 0;
+    this.T_lastMineDrop = 0;
+    this.T_lastHit = 0;
+
+    this.gettingHit = false;
+    this.hitAngle = 0;
+    this.toughness = 10;
+    this.HP = 100;
+
+  }
+
   render(state) {
 
     if(state.currentMap != this.currentMap) {
-      console.log("different Map");
-      this.position = {
-        x: state.screen.width / 2,
-        y: state.screen.height / 2,
-      }
+      this.resetStats();
       this.currentMap = state.currentMap;
+    }
+    if(state.inGame == false) {
+      this.resetStats();
+      return;
     }
 
     //get current time
