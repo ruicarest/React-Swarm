@@ -1,9 +1,13 @@
 import { rotatePoint, randomNumBetween } from './utils';
 import Particle from './Particle';
 import Bullet from './Bullet';
+import {enemiesTypes} from './configs/enemiesTypes.json';
 
 export default class Enemy {
   constructor(args) {
+
+    this.stats = enemiesTypes[args.typeEnemy];
+
     this.position = args.position;
     this.velocity = {
       x: 0,
@@ -12,11 +16,12 @@ export default class Enemy {
 
     this.type = "enemy";
     this.rotation = args.rotation;
-    this.rotationSpeed = 6;
+
+    this.rotationSpeed = this.stats.rotationSpeed;
     this.acceleration = 4;
     this.inertia = 0.99;
-    this.radius = 20;
-    this.sight = 500;
+    this.radius = this.stats.radius;
+    this.sight = this.stats.sight;
     //Timers
     this.T_lastShot = 0;
     this.T_lastHit = 0;
@@ -24,8 +29,9 @@ export default class Enemy {
     this.create = args.create;
 
     this.gettingHit = false;
-    this.toughness = 10;
-    this.HP = 20;
+    this.toughness = this.stats.toughness;
+    this.HP = this.stats.HP;
+    this.color = this.stats.color;
   }
 
   destroy() {
@@ -72,31 +78,6 @@ export default class Enemy {
 
   addEnergy(amount) {
     this.HP += amount;
-  }
-
-  accelerate(val) {
-    this.velocity.x += Math.sin(-this.rotation * Math.PI / 180) * this.acceleration;
-    this.velocity.y += Math.cos(-this.rotation * Math.PI / 180) * this.acceleration;
-
-    //engine particles
-    let posDelta = rotatePoint(
-      { x: 0, y: -10 },
-      { x: 0, y: 0 },
-      (this.rotation - 180) * Math.PI / 180
-    );
-    const particle = new Particle({
-      lifeSpan: randomNumBetween(20, 40),
-      size: randomNumBetween(1, 3),
-      position: {
-        x: this.position.x + posDelta.x + randomNumBetween(-2, 2),
-        y: this.position.y + posDelta.y + randomNumBetween(-2, 2)
-      },
-      velocity: {
-        x: posDelta.x / randomNumBetween(3, 5),
-        y: posDelta.y / randomNumBetween(3, 5)
-      }
-    });
-    this.create(particle, 'particles');
   }
 
   render(state) {
@@ -199,7 +180,7 @@ export default class Enemy {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = '#ff0000';
+    context.strokeStyle = this.color;
     context.fillStyle = '#000000';
     context.lineWidth = 2;
     context.beginPath();
