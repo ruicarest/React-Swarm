@@ -1,4 +1,5 @@
 import { rotatePoint, randomNumBetween } from './utils';
+import { drawMiniShip, drawBigShip, drawMediumShip } from './enemiesDrawUtils';
 import Particle from './Particle';
 import Bullet from './Bullet';
 import {enemiesTypes} from './configs/enemiesTypes.json';
@@ -25,13 +26,21 @@ export default class Enemy {
     //Timers
     this.T_lastShot = 0;
     this.T_lastHit = 0;
-
+    this.damage = this.stats.damage;
     this.create = args.create;
 
     this.gettingHit = false;
     this.toughness = this.stats.toughness;
     this.HP = this.stats.HP;
     this.color = this.stats.color;
+
+    if(this.stats.type == 1) {
+      this.draw = drawMiniShip.bind(this);
+    } else if(this.stats.type == 2) {
+      this.draw = drawMediumShip.bind(this);
+    } else if(this.stats.type == 3) {
+      this.draw = drawBigShip.bind(this);
+    } 
   }
 
   destroy() {
@@ -140,7 +149,7 @@ export default class Enemy {
       if (Date.now() - this.T_lastShot > 1000 && 360 - lookingAtAngle < 10 ) {
         const bullet = new Bullet({
           ship: this,
-          damage: 10,
+          damage: this.damage,
           create: this.create.bind(this)
         });
         this.create(bullet, 'enemyBullets');
@@ -176,31 +185,7 @@ export default class Enemy {
     }
 
     // Draw
-    const context = state.context;
-    context.save();
-    context.translate(this.position.x, this.position.y);
-    context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = this.color;
-    context.fillStyle = '#000000';
-    context.lineWidth = 2;
-    context.beginPath();
-    context.moveTo(0, -15);
-    context.lineTo(10, 10);
-    context.lineTo(5, 7);
-    context.lineTo(-5, 7);
-    context.lineTo(-10, 10);
-    context.closePath();
-    context.fill();
-    context.stroke();
+    this.draw(state);
 
-    //draw Energy Shield
-    if (this.gettingHit) {
-      context.beginPath();
-      //TODO: change shield size with distance
-      context.arc(0, 0, this.radius + 5, 0, 360);
-      context.strokeStyle = '#fcad03';
-      context.stroke();
-    }
-    context.restore();
   }
 }
