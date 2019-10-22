@@ -6,7 +6,7 @@
         "toughness": 10,
         "radius": 20,
         "sight": 500,
-        "color": "#ff0000",
+        "color": "#DD0000",
         "rotationSpeed": 6,
         "damage": 10
     },
@@ -16,7 +16,7 @@
         "toughness": 20,
         "radius": 40,
         "sight": 200,
-        "color": "#ff00ff",
+        "color": "#AA0000",
         "rotationSpeed": 2,
         "damage": 20
     },
@@ -26,7 +26,7 @@
         "toughness": 5,
         "radius": 10,
         "sight": 800,
-        "color": "#0000ff",
+        "color": "#ff0000",
         "rotationSpeed": 10,
         "damage": 3
     }
