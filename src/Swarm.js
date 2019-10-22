@@ -4,8 +4,9 @@ import { Minimap } from './Minimap';
 import Asteroid from './Asteroid';
 import Pickable from './Pickable';
 import Enemy from './Enemy';
-import {maps} from './configs/maps.json';
+import { maps } from './configs/maps.json';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
+import { Background }from './Background';
 
 const CFGS = {
   TILE_SIZE: 64,
@@ -427,13 +428,15 @@ export class Swarm extends Component {
           {endgame}
         </span>
 
-        {/* <div key={"backgrounddiv"} >
-            <Background key ={"Background"}></Background>
-          </div> */}
         <canvas className="gameWindow" ref="gameWindow"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />
+
+        <div key={"backgrounddiv"} >
+            <Background key={"Background12345"}{...this.state}
+            ></Background>
+        </div>
 
         <div key={"minimapdiv"} >
           <Minimap key={"Minimap"} {...this.state}

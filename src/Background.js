@@ -3,6 +3,8 @@ import * as THREE from 'three';
 
 export class Background extends Component {
 
+  state = {};          //component state
+
   componentDidMount = () => {
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
@@ -18,14 +20,15 @@ export class Background extends Component {
     )
     this.camera.position.z = 10;
     //ADD RENDERER
-    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-    this.renderer.setSize(width, height)
-    this.mount.appendChild(this.renderer.domElement)
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer.setSize(width, height);
+    this.mount.appendChild(this.renderer.domElement);
     //ADD CUBE
-    const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
-    this.cube = new THREE.Mesh(geometry, material)
-    this.scene.add(this.cube)
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: '#FF0000'});
+    this.cube = new THREE.Mesh(geometry, material);
+
+    this.scene.add(this.cube);
 
     this.start();
   }
@@ -45,7 +48,7 @@ export class Background extends Component {
     this.cube.rotation.y += 0.01
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
-    //this.scene.background = new THREE.Color( 0xff0000 );
+    //this.scene.background = new THREE.Color( 0x000000 );
   }
   renderScene = () => {
     this.renderer.render(this.scene, this.camera)
@@ -60,7 +63,7 @@ export class Background extends Component {
 
   }
 
-  render = () => {
+  render = (state) => {
     return (
       <div
         style={{ position: 'absolute', width: '400px', height: '400px' }}
