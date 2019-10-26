@@ -183,7 +183,6 @@ export class Swarm extends Component {
       this.currentMap = next;
     }
 
-
     this.MAP = maps[this.currentMap];
 
     this.setState({

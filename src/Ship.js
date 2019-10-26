@@ -28,6 +28,8 @@ export default class Ship {
     this.onDie = args.onDie;
     this.updateShipState = args.updateShipState;
 
+    this.maxHP = 100;
+
     this.gettingHit = false;
     this.hitAngle = 0;
     this.toughness = 10;
@@ -76,6 +78,7 @@ export default class Ship {
       this.gettingHit = true;
     }
     if (this.HP <= 0) {
+      this.HP = 0;
       this.destroy();
     }
   }
@@ -91,6 +94,8 @@ export default class Ship {
 
   addEnergy(amount) {
     this.HP += amount;
+    if(this.HP > this.maxHP)
+      this.HP = this.maxHP;
   }
 
   accelerate(val) {
