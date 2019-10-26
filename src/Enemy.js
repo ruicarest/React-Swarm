@@ -43,6 +43,10 @@ export default class Enemy {
     } 
   }
 
+  remove() {
+    this.delete = true;
+  }
+
   destroy() {
     this.delete = true;
 
@@ -90,6 +94,12 @@ export default class Enemy {
   }
 
   render(state) {
+
+    if(state.reload == true) {
+      this.remove();
+      return
+    }
+
     const shipPos = state.ship.position;
 
     //calc x and y distance to player ship

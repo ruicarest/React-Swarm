@@ -22,7 +22,17 @@ export default class Pickable {
         this.destroy();
     };
 
+    remove() {
+        this.delete = true;
+    }
+
     render(state) {
+
+        if(state.reload == true) {
+            this.remove();
+            return
+        }
+
         // Move
         this.position.x -= state.ship.velocity.x;
         this.position.y -= state.ship.velocity.y;

@@ -53,6 +53,7 @@ export class Swarm extends Component {
       currentMap: this.currentMap,
       currentScore: 0,
       inGame: false,
+      reload: false,
       asteroidCount: this.MAP.asteroids,
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
@@ -156,6 +157,7 @@ export class Swarm extends Component {
     this.setState({
       inGame: true,
       currentScore: 0,
+      reload: false,
     });
   }
 
@@ -203,6 +205,7 @@ export class Swarm extends Component {
       currentLevelEnemies: this.MAP.enemies,
       currentStage: 0,
       minimapScale: 10,
+      reload: true,
     });
 
     this.startGame();
@@ -334,7 +337,6 @@ export class Swarm extends Component {
     this.checkCollisionsWith(this.ship, this.EZT);
 
     // Remove or render
-    this.updateObjects(this.asteroids, 'asteroids');
     this.updateObjects(this.ship, 'ship');
     this.updateObjects(this.bullets, 'bullets');
     this.updateObjects(this.enemyBullets, 'enemyBullets');
@@ -342,11 +344,20 @@ export class Swarm extends Component {
     this.updateObjects(this.energy, 'energy');
     this.updateObjects(this.EZT, 'EZT');
     this.updateObjects(this.enemies, 'enemies');
+    this.updateObjects(this.asteroids, 'asteroids');
 
     //Win conditions
     if(this.state.inGame && this.state.currentScore == this.state.EZTCount) {
-      //load next level
-      this.loadNextMap();
+      if(this.asteroids.length == 0) {
+        //load next level
+        this.loadNextMap();
+      }
+      //remove current objects
+      else {
+        this.setState({
+          reload: true,
+        });
+      }
     }
 
     context.restore();

@@ -59,6 +59,10 @@ export default class Bullet {
 
   render(state) {
 
+    if(state.reload == true) {
+      this.remove();
+      return
+    }
     // Move
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
