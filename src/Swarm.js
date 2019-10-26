@@ -6,7 +6,7 @@ import Pickable from './Pickable';
 import Enemy from './Enemy';
 import { maps } from './configs/maps.json';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
-import { Background }from './Background';
+/* import { Background }from './Background'; */
 
 const CFGS = {
   TILE_SIZE: 64,
@@ -443,10 +443,10 @@ export class Swarm extends Component {
           height={this.state.screen.height * this.state.screen.ratio}
         />
 
-        <div key={"backgrounddiv"} >
+{/*         <div key={"backgrounddiv"} >
             <Background key={"Background12345"}{...this.state}
             ></Background>
-        </div>
+        </div> */}
 
         <div key={"minimapdiv"} >
           <Minimap key={"Minimap"} {...this.state}
