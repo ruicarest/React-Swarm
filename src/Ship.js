@@ -125,6 +125,11 @@ export default class Ship {
 
   resetStats () {
 
+    this.velocity = {
+      x: 0,
+      y: 0
+    };
+
     this.rotation = 0;
     this.rotationSpeed = 6;
     this.speed = 0.15;
@@ -140,6 +145,8 @@ export default class Ship {
     this.hitAngle = 0;
     this.toughness = 10;
     this.HP = 100;
+
+    this.updateShipState({ x: 0, y: 0 }, { x: 0, y: 0 });
 
   }
 
