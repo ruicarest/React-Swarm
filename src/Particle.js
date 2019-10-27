@@ -11,7 +11,15 @@ export default class Particle {
     this.delete = true;
   }
 
+  remove() {
+    this.delete = true;
+  }
+
   render(state) {
+    if(state.reload == true) {
+      this.remove();
+      return
+    }
     // Move
     this.position.x += this.velocity.x - state.ship.velocity.x;
     this.position.y += this.velocity.y - state.ship.velocity.y;
