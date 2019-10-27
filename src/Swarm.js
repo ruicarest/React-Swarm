@@ -406,14 +406,16 @@ export class Swarm extends Component {
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
     const EZT = this.state.inGame ? this.state.currentScore : 0;
+    const currentLevel = this.state.currentMap;
 
     if (!this.state.inGame) {
-      endgame = (
+      endgame = ( 
         <span className="endgame">
           <p>Game over</p>
+          {/* TODO: set css for this */}
           <button
             onClick={this.loadNextMap.bind(this, this.state.currentMap)}>
-            Restart Level
+            Restart Level {currentLevel + 1}
           </button>
           <br></br>
           <button
@@ -429,7 +431,8 @@ export class Swarm extends Component {
         <span className="UI">
           <span className="controls">
             Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
-            Use [SPACE] to SHOOT & [Q] to MINE
+            Use [SPACE] to SHOOT & [Q] to MINE <br />
+            LEVEL {currentLevel + 1}
             </span>
           <span className="stats">
             {shipHP} HP <br />
