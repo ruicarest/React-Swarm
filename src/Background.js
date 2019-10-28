@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
+import * as shader from './test.glsl';
 
 export class Background extends Component {
 
