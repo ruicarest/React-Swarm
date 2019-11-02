@@ -19,18 +19,41 @@ export class Background extends Component {
       0.1,
       1000
     )
+
+    this.uniforms = {
+      u_time: { type: "1f", value: 0 },
+      u_resolution: { type: 'v2', value: new THREE.Vector2() },
+      u_mouse: {type: 'v2', value: new THREE.Vector2()},
+  };
+
+    this.uniforms.u_resolution.value.x = 1000;
+    this.uniforms.u_resolution.value.y = 500; 
+    this.uniforms.u_time.value += 0.05;
+    this.uniforms.u_mouse.value.y = 10;
+    this.uniforms.u_mouse.value.x = 10;
+
     this.camera.position.z = 10;
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
-    //ADD CUBE
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: '#FF0000'});
-    this.cube = new THREE.Mesh(geometry, material);
+    
+    //ADD PLANE
+    var geometry = new THREE.PlaneBufferGeometry(2, 2);
+    
+    var material = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
+      fragmentShader: shader //pixel
+    });
 
+    this.mesh = new THREE.Mesh(geometry, material);
+  
+    const geometryCube = new THREE.BoxGeometry(1,1,1);
+    const materialCube = new THREE.MeshBasicMaterial({color: '#FF0000'});
+    this.cube = new THREE.Mesh(geometryCube, materialCube);
+    
+    //this.scene.add(this.mesh);
     this.scene.add(this.cube);
-
     this.start();
   }
 
@@ -65,6 +88,7 @@ export class Background extends Component {
   }
 
   render = (state) => {
+
     return (
       <div
         style={{ position: 'absolute', width: '400px', height: '400px' }}
