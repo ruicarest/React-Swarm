@@ -35,6 +35,7 @@ void main(){
     color = vec3( 1.-smoothstep(f,f+0.02,r) ) * pct * vec3(0.8118, 0.0, 0.0);
 
     gl_FragColor = vec4(color, 1.0);
+    gl_FragColor.a = 0.0;
 }
 
 //y = mod(x,0.5); // return x modulo of 0.5

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
-import * as shader from './test.glsl';
+import fragmentShader from './test.glsl';
 
 export class Background extends Component {
 
@@ -32,7 +32,7 @@ export class Background extends Component {
     this.uniforms.u_mouse.value.y = 10;
     this.uniforms.u_mouse.value.x = 10;
 
-    this.camera.position.z = 10;
+    this.camera.position.z = 1;
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setSize(width, height);
@@ -43,7 +43,7 @@ export class Background extends Component {
     
     var material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
-      fragmentShader: shader //pixel
+      fragmentShader: fragmentShader //pixel
     });
 
     this.mesh = new THREE.Mesh(geometry, material);
@@ -52,8 +52,8 @@ export class Background extends Component {
     const materialCube = new THREE.MeshBasicMaterial({color: '#FF0000'});
     this.cube = new THREE.Mesh(geometryCube, materialCube);
     
-    //this.scene.add(this.mesh);
-    this.scene.add(this.cube);
+    this.scene.add(this.mesh);
+    //dwthis.scene.add(this.cube);
     this.start();
   }
 
