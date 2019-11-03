@@ -446,10 +446,10 @@ export class Swarm extends Component {
           height={this.state.screen.height * this.state.screen.ratio}
         />
 
-        <div key={"backgrounddiv"} >
+{/*         <div key={"backgrounddiv"} >
             <Background key={"Background12345"}{...this.state}
             ></Background>
-        </div>
+        </div> */}
 
         <div key={"minimapdiv"} >
           <Minimap key={"Minimap"} {...this.state}
