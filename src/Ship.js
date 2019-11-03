@@ -239,6 +239,13 @@ export default class Ship {
       context.strokeStyle = '#901aeb';
       context.stroke();
     }
+
+    //draw EZT Indicator
+    context.beginPath();
+    context.arc(0, 0, 55, Math.PI*0.45 + state.nearestEZT.ang - this.rotation * Math.PI / 180, Math.PI - Math.PI*0.45 + state.nearestEZT.ang - this.rotation * Math.PI / 180);
+    context.strokeStyle = '#34deeb';
+    context.stroke();
+
     context.restore();
   }
 }

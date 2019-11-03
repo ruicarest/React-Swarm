@@ -70,6 +70,10 @@ export class Swarm extends Component {
           y: 0
         },
         HP: 0
+      },
+      nearestEZT: {
+        distance: 10000000,
+        ang: 0,
       }
     }
 
@@ -205,6 +209,10 @@ export class Swarm extends Component {
       currentStage: 0,
       minimapScale: 10,
       reload: true,
+      nearestEZT: {
+        distance: 10000000,
+        ang: 0,
+      }
     });
 
     this.startGame();
@@ -333,7 +341,7 @@ export class Swarm extends Component {
     this.checkCollisionsWith(this.ship, this.asteroids);
     this.checkCollisionsWith(this.ship, this.energy);
     this.checkCollisionsWith(this.ship, this.enemyBullets);
-    this.checkCollisionsWith(this.ship, this.EZT);
+    this.checkCollisionsWithEZT(this.ship, this.EZT);
 
     // Remove or render
     this.updateObjects(this.ship, 'ship');
@@ -383,6 +391,38 @@ export class Swarm extends Component {
     }
   }
 
+  //SHIP and EZT
+  checkCollisionsWithEZT(items1, items2) {
+    var a = items1.length - 1;
+    var b;
+    var minDistance = 10000000;
+    for (a; a > -1; --a) {
+      b = items2.length - 1;
+      for (b; b > -1; --b) {
+        var item1 = items1[a];
+        var item2 = items2[b];
+
+        const collision = this.checkCollision(item1, item2);
+        if (collision.happened) {
+          item1.hit(item2.toughness, collision.angle);
+          item2.hit(item1.toughness, collision.angle);
+        }
+        else {
+          if( minDistance > collision.distance) {
+            this.setState({
+              nearestEZT: {
+                distance: collision.distance,
+                ang: collision.angle
+              }
+            });
+            minDistance = collision.distance;
+            console.log("closest EZT is: ",  this.state.nearestEZT);
+          }
+        }
+      }
+    }
+  }
+
   checkCollision(obj1, obj2) {
     let hitAngle = 0;
 
@@ -397,7 +437,7 @@ export class Swarm extends Component {
     }
 
     //length^2 <= (object radius)^2
-    return ({ happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2), angle: hitAngle });
+    return ({ happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2), angle: hitAngle, distance: length });
   }
 
   render() {
