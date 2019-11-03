@@ -109,10 +109,18 @@ export class Swarm extends Component {
     });
   }
 
+  print123(e) {
+    let mx = e.clientX;
+    let my = e.clientY;
+    console.log(mx);
+  }
+
   componentDidMount() {
     window.addEventListener('keyup', this.handleKeys.bind(this, false));
     window.addEventListener('keydown', this.handleKeys.bind(this, true));
     window.addEventListener('resize', this.handleResize.bind(this, false));
+
+    this.refs.gameWindow.addEventListener("mousemove", this.print123);
 
     const context = this.refs.gameWindow.getContext('2d');
     this.setState({ context: context });
@@ -120,6 +128,7 @@ export class Swarm extends Component {
     this.startGame();
     requestAnimationFrame(() => { this.update() });
   }
+
 
   componentDidUpdate(){
   }

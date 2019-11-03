@@ -30,17 +30,9 @@ body {
     background: rgba(0, 0, 0, 0.8);
   }
 
-.UI {
-    position: absolute;
-    display: block;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    font-size: 12px;
-  }
-
   .stats {
     position: absolute;
+    z-index: 1;
     top: 15px;
     left: 1%;
     font-size: 20px;
@@ -48,15 +40,19 @@ body {
 
   .controls {
     position: absolute;
+    display: block;
+    z-index: 1;
     top: 15px;
     left: 50%;
     transform: translate(-50%, 0);
     text-align: center;
     line-height: 1.6;
+    font-size: 12px;
   }
 
   .endgame{
     position: absolute;
+    z-index: 1;
     top: 50%;
     left: 50%;
     font-size: 60px;
