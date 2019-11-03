@@ -415,8 +415,8 @@ export class Swarm extends Component {
                 ang: collision.angle
               }
             });
+            //udpate min distance
             minDistance = collision.distance;
-            console.log("closest EZT is: ",  this.state.nearestEZT);
           }
         }
       }
