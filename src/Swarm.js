@@ -451,7 +451,7 @@ export class Swarm extends Component {
     }
     
     //TODO: GET THIS BACK, older version not considering EZT compass
-    //var vy = obj1.position.x - obj2.position.x;
+    //var vx = obj1.position.x - obj2.position.x;
     //var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
 
     //length squared (avoid sqrt usage)
