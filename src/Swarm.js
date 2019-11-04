@@ -435,8 +435,24 @@ export class Swarm extends Component {
   checkCollision(obj1, obj2) {
     let hitAngle = 0;
 
-    var vx = obj1.position.x - obj2.position.x;
-    var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
+    //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass 
+    if( obj1.position.x < obj2.position.x) {
+      var vx =  obj2.position.x - obj1.position.x < this.state.map.width - obj2.position.x + obj1.position.x ? - (obj2.position.x - obj1.position.x) : this.state.map.width - obj2.position.x + obj1.position.x ;
+    }
+    else {
+      var vx =  obj1.position.x - obj2.position.x < this.state.map.width - obj1.position.x + obj2.position.x ? obj1.position.x - obj2.position.x : this.state.map.width - obj1.position.x + obj2.position.x ;
+    }
+    //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass
+    if( obj1.position.y < obj2.position.y) {
+      var vy =  obj2.position.y - obj1.position.x < this.state.map.height - obj2.position.y + obj1.position.y ? obj2.position.y - obj1.position.y : - (this.state.map.height - obj2.position.y + obj1.position.y) ;
+    }
+    else {
+      var vy =  obj1.position.y - obj2.position.y < this.state.map.height - obj1.position.y + obj2.position.y ? - (obj1.position.y - obj2.position.y) : this.state.map.height - obj1.position.y + obj2.position.y ;
+    }
+    
+    //TODO: GET THIS BACK, older version not considering EZT compass
+    //var vy = obj1.position.x - obj2.position.x;
+    //var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
 
     //length squared (avoid sqrt usage)
     var length = vx * vx + vy * vy;
