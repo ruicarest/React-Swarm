@@ -19,11 +19,11 @@ export function drawMiniShip(state) {
 
     //draw Energy Shield
     if (this.gettingHit) {
-    context.beginPath();
-    //TODO: change shield size with distance
-    context.arc(0, 0, this.radius + 5, 0, 360);
-    context.strokeStyle = '#fcad03';
-    context.stroke();
+        context.beginPath();
+        //TODO: change shield size with distance
+        context.arc(0, 0, this.radius + 5, 0, 360);
+        context.strokeStyle = '#fcad03';
+        context.stroke();
     }
     context.restore();
     
@@ -50,11 +50,11 @@ export function drawBigShip(state) {
 
     //draw Energy Shield
     if (this.gettingHit) {
-    context.beginPath();
-    //TODO: change shield size with distance
-    context.arc(0, 0, this.radius + 5, 0, 360);
-    context.strokeStyle = '#fcad03';
-    context.stroke();
+        context.beginPath();
+        //TODO: change shield size with distance
+        context.arc(0, 0, this.radius + 5, 0, 360);
+        context.strokeStyle = '#fcad03';
+        context.stroke();
     }
     context.restore();
     
@@ -81,11 +81,11 @@ export function drawMediumShip(state) {
 
     //draw Energy Shield
     if (this.gettingHit) {
-    context.beginPath();
-    //TODO: change shield size with distance
-    context.arc(0, 0, this.radius + 5, 0, 360);
-    context.strokeStyle = '#fcad03';
-    context.stroke();
+        context.beginPath();
+        //TODO: change shield size with distance
+        context.arc(0, 0, this.radius + 5, 0, 360);
+        context.strokeStyle = '#fcad03';
+        context.stroke();
     }
     context.restore();
     
