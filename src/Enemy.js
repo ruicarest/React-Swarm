@@ -19,7 +19,7 @@ export default class Enemy {
     this.rotation = args.rotation;
 
     this.rotationSpeed = this.stats.rotationSpeed;
-    this.acceleration = 4;
+    this.acceleration = this.stats.acceleration;
     this.inertia = 0.99;
     this.radius = this.stats.radius;
     this.sight = this.stats.sight;

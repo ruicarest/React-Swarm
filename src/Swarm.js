@@ -112,7 +112,7 @@ export class Swarm extends Component {
   print123(e) {
     let mx = e.clientX;
     let my = e.clientY;
-    console.log(mx);
+    //console.log(mx);
   }
 
   componentDidMount() {

@@ -15,7 +15,7 @@
         "HP": 30,
         "toughness": 20,
         "radius": 40,
-        "sight": 200,
+        "sight": 500,
         "color": "#AA0000",
         "rotationSpeed": 2,
         "damage": 20
