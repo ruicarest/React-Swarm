@@ -41,6 +41,13 @@ export class Swarm extends Component {
         space: 0,
         mine: 0
       },
+      mouse: {
+        active: true,
+        position: {
+          x: 0,
+          y: 0
+        }
+      },
       map: {
         width: CFGS.TILE_SIZE * this.MAP.width,
         height: CFGS.TILE_SIZE * this.MAP.height,
@@ -110,8 +117,17 @@ export class Swarm extends Component {
   }
 
   print123(e) {
-    let mx = e.clientX;
-    let my = e.clientY;
+/*     let mx = e.clientX;
+    let my = e.clientY; */
+    this.setState({
+      active: true,
+      mouse: {
+        position: {
+          x: e.clientX,
+          y: e.clientY
+        }
+      }
+    });
     //console.log(mx);
   }
 
@@ -120,7 +136,7 @@ export class Swarm extends Component {
     window.addEventListener('keydown', this.handleKeys.bind(this, true));
     window.addEventListener('resize', this.handleResize.bind(this, false));
 
-    this.refs.gameWindow.addEventListener("mousemove", this.print123);
+    this.refs.gameWindow.addEventListener("mousemove", this.print123.bind(this));
 
     const context = this.refs.gameWindow.getContext('2d');
     this.setState({ context: context });
