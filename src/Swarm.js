@@ -116,9 +116,7 @@ export class Swarm extends Component {
     });
   }
 
-  print123(e) {
-/*     let mx = e.clientX;
-    let my = e.clientY; */
+  findMouseMosition(e) {
     this.setState({
       active: true,
       mouse: {
@@ -128,7 +126,6 @@ export class Swarm extends Component {
         }
       }
     });
-    //console.log(mx);
   }
 
   componentDidMount() {
@@ -136,7 +133,7 @@ export class Swarm extends Component {
     window.addEventListener('keydown', this.handleKeys.bind(this, true));
     window.addEventListener('resize', this.handleResize.bind(this, false));
 
-    this.refs.gameWindow.addEventListener("mousemove", this.print123.bind(this));
+    this.refs.gameWindow.addEventListener("mousemove", this.findMouseMosition.bind(this));
 
     const context = this.refs.gameWindow.getContext('2d');
     this.setState({ context: context });
