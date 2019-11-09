@@ -173,6 +173,13 @@ export default class Ship {
     if (state.keys.right) {
       this.rotate('RIGHT');
     }
+
+    //TODO: ADD CONDITION TO USE MOUSE OR KEYBOARD
+    const vx = state.mouse.position.x - this.position.x ;
+    const vy =  this.position.y - state.mouse.position.y  ;    
+    const lookAtMouseAngle = Math.atan2(vx, vy) * 180 / Math.PI;
+    this.rotation = lookAtMouseAngle;
+
     if (state.keys.mine && timeNow - this.T_lastMineDrop > 500) {
       const mine = new Mine({
         position: this.position,
