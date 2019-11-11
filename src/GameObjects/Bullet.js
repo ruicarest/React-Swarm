@@ -1,4 +1,4 @@
-import { rotatePoint, randomNumBetween } from './utils';
+import { rotatePoint, randomNumBetween } from '../utils';
 import Particle from './Particle';
 
 export default class Bullet {

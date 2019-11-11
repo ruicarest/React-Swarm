@@ -1,8 +1,8 @@
-import { rotatePoint, randomNumBetween } from './utils';
-import { drawMiniShip, drawBigShip, drawMediumShip } from './enemiesDrawUtils';
+import { rotatePoint, randomNumBetween } from '../utils';
+import { drawMiniShip, drawBigShip, drawMediumShip } from '../enemiesDrawUtils';
 import Particle from './Particle';
 import Bullet from './Bullet';
-import {enemiesTypes} from './configs/enemiesTypes.json';
+import {enemiesTypes} from '../configs/enemiesTypes.json';
 
 export default class Enemy {
   constructor(args) {
