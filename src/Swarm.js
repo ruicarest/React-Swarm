@@ -97,9 +97,9 @@ export class Swarm extends Component {
   handleResize(value, e) {
     this.setState({
       screen: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1,
+        width: this.refs.gameWindow.clientWidth ,
+        height: this.refs.gameWindow.clientHeight ,
+        ratio: this.refs.gameWindow.clientWidth/this.refs.gameWindow.clientHeight || 1,
       }
     });
   }
