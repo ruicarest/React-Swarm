@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Ship from './Ship';
+import Ship from './GameObjects/Ship';
 import { Minimap } from './Minimap';
-import Asteroid from './Asteroid';
-import Pickable from './Pickable';
-import Enemy from './Enemy';
+import Asteroid from './GameObjects/Asteroid';
+import Pickable from './GameObjects/Pickable';
+import Enemy from './GameObjects/Enemy';
 import { maps } from './configs/maps.json';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
 import { Background }from './Background';
