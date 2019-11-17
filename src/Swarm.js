@@ -6,7 +6,8 @@ import Pickable from './GameObjects/Pickable';
 import Enemy from './GameObjects/Enemy';
 import { maps } from './configs/maps.json';
 import { randomNumBetweenExcluding, randomNumBetween } from './utils';
-import { Background }from './Background';
+import { Background } from './Background';
+import { VirtualJoystick } from './VirtualJoystick';
 
 const CFGS = {
   TILE_SIZE: 64,
@@ -97,9 +98,9 @@ export class Swarm extends Component {
   handleResize(value, e) {
     this.setState({
       screen: {
-        width: this.refs.gameWindow.clientWidth ,
-        height: this.refs.gameWindow.clientHeight ,
-        ratio: this.refs.gameWindow.clientWidth/this.refs.gameWindow.clientHeight || 1,
+        width: this.refs.gameWindow.clientWidth,
+        height: this.refs.gameWindow.clientHeight,
+        ratio: this.refs.gameWindow.clientWidth / this.refs.gameWindow.clientHeight || 1,
       }
     });
   }
@@ -118,8 +119,8 @@ export class Swarm extends Component {
 
   findMouseMosition(e) {
     this.setState({
-      active: true,
       mouse: {
+        active: true,
         position: {
           x: e.clientX,
           y: e.clientY
@@ -176,7 +177,7 @@ export class Swarm extends Component {
 
     // Make enemies
     this.enemies = [];
-    this.state.currentLevelEnemies.map( (enemyType, index) => 
+    this.state.currentLevelEnemies.map((enemyType, index) =>
       this.generateEnemies(enemyType, index)
     );
 
@@ -197,11 +198,11 @@ export class Swarm extends Component {
   loadNextMap(next = -1) {
 
     //load next map
-    if(next == -1) {
-      if(this.currentMap + 1 == maps.length) {
+    if (next == -1) {
+      if (this.currentMap + 1 == maps.length) {
         this.currentMap = 0;
       } else {
-        this.currentMap ++;
+        this.currentMap++;
       }
     }
     //load specific map
@@ -376,8 +377,8 @@ export class Swarm extends Component {
     this.updateObjects(this.asteroids, 'asteroids');
 
     //Win conditions
-    if(this.state.inGame && this.state.currentScore == this.state.EZTCount) {
-      if(this.asteroids.length == 0) {
+    if (this.state.inGame && this.state.currentScore == this.state.EZTCount) {
+      if (this.asteroids.length == 0) {
         //load next level
         this.loadNextMap();
       }
@@ -430,7 +431,7 @@ export class Swarm extends Component {
           item2.hit(item1.toughness, collision.angle);
         }
         else {
-          if( minDistance > collision.distance) {
+          if (minDistance > collision.distance) {
             this.setState({
               nearestEZT: {
                 distance: collision.distance,
@@ -449,20 +450,20 @@ export class Swarm extends Component {
     let hitAngle = 0;
 
     //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass 
-    if( obj1.position.x < obj2.position.x) {
-      var vx =  obj2.position.x - obj1.position.x < this.state.map.width - obj2.position.x + obj1.position.x ? - (obj2.position.x - obj1.position.x) : this.state.map.width - obj2.position.x + obj1.position.x ;
+    if (obj1.position.x < obj2.position.x) {
+      var vx = obj2.position.x - obj1.position.x < this.state.map.width - obj2.position.x + obj1.position.x ? - (obj2.position.x - obj1.position.x) : this.state.map.width - obj2.position.x + obj1.position.x;
     }
     else {
-      var vx =  obj1.position.x - obj2.position.x < this.state.map.width - obj1.position.x + obj2.position.x ? obj1.position.x - obj2.position.x : this.state.map.width - obj1.position.x + obj2.position.x ;
+      var vx = obj1.position.x - obj2.position.x < this.state.map.width - obj1.position.x + obj2.position.x ? obj1.position.x - obj2.position.x : this.state.map.width - obj1.position.x + obj2.position.x;
     }
     //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass
-    if( obj1.position.y < obj2.position.y) {
-      var vy =  obj2.position.y - obj1.position.x < this.state.map.height - obj2.position.y + obj1.position.y ? obj2.position.y - obj1.position.y : - (this.state.map.height - obj2.position.y + obj1.position.y) ;
+    if (obj1.position.y < obj2.position.y) {
+      var vy = obj2.position.y - obj1.position.x < this.state.map.height - obj2.position.y + obj1.position.y ? obj2.position.y - obj1.position.y : - (this.state.map.height - obj2.position.y + obj1.position.y);
     }
     else {
-      var vy =  obj1.position.y - obj2.position.y < this.state.map.height - obj1.position.y + obj2.position.y ? - (obj1.position.y - obj2.position.y) : this.state.map.height - obj1.position.y + obj2.position.y ;
+      var vy = obj1.position.y - obj2.position.y < this.state.map.height - obj1.position.y + obj2.position.y ? - (obj1.position.y - obj2.position.y) : this.state.map.height - obj1.position.y + obj2.position.y;
     }
-    
+
     //TODO: GET THIS BACK, older version not considering EZT compass
     //var vx = obj1.position.x - obj2.position.x;
     //var vy = obj2.position.y - obj1.position.y; //TODO: study this swap
@@ -487,7 +488,7 @@ export class Swarm extends Component {
     const currentLevel = this.state.currentMap;
 
     if (!this.state.inGame) {
-      endgame = ( 
+      endgame = (
         <span className="endgame">
           <p>Game over</p>
           {/* TODO: set css for this */}
@@ -511,7 +512,7 @@ export class Swarm extends Component {
             Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
             Use [SPACE] to SHOOT & [Q] to MINE <br />
             LEVEL {currentLevel + 1}
-            </span>
+          </span>
           <span className="stats">
             {shipHP} HP <br />
             {EZT} EZT
@@ -524,7 +525,7 @@ export class Swarm extends Component {
           height={this.state.screen.height * this.state.screen.ratio}
         />
 
-{/*         <div key={"backgrounddiv"} >
+        {/*         <div key={"backgrounddiv"} >
             <Background key={"Background12345"}{...this.state}
             ></Background>
         </div> */}
