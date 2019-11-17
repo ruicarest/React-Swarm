@@ -403,6 +403,17 @@ export class Swarm extends Component {
     }
   }
 
+  drawMouse() {
+    const context = this.state.context;
+    context.save();
+    context.translate(this.state.mouse.position.x, this.state.mouse.position.y);
+    context.beginPath();
+    context.arc(0, 0, 2, 0, 360);
+    context.strokeStyle = '#fcad03';
+    context.stroke();
+    context.restore();
+  }
+
   update() {
     const context = this.state.context;
 
@@ -414,6 +425,8 @@ export class Swarm extends Component {
     context.globalAlpha = 0.8;
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
+
+    this.drawMouse();
 
     //TODO: only check colissions if in game
     // Check for colisions
