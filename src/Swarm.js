@@ -49,6 +49,17 @@ export class Swarm extends Component {
           y: 0
         }
       },
+      joypad: {
+        on: false,
+        positionPivot: {
+          x: 0,
+          y: 0,
+        },
+        positionJoystick: {
+          x: 0,
+          y: 0,
+        },
+      },
       map: {
         width: CFGS.TILE_SIZE * this.MAP.width,
         height: CFGS.TILE_SIZE * this.MAP.height,
@@ -130,27 +141,76 @@ export class Swarm extends Component {
   }
 
   componentDidMount() {
+    //handle key events
     window.addEventListener('keyup', this.handleKeys.bind(this, false));
     window.addEventListener('keydown', this.handleKeys.bind(this, true));
     window.addEventListener('resize', this.handleResize.bind(this, false));
 
-    this.refs.gameWindow.addEventListener("mousemove", this.findMouseMosition.bind(this));
+    //handle touch events
+    this.refs.gameWindow.addEventListener("touchmove", function (e) {
+      this.setState((prevState, props) => ({
+        joypad: {
+          ...prevState.joypad,
+          positionJoystick: {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+          }
+        }
+      }));
+    }.bind(this), false);
+    this.refs.gameWindow.addEventListener("touchstart", function (e) {
+      this.setState((prevState, props) => ({
+        joypad: {
+          ...prevState.joypad,
+          on: true,
+          positionPivot: {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+          }
+        }
+      }));
+    }.bind(this), false);
+    this.refs.gameWindow.addEventListener("touchend", function (e) {
+      this.setState((prevState, props) => ({
+        joypad: {
+          ...prevState.joypad,
+          on: false,
+          positionPivot: {
+            x: 0,
+            y: 0
+          }
+        }
+      }));
+    }.bind(this), false);
 
-    const context = this.refs.gameWindow.getContext('2d');
-    this.setState({ context: context });
+    //handle mouse events
+    this.refs.gameWindow.addEventListener("mousemove", function (e) {
+      this.setState({
+        mouse: {
+          active: true,
+          position: {
+            x: e.clientX,
+            y: e.clientY
+          }
+        }
+      });
+    }.bind(this), false);
+
+    this.setState({ context: this.refs.gameWindow.getContext('2d') });
 
     this.startGame();
+
     requestAnimationFrame(() => { this.update() });
   }
 
 
-  componentDidUpdate(){
+  componentDidUpdate() {
   }
 
   startGame() {
 
     //first ship
-    if(!this.ship[0]) {
+    if (!this.ship[0]) {
       // Make ship
       let ship = new Ship({
         position: {
@@ -538,6 +598,11 @@ export class Swarm extends Component {
             Enemies={this.enemies}
             EZT={this.EZT}
           ></Minimap>
+        </div>
+
+        <div key={"virtualjoystickdiv"} >
+          <VirtualJoystick key={"VirtualJoystick"} {...this.state}
+          ></VirtualJoystick>
         </div>
 
       </div>
