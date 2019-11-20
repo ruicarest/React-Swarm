@@ -166,6 +166,10 @@ export class Swarm extends Component {
           positionPivot: {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
+          },
+          positionJoystick: {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
           }
         }
       }));
