@@ -175,10 +175,17 @@ export default class Ship {
     }
 
     //TODO: ADD CONDITION TO USE MOUSE OR KEYBOARD
+    //Controls using MOUSE
     const vx = state.mouse.position.x - this.position.x ;
     const vy =  this.position.y - state.mouse.position.y  ;    
     const lookAtMouseAngle = Math.atan2(vx, vy) * 180 / Math.PI;
     this.rotation = lookAtMouseAngle;
+
+    //Controls using JOYPAD
+    if(state.joypad.on) {
+      this.rotation = state.joypad.angle;
+      this.accelerate();
+    }
 
     if (state.keys.mine && timeNow - this.T_lastMineDrop > 500) {
       const mine = new Mine({

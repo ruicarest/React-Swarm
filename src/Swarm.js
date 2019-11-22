@@ -52,13 +52,14 @@ export class Swarm extends Component {
       joypad: {
         on: false,
         positionPivot: {
-          x: 0,
-          y: 0,
+          x: -1,
+          y: -1,
         },
         positionJoystick: {
-          x: 0,
-          y: 0,
+          x: -1,
+          y: -1,
         },
+        angle: -1,
       },
       map: {
         width: CFGS.TILE_SIZE * this.MAP.width,
@@ -88,7 +89,7 @@ export class Swarm extends Component {
           x: 0,
           y: 0
         },
-        HP: 0
+        HP: 0,
       },
       nearestEZT: {
         distance: 10000000,
@@ -104,6 +105,8 @@ export class Swarm extends Component {
     this.energy = [];
     this.EZT = [];
     this.enemies = [];
+
+    this.handleJoystick = this.handleJoystick.bind(this);
   }
 
   handleResize(value, e) {
@@ -126,6 +129,15 @@ export class Swarm extends Component {
     this.setState({
       keys: keys
     });
+  }
+
+  handleJoystick(padAngle) {
+    this.setState((prevState) => ({
+      joypad: {
+        ...prevState.joypad,
+        angle: padAngle,
+      }
+    }));
   }
 
   findMouseMosition(e) {
@@ -618,7 +630,8 @@ export class Swarm extends Component {
         </div>
 
         <div key={"virtualjoystickdiv"} >
-          <VirtualJoystick key={"VirtualJoystick"} {...this.state}
+          <VirtualJoystick key={"VirtualJoystick"} {...this.state} 
+          handleJoystick={(state) => this.handleJoystick(state)}
           ></VirtualJoystick>
         </div>
 

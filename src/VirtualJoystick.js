@@ -4,12 +4,15 @@ import React, { Component } from 'react';
 export class VirtualJoystick extends Component {
     state = {           //component state
         position: {
-            x: 0,
-            y: 0,
+            x: -1,
+            y: -1,
         },
         positionPad: {
-          x: 0,
-          y: 0,
+          x: -1,
+          y: -1,
+        },
+        angle: {
+          x:-1,
         },
         radius: 100,
         colour: "#2453FF",
@@ -22,8 +25,11 @@ export class VirtualJoystick extends Component {
     this.state.ctxPad = this.refs.joystickPad.getContext('2d');
   }
 
+  componentWillUnmount = () => {
+  }
+
   componentDidUpdate = () => {
-    const {joypad} = this.props; 
+    const {joypad, handleJoystick} = this.props; 
 
     //clear canvas
     this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
@@ -35,14 +41,21 @@ export class VirtualJoystick extends Component {
     this.state.positionPad.x = joypad.positionJoystick.x - this.state.radius;
     this.state.positionPad.y = joypad.positionJoystick.y - this.state.radius;
 
-
+    const vx = this.state.positionPad.x - this.state.position.x ;
+    const vy =  this.state.position.y - this.state.positionPad.y  ;    
+    const lookAtMouseAngle = Math.atan2(vx, vy) * 180 / Math.PI;
 
     //if joypad is on than draw pivot pad
     if(joypad.on == true) {
         this.drawCircle();
         this.drawCircle2();
     }
-
+    
+    //update global state angle
+    if(this.state.angle != lookAtMouseAngle) {
+      this.state.angle = lookAtMouseAngle;
+      handleJoystick(lookAtMouseAngle);
+    }
   }
 
   //draw circle on minimap
