@@ -97,7 +97,7 @@ export default class Ship {
       this.HP = this.maxHP;
   }
 
-  accelerate(val) {
+  accelerate() {
     this.velocity.x -= Math.sin(-this.rotation * Math.PI / 180) * this.speed;
     this.velocity.y -= Math.cos(-this.rotation * Math.PI / 180) * this.speed;
 
@@ -163,9 +163,9 @@ export default class Ship {
     //get current time
     const timeNow = Date.now();
 
-    // Controls
+    //Controls using KEYBOARD
     if (state.keys.up) {
-      this.accelerate(1);
+      this.accelerate();
     }
     if (state.keys.left) {
       this.rotate('LEFT');
