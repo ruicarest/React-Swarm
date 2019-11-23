@@ -51,6 +51,7 @@ export class Swarm extends Component {
       },
       joypad: {
         on: false,
+        moving: false,
         positionPivot: {
           x: -1,
           y: -1,
@@ -163,6 +164,7 @@ export class Swarm extends Component {
       this.setState((prevState, props) => ({
         joypad: {
           ...prevState.joypad,
+          moving: true,
           positionJoystick: {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
@@ -191,6 +193,7 @@ export class Swarm extends Component {
         joypad: {
           ...prevState.joypad,
           on: false,
+          moving: false,
           positionPivot: {
             x: 0,
             y: 0

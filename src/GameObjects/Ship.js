@@ -33,7 +33,7 @@ export default class Ship {
     this.gettingHit = false;
     this.hitAngle = 0;
     this.toughness = 10;
-    this.HP = 100;
+    this.HP = 60;
 
     //map
     this.currentMap = args.currentMap;
@@ -182,7 +182,7 @@ export default class Ship {
     this.rotation = lookAtMouseAngle;
 
     //Controls using JOYPAD
-    if(state.joypad.on) {
+    if(state.joypad.on && state.joypad.moving) {
       this.rotation = state.joypad.angle;
       this.accelerate();
     }
