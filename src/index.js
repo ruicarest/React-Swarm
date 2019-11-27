@@ -3,4 +3,7 @@ import { render } from 'react-dom';
 import { Swarm } from './Swarm';
 import './style.css';
 
-render(<Swarm />, document.getElementById('root'));
+render(
+    <Swarm />, 
+    document.getElementById('root')
+    );

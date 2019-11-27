@@ -52,11 +52,11 @@ export class Swarm extends Component {
       joypad: {
         on: false,
         moving: false,
-        positionPivot: {
+        basePosition: {
           x: -1,
           y: -1,
         },
-        positionJoystick: {
+        stickPosition: {
           x: -1,
           y: -1,
         },
@@ -165,7 +165,7 @@ export class Swarm extends Component {
         joypad: {
           ...prevState.joypad,
           moving: true,
-          positionJoystick: {
+          stickPosition: {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
           }
@@ -177,11 +177,11 @@ export class Swarm extends Component {
         joypad: {
           ...prevState.joypad,
           on: true,
-          positionPivot: {
+          basePosition: {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
           },
-          positionJoystick: {
+          stickPosition: {
             x: e.touches[0].clientX,
             y: e.touches[0].clientY
           }
@@ -194,7 +194,7 @@ export class Swarm extends Component {
           ...prevState.joypad,
           on: false,
           moving: false,
-          positionPivot: {
+          basePosition: {
             x: 0,
             y: 0
           }

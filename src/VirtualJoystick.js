@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
 //TODO: REFACT THIS CLASS STATE AND DUPLICATED LOGIC
+// a joystick has a base and the stick, the base is fixed, the stick moves
 export class VirtualJoystick extends Component {
     state = {           //component state
-        position: {
+        basePosition: {
             x: -1,
             y: -1,
         },
-        positionPad: {
+        stickPosition: {
           x: -1,
           y: -1,
         },
@@ -35,14 +36,14 @@ export class VirtualJoystick extends Component {
     this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
     this.state.ctxPad.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
 
-    this.state.position.x = joypad.positionPivot.x - this.state.radius;
-    this.state.position.y = joypad.positionPivot.y - this.state.radius;
+    this.state.basePosition.x = joypad.basePosition.x - this.state.radius;
+    this.state.basePosition.y = joypad.basePosition.y - this.state.radius;
 
-    this.state.positionPad.x = joypad.positionJoystick.x - this.state.radius;
-    this.state.positionPad.y = joypad.positionJoystick.y - this.state.radius;
+    this.state.stickPosition.x = joypad.stickPosition.x - this.state.radius;
+    this.state.stickPosition.y = joypad.stickPosition.y - this.state.radius;
 
-    const vx = this.state.positionPad.x - this.state.position.x ;
-    const vy =  this.state.position.y - this.state.positionPad.y  ;    
+    const vx = this.state.stickPosition.x - this.state.basePosition.x ;
+    const vy =  this.state.basePosition.y - this.state.stickPosition.y  ;    
     const lookAtMouseAngle = Math.atan2(vx, vy) * 180 / Math.PI;
 
     //if joypad is on than draw pivot pad
@@ -100,8 +101,8 @@ export class VirtualJoystick extends Component {
 
     return (
       <div>
-        <canvas className="joystick" ref="joystick"  width = {this.state.radius*2} height = {this.state.radius*2} style={{left:this.state.position.x, top:this.state.position.y,position:'absolute', display: visible}} />
-        <canvas className="joystickPad" ref="joystickPad"  width = {this.state.radius*2} height = {this.state.radius*2} style={{left:this.state.positionPad.x, top:this.state.positionPad.y,position:'absolute', display: visible}} />
+        <canvas className="joystick" ref="joystick"  width = {this.state.radius*2} height = {this.state.radius*2} style={{left:this.state.basePosition.x, top:this.state.basePosition.y,position:'absolute', display: visible}} />
+        <canvas className="joystickPad" ref="joystickPad"  width = {this.state.radius*2} height = {this.state.radius*2} style={{left:this.state.stickPosition.x, top:this.state.stickPosition.y,position:'absolute', display: visible}} />
       </div>
     );
   }
