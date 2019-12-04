@@ -1,76 +1,76 @@
 body {
-    padding: 0;
-    margin: 0;
-    font-family: 'PT Mono', serif;
-    color: #ffffff;
-  }
+  padding: 0;
+  margin: 0;
+  font-family: "PT Mono", serif;
+  color: #ffffff;
+}
 
 .gameWindow {
-    display: block;
-    background: rgba(0, 0, 0, 0.4);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-  }
+  display: block;
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
 
-  .minimap {
-    display: block;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    width: 200px;
-    height: 150px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: white;
-    background: rgba(0, 0, 0, 0.8);
-  }
+.minimap {
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 200px;
+  height: 150px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  background: rgba(0, 0, 0, 0.8);
+}
 
-  .stats {
-    position: absolute;
-    z-index: 1;
-    top: 15px;
-    left: 1%;
-    font-size: 20px;
-  }
+.stats {
+  position: absolute;
+  z-index: 1;
+  top: 15px;
+  left: 1%;
+  font-size: 20px;
+}
 
-  .controls {
-    position: absolute;
-    display: block;
-    z-index: 1;
-    top: 15px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    text-align: center;
-    line-height: 1.6;
-    font-size: 12px;
-  }
+.controls {
+  position: absolute;
+  display: block;
+  z-index: 1;
+  top: 15px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  line-height: 1.6;
+  font-size: 12px;
+}
 
-  .endgame{
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    font-size: 60px;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
+.endgame {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  font-size: 60px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 
-  button{
-    border: 4px solid #ffffff;
-    background-color: transparent;
-    color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px;
-    margin: 10px;
-    font-family: 'PT Mono', serif;
-    cursor: pointer;
-  }
-  button:hover{
-    background-color: #ffffff;
-    color: #000000;
-  }
+button {
+  border: 4px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px;
+  font-family: "PT Mono", serif;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #ffffff;
+  color: #000000;
+}

@@ -1,19 +1,18 @@
-import { rotatePoint, randomNumBetween } from '../utils';
-import { drawMiniShip, drawBigShip, drawMediumShip } from '../enemiesDrawUtils';
-import Particle from './Particle';
-import Bullet from './Bullet';
-import {enemiesTypes} from '../configs/enemiesTypes.json';
+import { rotatePoint, randomNumBetween } from "../utils";
+import { drawMiniShip, drawBigShip, drawMediumShip } from "../enemiesDrawUtils";
+import Particle from "./Particle";
+import Bullet from "./Bullet";
+import { enemiesTypes } from "../configs/enemiesTypes.json";
 
 export default class Enemy {
   constructor(args) {
-
     this.stats = enemiesTypes[args.typeEnemy];
 
     this.position = args.position;
     this.velocity = {
       x: 0,
       y: 0
-    }
+    };
 
     this.type = "enemy";
     this.rotation = args.rotation;
@@ -34,13 +33,13 @@ export default class Enemy {
     this.HP = this.stats.HP;
     this.color = this.stats.color;
 
-    if(this.stats.type == 1) {
+    if (this.stats.type == 1) {
       this.draw = drawMiniShip.bind(this);
-    } else if(this.stats.type == 2) {
+    } else if (this.stats.type == 2) {
       this.draw = drawMediumShip.bind(this);
-    } else if(this.stats.type == 3) {
+    } else if (this.stats.type == 3) {
       this.draw = drawBigShip.bind(this);
-    } 
+    }
   }
 
   remove() {
@@ -56,20 +55,23 @@ export default class Enemy {
         lifeSpan: randomNumBetween(60, 100),
         size: randomNumBetween(1, 4),
         position: {
-          x: randomNumBetween(-this.radius / 4, this.radius / 4) + this.position.x,
-          y: randomNumBetween(-this.radius / 4, this.radius / 4) + this.position.y
+          x:
+            randomNumBetween(-this.radius / 4, this.radius / 4) +
+            this.position.x,
+          y:
+            randomNumBetween(-this.radius / 4, this.radius / 4) +
+            this.position.y
         },
         velocity: {
           x: randomNumBetween(-1.5, 1.5),
           y: randomNumBetween(-1.5, 1.5)
         }
       });
-      this.create(particle, 'particles');
+      this.create(particle, "particles");
     }
   }
 
   hit(damage) {
-
     if (Date.now() - this.T_lastHit > 100) {
       this.HP -= damage;
       this.T_lastHit = Date.now();
@@ -81,10 +83,10 @@ export default class Enemy {
   }
 
   rotate(dir) {
-    if (dir == 'LEFT') {
+    if (dir == "LEFT") {
       this.rotation -= this.rotationSpeed;
     }
-    if (dir == 'RIGHT') {
+    if (dir == "RIGHT") {
       this.rotation += this.rotationSpeed;
     }
   }
@@ -94,10 +96,9 @@ export default class Enemy {
   }
 
   render(state) {
-
-    if(state.reload == true) {
+    if (state.reload == true) {
       this.remove();
-      return
+      return;
     }
 
     const shipPos = state.ship.position;
@@ -128,27 +129,25 @@ export default class Enemy {
 
     //player ship on sight
     if (distance < this.sight && state.ship.HP > 0) {
-
       if (this.rotation > angle) {
-        if (lookingAtAngle < (angle - this.rotation)) {
-          this.rotate('RIGHT');
+        if (lookingAtAngle < angle - this.rotation) {
+          this.rotate("RIGHT");
+        } else {
+          this.rotate("LEFT");
         }
-        else {
-          this.rotate('LEFT');
-        }
-      }
-      else {
-        if (lookingAtAngle < (angle - this.rotation)) {
-          this.rotate('LEFT');
-        }
-        else {
-          this.rotate('RIGHT');
+      } else {
+        if (lookingAtAngle < angle - this.rotation) {
+          this.rotate("LEFT");
+        } else {
+          this.rotate("RIGHT");
         }
       }
 
       //TODO: fix enemy velocity
-      this.velocity.x = - Math.sin(-this.rotation * Math.PI / 180) * this.acceleration;
-      this.velocity.y = - Math.cos(-this.rotation * Math.PI / 180) * this.acceleration;
+      this.velocity.x =
+        -Math.sin((-this.rotation * Math.PI) / 180) * this.acceleration;
+      this.velocity.y =
+        -Math.cos((-this.rotation * Math.PI) / 180) * this.acceleration;
 
       //stop on certain range
       if (distance < 200) {
@@ -156,20 +155,21 @@ export default class Enemy {
       }
 
       //shoot if ready && if looking at player
-      if (Date.now() - this.T_lastShot > 1000 && 360 - lookingAtAngle < 10 ) {
+      if (Date.now() - this.T_lastShot > 1000 && 360 - lookingAtAngle < 10) {
         const bullet = new Bullet({
           ship: this,
           damage: this.damage,
           create: this.create.bind(this)
         });
-        this.create(bullet, 'enemyBullets');
+        this.create(bullet, "enemyBullets");
         this.T_lastShot = Date.now();
       }
-    }
-    else {
+    } else {
       //TODO: fix enemy velocity
-      this.velocity.x = - Math.sin(-this.rotation * Math.PI / 180) * this.acceleration;
-      this.velocity.y = - Math.cos(-this.rotation * Math.PI / 180) * this.acceleration;
+      this.velocity.x =
+        -Math.sin((-this.rotation * Math.PI) / 180) * this.acceleration;
+      this.velocity.y =
+        -Math.cos((-this.rotation * Math.PI) / 180) * this.acceleration;
     }
 
     // Move
@@ -179,14 +179,12 @@ export default class Enemy {
     // Screen edges
     if (this.position.x > state.map.width + this.radius) {
       this.position.x = -this.radius;
-    }
-    else if (this.position.x < -this.radius) {
+    } else if (this.position.x < -this.radius) {
       this.position.x = state.map.width + this.radius;
     }
     if (this.position.y > state.map.height + this.radius) {
       this.position.y = -this.radius;
-    }
-    else if (this.position.y < -this.radius) {
+    } else if (this.position.y < -this.radius) {
       this.position.y = state.map.height + this.radius;
     }
 
@@ -196,6 +194,5 @@ export default class Enemy {
 
     // Draw
     this.draw(state);
-
   }
 }

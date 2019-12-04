@@ -1,18 +1,18 @@
-import { asteroidVertices, randomNumBetween } from '../utils';
-import Particle from './Particle';
+import { asteroidVertices, randomNumBetween } from "../utils";
+import Particle from "./Particle";
 
 export default class Asteroid {
   constructor(args) {
     this.position = args.position;
     this.velocity = {
       x: randomNumBetween(-1, 1),
-      y: randomNumBetween(-1, 1),
+      y: randomNumBetween(-1, 1)
       // x: 0,
       // y: 0,
     };
     this.vertices = asteroidVertices(8, args.size);
     this.rotation = 0;
-    this.rotationSpeed = randomNumBetween(-1, 1)
+    this.rotationSpeed = randomNumBetween(-1, 1);
     this.radius = args.size;
     //this.score = (80/this.radius)*5;
     this.create = args.create;
@@ -35,8 +35,12 @@ export default class Asteroid {
         lifeSpan: randomNumBetween(2 * this.radius, 4 * this.radius),
         size: randomNumBetween(1, 3),
         position: {
-          x: randomNumBetween(-this.radius / 2, this.radius / 2) + this.position.x,
-          y: randomNumBetween(-this.radius / 2, this.radius / 2) + this.position.y
+          x:
+            randomNumBetween(-this.radius / 2, this.radius / 2) +
+            this.position.x,
+          y:
+            randomNumBetween(-this.radius / 2, this.radius / 2) +
+            this.position.y
         },
         velocity: {
           x: randomNumBetween(-1.5, 1.5),
@@ -44,7 +48,7 @@ export default class Asteroid {
         },
         create: this.create.bind(this)
       });
-      this.create(particle, 'particles');
+      this.create(particle, "particles");
     }
 
     //create children asteroids
@@ -53,12 +57,16 @@ export default class Asteroid {
         let asteroid = new Asteroid({
           size: this.radius / 2,
           position: {
-            x: randomNumBetween(-this.radius / 2, this.radius / 2) + this.position.x,
-            y: randomNumBetween(-this.radius / 2, this.radius / 2) + this.position.y
+            x:
+              randomNumBetween(-this.radius / 2, this.radius / 2) +
+              this.position.x,
+            y:
+              randomNumBetween(-this.radius / 2, this.radius / 2) +
+              this.position.y
           },
-          create: this.create.bind(this),
+          create: this.create.bind(this)
         });
-        this.create(asteroid, 'asteroids');
+        this.create(asteroid, "asteroids");
       }
     }
   }
@@ -78,10 +86,9 @@ export default class Asteroid {
   }
 
   render(state) {
-
-    if(state.reload == true) {
+    if (state.reload == true) {
       this.remove();
-      return
+      return;
     }
 
     // Move
@@ -100,14 +107,12 @@ export default class Asteroid {
     // Screen edges
     if (this.position.x > state.map.width + this.radius) {
       this.position.x = -this.radius;
-    }
-    else if (this.position.x < -this.radius) {
+    } else if (this.position.x < -this.radius) {
       this.position.x = state.map.width + this.radius;
     }
     if (this.position.y > state.map.height + this.radius) {
       this.position.y = -this.radius;
-    }
-    else if (this.position.y < -this.radius) {
+    } else if (this.position.y < -this.radius) {
       this.position.y = state.map.height + this.radius;
     }
 
@@ -115,8 +120,8 @@ export default class Asteroid {
     const context = state.context;
     context.save();
     context.translate(this.position.x, this.position.y);
-    context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = '#FFF';
+    context.rotate((this.rotation * Math.PI) / 180);
+    context.strokeStyle = "#FFF";
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -this.radius);

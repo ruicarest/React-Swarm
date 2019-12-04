@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import Ship from './GameObjects/Ship';
-import { Minimap } from './Minimap';
-import Asteroid from './GameObjects/Asteroid';
-import Pickable from './GameObjects/Pickable';
-import Enemy from './GameObjects/Enemy';
-import { maps } from './configs/maps.json';
-import { randomNumBetweenExcluding, randomNumBetween } from './utils';
-import { Background } from './Background';
-import { VirtualJoystick } from './VirtualJoystick';
+import React, { Component } from "react";
+import Ship from "./GameObjects/Ship";
+import { Minimap } from "./Minimap";
+import Asteroid from "./GameObjects/Asteroid";
+import Pickable from "./GameObjects/Pickable";
+import Enemy from "./GameObjects/Enemy";
+import { maps } from "./configs/maps.json";
+import { randomNumBetweenExcluding, randomNumBetween } from "./utils";
+import { Background } from "./Background";
+import { VirtualJoystick } from "./VirtualJoystick";
 
 const CFGS = {
-  TILE_SIZE: 64,
+  TILE_SIZE: 64
 };
 
 const KEY = {
@@ -54,22 +54,22 @@ export class Swarm extends Component {
         moving: false,
         basePosition: {
           x: -1,
-          y: -1,
+          y: -1
         },
         stickPosition: {
           x: -1,
-          y: -1,
+          y: -1
         },
-        angle: -1,
+        angle: -1
       },
       map: {
         width: CFGS.TILE_SIZE * this.MAP.width,
-        height: CFGS.TILE_SIZE * this.MAP.height,
+        height: CFGS.TILE_SIZE * this.MAP.height
       },
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1,
+        ratio: window.devicePixelRatio || 1
       },
       currentMap: this.currentMap,
       currentScore: 0,
@@ -90,13 +90,13 @@ export class Swarm extends Component {
           x: 0,
           y: 0
         },
-        HP: 0,
+        HP: 0
       },
       nearestEZT: {
         distance: 10000000,
-        ang: 0,
+        ang: 0
       }
-    }
+    };
 
     this.bullets = [];
     this.enemyBullets = [];
@@ -115,7 +115,9 @@ export class Swarm extends Component {
       screen: {
         width: this.refs.gameWindow.clientWidth,
         height: this.refs.gameWindow.clientHeight,
-        ratio: this.refs.gameWindow.clientWidth / this.refs.gameWindow.clientHeight || 1,
+        ratio:
+          this.refs.gameWindow.clientWidth /
+            this.refs.gameWindow.clientHeight || 1
       }
     });
   }
@@ -133,10 +135,10 @@ export class Swarm extends Component {
   }
 
   handleJoystick(padAngle) {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       joypad: {
         ...prevState.joypad,
-        angle: padAngle,
+        angle: padAngle
       }
     }));
   }
@@ -155,93 +157,108 @@ export class Swarm extends Component {
 
   componentDidMount() {
     //handle key events
-    window.addEventListener('keyup', this.handleKeys.bind(this, false));
-    window.addEventListener('keydown', this.handleKeys.bind(this, true));
-    window.addEventListener('resize', this.handleResize.bind(this, false));
+    window.addEventListener("keyup", this.handleKeys.bind(this, false));
+    window.addEventListener("keydown", this.handleKeys.bind(this, true));
+    window.addEventListener("resize", this.handleResize.bind(this, false));
 
     //handle touch events
-    this.refs.gameWindow.addEventListener("touchmove", function (e) {
-      this.setState((prevState, props) => ({
-        joypad: {
-          ...prevState.joypad,
-          moving: true,
-          stickPosition: {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
+    this.refs.gameWindow.addEventListener(
+      "touchmove",
+      function(e) {
+        this.setState((prevState, props) => ({
+          joypad: {
+            ...prevState.joypad,
+            moving: true,
+            stickPosition: {
+              x: e.touches[0].clientX,
+              y: e.touches[0].clientY
+            }
           }
-        }
-      }));
-    }.bind(this), false);
-    this.refs.gameWindow.addEventListener("touchstart", function (e) {
-      this.setState((prevState, props) => ({
-        joypad: {
-          ...prevState.joypad,
-          on: true,
-          basePosition: {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
-          },
-          stickPosition: {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
+        }));
+      }.bind(this),
+      false
+    );
+    this.refs.gameWindow.addEventListener(
+      "touchstart",
+      function(e) {
+        this.setState((prevState, props) => ({
+          joypad: {
+            ...prevState.joypad,
+            on: true,
+            basePosition: {
+              x: e.touches[0].clientX,
+              y: e.touches[0].clientY
+            },
+            stickPosition: {
+              x: e.touches[0].clientX,
+              y: e.touches[0].clientY
+            }
           }
-        }
-      }));
-    }.bind(this), false);
-    this.refs.gameWindow.addEventListener("touchend", function (e) {
-      this.setState((prevState, props) => ({
-        joypad: {
-          ...prevState.joypad,
-          on: false,
-          moving: false,
-          basePosition: {
-            x: 0,
-            y: 0
+        }));
+      }.bind(this),
+      false
+    );
+    this.refs.gameWindow.addEventListener(
+      "touchend",
+      function(e) {
+        this.setState((prevState, props) => ({
+          joypad: {
+            ...prevState.joypad,
+            on: false,
+            moving: false,
+            basePosition: {
+              x: 0,
+              y: 0
+            }
           }
-        }
-      }));
-    }.bind(this), false);
+        }));
+      }.bind(this),
+      false
+    );
 
     //handle mouse events
-    this.refs.gameWindow.addEventListener("mousemove", function (e) {
-      this.setState({
-        mouse: {
-          active: true,
-          position: {
-            x: e.clientX,
-            y: e.clientY
+    this.refs.gameWindow.addEventListener(
+      "mousemove",
+      function(e) {
+        this.setState({
+          mouse: {
+            active: true,
+            position: {
+              x: e.clientX,
+              y: e.clientY
+            }
           }
-        }
-      });
-    }.bind(this), false);
+        });
+      }.bind(this),
+      false
+    );
 
-    this.setState({ context: this.refs.gameWindow.getContext('2d') });
+    this.setState({ context: this.refs.gameWindow.getContext("2d") });
 
     this.startGame();
 
-    requestAnimationFrame(() => { this.update() });
+    requestAnimationFrame(() => {
+      this.update();
+    });
   }
 
-
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
   startGame() {
-
     //first ship
     if (!this.ship[0]) {
       // Make ship
       let ship = new Ship({
         position: {
           x: this.state.screen.width / 2,
-          y: this.state.screen.height / 2,
+          y: this.state.screen.height / 2
         },
         create: this.createObject.bind(this),
         onDie: this.gameOver.bind(this),
         updateShipState: this.updateShipState.bind(this),
         currentMap: this.state.currentMap
       });
-      this.createObject(ship, 'ship');
+      this.createObject(ship, "ship");
     }
     // Make asteroids
     this.asteroids = [];
@@ -263,19 +280,18 @@ export class Swarm extends Component {
     this.setState({
       inGame: true,
       currentScore: 0,
-      reload: false,
+      reload: false
     });
   }
 
   gameOver() {
     this.setState({
-      inGame: false,
+      inGame: false
     });
   }
 
   //load next map on maps array
   loadNextMap(next = -1) {
-
     //load next map
     if (next == -1) {
       if (this.currentMap + 1 == maps.length) {
@@ -294,12 +310,12 @@ export class Swarm extends Component {
     this.setState({
       map: {
         width: CFGS.TILE_SIZE * this.MAP.width,
-        height: CFGS.TILE_SIZE * this.MAP.height,
+        height: CFGS.TILE_SIZE * this.MAP.height
       },
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1,
+        ratio: window.devicePixelRatio || 1
       },
       currentMap: this.currentMap,
       currentScore: 0,
@@ -313,7 +329,7 @@ export class Swarm extends Component {
       reload: true,
       nearestEZT: {
         distance: 10000000,
-        ang: 0,
+        ang: 0
       }
     });
 
@@ -325,13 +341,23 @@ export class Swarm extends Component {
       let asteroid = new Asteroid({
         size: Math.floor(randomNumBetween(30, 80)),
         position: {
-          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          x: randomNumBetweenExcluding(
+            0,
+            this.state.map.width,
+            this.ship[0].position.x - 150,
+            this.ship[0].position.x + 150
+          ),
+          y: randomNumBetweenExcluding(
+            0,
+            this.state.map.height,
+            this.ship[0].position.y - 150,
+            this.ship[0].position.y + 150
+          )
         },
         create: this.createObject.bind(this),
         addScore: this.addScore.bind(this)
       });
-      this.createObject(asteroid, 'asteroids');
+      this.createObject(asteroid, "asteroids");
     }
   }
 
@@ -340,15 +366,25 @@ export class Swarm extends Component {
       let energy = new Pickable({
         size: 20,
         position: {
-          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          x: randomNumBetweenExcluding(
+            0,
+            this.state.map.width,
+            this.ship[0].position.x - 150,
+            this.ship[0].position.x + 150
+          ),
+          y: randomNumBetweenExcluding(
+            0,
+            this.state.map.height,
+            this.ship[0].position.y - 150,
+            this.ship[0].position.y + 150
+          )
         },
         action: () => {
           this.ship[0].addEnergy(25);
         },
-        color: '#901aeb'
+        color: "#901aeb"
       });
-      this.createObject(energy, 'energy');
+      this.createObject(energy, "energy");
     }
   }
 
@@ -356,19 +392,28 @@ export class Swarm extends Component {
     for (let i = 0; i < howMany; i++) {
       let EZT = new Pickable({
         size: 20,
-        color: '#34deeb',
+        color: "#34deeb",
         position: {
-          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          x: randomNumBetweenExcluding(
+            0,
+            this.state.map.width,
+            this.ship[0].position.x - 150,
+            this.ship[0].position.x + 150
+          ),
+          y: randomNumBetweenExcluding(
+            0,
+            this.state.map.height,
+            this.ship[0].position.y - 150,
+            this.ship[0].position.y + 150
+          )
         },
         action: () => {
           this.setState({
-            currentScore: this.state.currentScore + 1,
+            currentScore: this.state.currentScore + 1
           });
-          ;
         }
       });
-      this.createObject(EZT, 'EZT');
+      this.createObject(EZT, "EZT");
     }
   }
 
@@ -376,14 +421,24 @@ export class Swarm extends Component {
     for (let i = 0; i < howMany; i++) {
       let enemy = new Enemy({
         position: {
-          x: randomNumBetweenExcluding(0, this.state.map.width, this.ship[0].position.x - 150, this.ship[0].position.x + 150),
-          y: randomNumBetweenExcluding(0, this.state.map.height, this.ship[0].position.y - 150, this.ship[0].position.y + 150),
+          x: randomNumBetweenExcluding(
+            0,
+            this.state.map.width,
+            this.ship[0].position.x - 150,
+            this.ship[0].position.x + 150
+          ),
+          y: randomNumBetweenExcluding(
+            0,
+            this.state.map.height,
+            this.ship[0].position.y - 150,
+            this.ship[0].position.y + 150
+          )
         },
         rotation: randomNumBetween(0, 360),
         create: this.createObject.bind(this),
-        typeEnemy: type,
+        typeEnemy: type
       });
-      this.createObject(enemy, 'enemies');
+      this.createObject(enemy, "enemies");
     }
   }
 
@@ -417,7 +472,7 @@ export class Swarm extends Component {
   addScore(points) {
     if (this.state.inGame) {
       this.setState({
-        currentScore: this.state.currentScore + points,
+        currentScore: this.state.currentScore + points
       });
     }
   }
@@ -428,7 +483,7 @@ export class Swarm extends Component {
     context.translate(this.state.mouse.position.x, this.state.mouse.position.y);
     context.beginPath();
     context.arc(0, 0, 2, 0, 360);
-    context.strokeStyle = '#fcad03';
+    context.strokeStyle = "#fcad03";
     context.stroke();
     context.restore();
   }
@@ -459,14 +514,14 @@ export class Swarm extends Component {
     this.checkCollisionsWithEZT(this.ship, this.EZT);
 
     // Remove or render
-    this.updateObjects(this.ship, 'ship');
-    this.updateObjects(this.bullets, 'bullets');
-    this.updateObjects(this.enemyBullets, 'enemyBullets');
-    this.updateObjects(this.particles, 'particles');
-    this.updateObjects(this.energy, 'energy');
-    this.updateObjects(this.EZT, 'EZT');
-    this.updateObjects(this.enemies, 'enemies');
-    this.updateObjects(this.asteroids, 'asteroids');
+    this.updateObjects(this.ship, "ship");
+    this.updateObjects(this.bullets, "bullets");
+    this.updateObjects(this.enemyBullets, "enemyBullets");
+    this.updateObjects(this.particles, "particles");
+    this.updateObjects(this.energy, "energy");
+    this.updateObjects(this.EZT, "EZT");
+    this.updateObjects(this.enemies, "enemies");
+    this.updateObjects(this.asteroids, "asteroids");
 
     //Win conditions
     if (this.state.inGame && this.state.currentScore == this.state.EZTCount) {
@@ -477,7 +532,7 @@ export class Swarm extends Component {
       //remove current objects
       else {
         this.setState({
-          reload: true,
+          reload: true
         });
       }
     }
@@ -485,7 +540,9 @@ export class Swarm extends Component {
     context.restore();
 
     // Next frame
-    requestAnimationFrame(() => { this.update() });
+    requestAnimationFrame(() => {
+      this.update();
+    });
   }
 
   checkCollisionsWith(items1, items2) {
@@ -521,8 +578,7 @@ export class Swarm extends Component {
         if (collision.happened) {
           item1.hit(item2.toughness, collision.angle);
           item2.hit(item1.toughness, collision.angle);
-        }
-        else {
+        } else {
           if (minDistance > collision.distance) {
             this.setState({
               nearestEZT: {
@@ -541,19 +597,33 @@ export class Swarm extends Component {
   checkCollision(obj1, obj2) {
     let hitAngle = 0;
 
-    //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass 
+    //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass
     if (obj1.position.x < obj2.position.x) {
-      var vx = obj2.position.x - obj1.position.x < this.state.map.width - obj2.position.x + obj1.position.x ? - (obj2.position.x - obj1.position.x) : this.state.map.width - obj2.position.x + obj1.position.x;
-    }
-    else {
-      var vx = obj1.position.x - obj2.position.x < this.state.map.width - obj1.position.x + obj2.position.x ? obj1.position.x - obj2.position.x : this.state.map.width - obj1.position.x + obj2.position.x;
+      var vx =
+        obj2.position.x - obj1.position.x <
+        this.state.map.width - obj2.position.x + obj1.position.x
+          ? -(obj2.position.x - obj1.position.x)
+          : this.state.map.width - obj2.position.x + obj1.position.x;
+    } else {
+      var vx =
+        obj1.position.x - obj2.position.x <
+        this.state.map.width - obj1.position.x + obj2.position.x
+          ? obj1.position.x - obj2.position.x
+          : this.state.map.width - obj1.position.x + obj2.position.x;
     }
     //TODO: CHANGE THIS TO ANOTHER PLACE, complexity added it is only related to EZT compass
     if (obj1.position.y < obj2.position.y) {
-      var vy = obj2.position.y - obj1.position.x < this.state.map.height - obj2.position.y + obj1.position.y ? obj2.position.y - obj1.position.y : - (this.state.map.height - obj2.position.y + obj1.position.y);
-    }
-    else {
-      var vy = obj1.position.y - obj2.position.y < this.state.map.height - obj1.position.y + obj2.position.y ? - (obj1.position.y - obj2.position.y) : this.state.map.height - obj1.position.y + obj2.position.y;
+      var vy =
+        obj2.position.y - obj1.position.x <
+        this.state.map.height - obj2.position.y + obj1.position.y
+          ? obj2.position.y - obj1.position.y
+          : -(this.state.map.height - obj2.position.y + obj1.position.y);
+    } else {
+      var vy =
+        obj1.position.y - obj2.position.y <
+        this.state.map.height - obj1.position.y + obj2.position.y
+          ? -(obj1.position.y - obj2.position.y)
+          : this.state.map.height - obj1.position.y + obj2.position.y;
     }
 
     //TODO: GET THIS BACK, older version not considering EZT compass
@@ -568,7 +638,11 @@ export class Swarm extends Component {
     }
 
     //length^2 <= (object radius)^2
-    return ({ happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2), angle: hitAngle, distance: length });
+    return {
+      happened: length <= Math.pow(obj1.radius - 2 + obj2.radius - 2, 2),
+      angle: hitAngle,
+      distance: length
+    };
   }
 
   render() {
@@ -584,17 +658,13 @@ export class Swarm extends Component {
         <span className="endgame">
           <p>Game over</p>
           {/* TODO: set css for this */}
-          <button
-            onClick={this.loadNextMap.bind(this, this.state.currentMap)}>
+          <button onClick={this.loadNextMap.bind(this, this.state.currentMap)}>
             Restart Level {currentLevel + 1}
           </button>
           <br></br>
-          <button
-            onClick={this.loadNextMap.bind(this, 0)}>
-            New Game
-          </button>
+          <button onClick={this.loadNextMap.bind(this, 0)}>New Game</button>
         </span>
-      )
+      );
     }
 
     return (
@@ -608,11 +678,13 @@ export class Swarm extends Component {
           <span className="stats">
             {shipHP} HP <br />
             {EZT} EZT
-            </span>
+          </span>
           {endgame}
         </span>
 
-        <canvas className="gameWindow" ref="gameWindow"
+        <canvas
+          className="gameWindow"
+          ref="gameWindow"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />
@@ -622,8 +694,10 @@ export class Swarm extends Component {
             ></Background>
         </div> */}
 
-        <div key={"minimapdiv"} >
-          <Minimap key={"Minimap"} {...this.state}
+        <div key={"minimapdiv"}>
+          <Minimap
+            key={"Minimap"}
+            {...this.state}
             Ship={this.ship}
             Asteroids={this.asteroids}
             Energy={this.energy}
@@ -632,15 +706,14 @@ export class Swarm extends Component {
           ></Minimap>
         </div>
 
-        <div key={"virtualjoystickdiv"} >
-          <VirtualJoystick key={"VirtualJoystick"} {...this.state} 
-          handleJoystick={(state) => this.handleJoystick(state)}
+        <div key={"virtualjoystickdiv"}>
+          <VirtualJoystick
+            key={"VirtualJoystick"}
+            {...this.state}
+            handleJoystick={state => this.handleJoystick(state)}
           ></VirtualJoystick>
         </div>
-
       </div>
     );
   }
 }
-
-
