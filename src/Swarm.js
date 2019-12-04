@@ -440,10 +440,10 @@ export class Swarm extends Component {
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
     // Motion trail
-    context.fillStyle = 'rgba(0,0,0,0.5)';
-    context.globalAlpha = 0.8;
-    context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+    context.fillStyle = "rgba(0,0,0,0.5)";
     context.globalAlpha = 1;
+    context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+    context.globalAlpha = 0.8;
 
     this.drawMouse();
 
