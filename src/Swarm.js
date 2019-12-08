@@ -77,6 +77,11 @@ export class Swarm extends Component {
           x: -1,
           y: -1
         },
+        stickClickPosition: {
+          x: -1,
+          y: -1,
+          on: false
+        },
         angle: -1
       },
       map: {

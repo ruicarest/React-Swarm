@@ -142,6 +142,18 @@ export class VirtualJoystick extends Component {
             display: visible
           }}
         />
+        <canvas
+          className="joystickClick"
+          ref="joystickClick"
+          width={this.state.radius * 2}
+          height={this.state.radius * 2}
+          style={{
+            left: this.state.stickPosition.x,
+            top: this.state.stickPosition.y,
+            position: "absolute",
+            display: visible
+          }}
+        />
       </div>
     );
   };
