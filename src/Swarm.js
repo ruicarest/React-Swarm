@@ -187,53 +187,91 @@ export class Swarm extends Component {
     this.refs.gameWindow.addEventListener(
       "touchmove",
       function(e) {
-        this.setState((prevState, props) => ({
-          joypad: {
-            ...prevState.joypad,
-            moving: true,
-            stickPosition: {
-              x: e.touches[0].clientX,
-              y: e.touches[0].clientY
+        if (this.state.screen.width > e.touches[0].clientX * 2) {
+          this.setState((prevState, props) => ({
+            joypad: {
+              ...prevState.joypad,
+              moving: true,
+              stickPosition: {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+              }
             }
-          }
-        }));
+          }));
+        }
       }.bind(this),
       false
     );
     this.refs.gameWindow.addEventListener(
       "touchstart",
       function(e) {
-        this.setState((prevState, props) => ({
-          joypad: {
-            ...prevState.joypad,
-            on: true,
-            basePosition: {
-              x: e.touches[0].clientX,
-              y: e.touches[0].clientY
-            },
-            stickPosition: {
-              x: e.touches[0].clientX,
-              y: e.touches[0].clientY
+        const leftClick =
+          this.state.screen.width >
+          e.touches[e.changedTouches[0].identifier].clientX * 2;
+
+        const rightClick =
+          this.state.screen.width <
+          e.touches[e.changedTouches[0].identifier].clientX * 2;
+
+        //if (this.state.joypad.on != true) {
+        if (leftClick) {
+          this.setState((prevState, props) => ({
+            joypad: {
+              ...prevState.joypad,
+              on: true,
+              basePosition: {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+              },
+              stickPosition: {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+              }
             }
-          }
-        }));
+          }));
+        } else {
+          this.setState((prevState, props) => ({
+            joypad: {
+              ...prevState.joypad,
+              stickClickPosition: {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY,
+                on: true
+              }
+            }
+          }));
+        }
       }.bind(this),
       false
     );
     this.refs.gameWindow.addEventListener(
       "touchend",
       function(e) {
-        this.setState((prevState, props) => ({
-          joypad: {
-            ...prevState.joypad,
-            on: false,
-            moving: false,
-            basePosition: {
-              x: 0,
-              y: 0
+        if (this.state.screen.width > e.changedTouches[0].clientX * 2) {
+          console.log("Move touch end");
+          this.setState((prevState, props) => ({
+            joypad: {
+              ...prevState.joypad,
+              on: false,
+              moving: false,
+              basePosition: {
+                x: 0,
+                y: 0
+              }
             }
-          }
-        }));
+          }));
+        } else {
+          this.setState((prevState, props) => ({
+            joypad: {
+              ...prevState.joypad,
+              stickClickPosition: {
+                x: 0,
+                y: 0,
+                on: false
+              }
+            }
+          }));
+        }
       }.bind(this),
       false
     );
