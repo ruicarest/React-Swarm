@@ -220,12 +220,12 @@ export class Swarm extends Component {
               ...prevState.joypad,
               on: true,
               basePosition: {
-                x: e.touches[0].clientX,
-                y: e.touches[0].clientY
+                x: e.touches[e.changedTouches[0].identifier].clientX,
+                y: e.touches[e.changedTouches[0].identifier].clientY
               },
               stickPosition: {
-                x: e.touches[0].clientX,
-                y: e.touches[0].clientY
+                x: e.touches[e.changedTouches[0].identifier].clientX,
+                y: e.touches[e.changedTouches[0].identifier].clientY
               }
             }
           }));
