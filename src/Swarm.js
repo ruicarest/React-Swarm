@@ -209,9 +209,9 @@ export class Swarm extends Component {
           this.state.screen.width >
           e.touches[e.changedTouches[0].identifier].clientX * 2;
 
-        const rightClick =
+        /*         const rightClick =
           this.state.screen.width <
-          e.touches[e.changedTouches[0].identifier].clientX * 2;
+          e.touches[e.changedTouches[0].identifier].clientX * 2; */
 
         //if (this.state.joypad.on != true) {
         if (leftClick) {
@@ -247,8 +247,13 @@ export class Swarm extends Component {
     this.refs.gameWindow.addEventListener(
       "touchend",
       function(e) {
-        if (this.state.screen.width > e.changedTouches[0].clientX * 2) {
-          console.log("Move touch end");
+        const leftClick =
+          this.state.screen.width > e.changedTouches[0].clientX * 2;
+
+        /*         const rightClick =
+          this.state.screen.width < e.changedTouches[0].clientX * 2; */
+
+        if (leftClick) {
           this.setState((prevState, props) => ({
             joypad: {
               ...prevState.joypad,

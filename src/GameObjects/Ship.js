@@ -196,7 +196,10 @@ export default class Ship {
       this.create(mine, "bullets");
       this.T_lastMineDrop = timeNow;
     }
-    if (state.keys.space && timeNow - this.T_lastShot > 300) {
+    if (
+      (state.keys.space || state.joypad.stickClickPosition.on) &&
+      timeNow - this.T_lastShot > 300
+    ) {
       const bullet = new Bullet({
         ship: this,
         damage: 10,
