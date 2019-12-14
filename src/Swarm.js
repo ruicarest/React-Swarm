@@ -49,6 +49,8 @@ export class Swarm extends Component {
 
     this.MAP = maps[this.currentMap];
 
+    this.isMobileBrowser = window.mobilecheck();
+
     this.state = {
       context: null,
       keys: {
@@ -711,7 +713,7 @@ export class Swarm extends Component {
   }
 
   render() {
-    let endgame;
+    let endgame, minimap, joystick;
 
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
@@ -729,6 +731,28 @@ export class Swarm extends Component {
           <br></br>
           <button onClick={this.loadNextMap.bind(this, 0)}>New Game</button>
         </span>
+      );
+    }
+
+    if (!this.isMobileBrowser) {
+      minimap = (
+        <Minimap
+          key={"Minimap"}
+          {...this.state}
+          Ship={this.ship}
+          Asteroids={this.asteroids}
+          Energy={this.energy}
+          Enemies={this.enemies}
+          EZT={this.EZT}
+        ></Minimap>
+      );
+    } else {
+      joystick = (
+        <VirtualJoystick
+          key={"VirtualJoystick"}
+          {...this.state}
+          handleJoystick={state => this.handleJoystick(state)}
+        ></VirtualJoystick>
       );
     }
 
@@ -759,25 +783,8 @@ export class Swarm extends Component {
             ></Background>
         </div> */}
 
-        <div key={"minimapdiv"}>
-          <Minimap
-            key={"Minimap"}
-            {...this.state}
-            Ship={this.ship}
-            Asteroids={this.asteroids}
-            Energy={this.energy}
-            Enemies={this.enemies}
-            EZT={this.EZT}
-          ></Minimap>
-        </div>
-
-        <div key={"virtualjoystickdiv"}>
-          <VirtualJoystick
-            key={"VirtualJoystick"}
-            {...this.state}
-            handleJoystick={state => this.handleJoystick(state)}
-          ></VirtualJoystick>
-        </div>
+        <div key={"minimapdiv"}>{minimap}</div>
+        <div key={"virtualjoystickdiv"}>{joystick}</div>
       </div>
     );
   }
