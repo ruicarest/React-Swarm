@@ -621,6 +621,10 @@ export class Swarm extends Component {
         var item1 = items1[a];
         var item2 = items2[b];
 
+        if (item1.visible == false || item2.visible == false) {
+          continue;
+        }
+
         const collision = this.checkCollision(item1, item2);
         if (collision.happened) {
           item1.hit(item2.toughness, collision.angle);

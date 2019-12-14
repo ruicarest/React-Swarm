@@ -24,6 +24,8 @@ export default class Bullet {
     this.type = "bullet";
     this.isMainShip = args.isMainShip;
     this.toughness = args.damage;
+
+    this.visible = true;
   }
 
   //leaving map borders
