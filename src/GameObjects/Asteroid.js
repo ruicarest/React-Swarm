@@ -22,7 +22,7 @@ export default class Asteroid {
 
     this.toughness = Math.floor(args.size / 10);
     this.HP = args.size;
-
+    this.visible = true;
     this.T_lastHit = 0;
   }
 
@@ -114,6 +114,17 @@ export default class Asteroid {
       this.position.y = -this.radius;
     } else if (this.position.y < -this.radius) {
       this.position.y = state.map.height + this.radius;
+    }
+
+    if (
+      this.position.x < 0 ||
+      this.position.x > state.screen.width ||
+      this.position.y < 0 ||
+      this.position.y > state.screen.height
+    ) {
+      this.visible = false;
+    } else {
+      this.visible = true;
     }
 
     // Draw

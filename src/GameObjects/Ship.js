@@ -17,7 +17,7 @@ export default class Ship {
     this.speed = 0.15;
     this.inertia = 0.99;
     this.radius = 20;
-
+    this.visible = true;
     //Timers
     this.T_lastShot = 0;
     this.T_lastMineDrop = 0;

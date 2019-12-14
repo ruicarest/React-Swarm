@@ -28,6 +28,8 @@ export default class Enemy {
     this.damage = this.stats.damage;
     this.create = args.create;
 
+    this.visible = true;
+
     this.gettingHit = false;
     this.toughness = this.stats.toughness;
     this.HP = this.stats.HP;
@@ -110,25 +112,25 @@ export default class Enemy {
     //calc distance to ship
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    //angle to player ship
-    let angle = Math.floor(Math.atan2(dy, dx) * (180 / Math.PI) - 90);
-
-    //handle angle limits
-    if (angle < 0) {
-      angle = 360 + angle;
-    }
-    if (this.rotation >= 360) {
-      this.rotation -= 360;
-    }
-    if (this.rotation < 0) {
-      this.rotation += 360;
-    }
-
-    //if around 360 then is looking at player
-    let lookingAtAngle = 360 - Math.abs(this.rotation - angle);
-
     //player ship on sight
     if (distance < this.sight && state.ship.HP > 0) {
+      //angle to player ship
+      let angle = Math.floor(Math.atan2(dy, dx) * (180 / Math.PI) - 90);
+
+      //handle angle limits
+      if (angle < 0) {
+        angle = 360 + angle;
+      }
+      if (this.rotation >= 360) {
+        this.rotation -= 360;
+      }
+      if (this.rotation < 0) {
+        this.rotation += 360;
+      }
+
+      //if around 360 then is looking at player
+      let lookingAtAngle = 360 - Math.abs(this.rotation - angle);
+
       if (this.rotation > angle) {
         if (lookingAtAngle < angle - this.rotation) {
           this.rotate("RIGHT");
@@ -186,6 +188,17 @@ export default class Enemy {
       this.position.y = -this.radius;
     } else if (this.position.y < -this.radius) {
       this.position.y = state.map.height + this.radius;
+    }
+
+    if (
+      this.position.x < 0 ||
+      this.position.x > state.screen.width ||
+      this.position.y < 0 ||
+      this.position.y > state.screen.height
+    ) {
+      this.visible = false;
+    } else {
+      this.visible = true;
     }
 
     if (this.gettingHit && Date.now() - this.T_lastHit > 100) {

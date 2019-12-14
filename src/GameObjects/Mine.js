@@ -17,7 +17,7 @@ export default class Mine {
 
     this.radius = args.size;
     this.inertia = 0.99;
-
+    this.visible = true;
     this.type = "bullet";
     this.toughness = args.damage;
     this.exploded = false;
@@ -83,6 +83,17 @@ export default class Mine {
       this.position.y = -this.radius;
     } else if (this.position.y < -this.radius) {
       this.position.y = state.map.height + this.radius;
+    }
+
+    if (
+      this.position.x < 0 ||
+      this.position.x > state.screen.width ||
+      this.position.y < 0 ||
+      this.position.y > state.screen.height
+    ) {
+      this.visible = false;
+    } else {
+      this.visible = true;
     }
 
     //explode mine
