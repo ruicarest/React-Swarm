@@ -8,6 +8,7 @@ import { maps } from "../../configs/maps.json";
 import { randomNumBetweenExcluding, randomNumBetween } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
+import "./Swarm.css";
 
 const CFGS = {
   TILE_SIZE: 64
@@ -761,7 +762,7 @@ export class Swarm extends Component {
     }
 
     return (
-      <div key={"app"}>
+      <div className="app">
         <span className="UI">
           <span className="controls">
             Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
