@@ -1,5 +1,9 @@
-import { rotatePoint, randomNumBetween } from "../utils";
-import { drawMiniShip, drawBigShip, drawMediumShip } from "../enemiesDrawUtils";
+import { rotatePoint, randomNumBetween } from "../Utils/utils";
+import {
+  drawMiniShip,
+  drawBigShip,
+  drawMediumShip
+} from "../Utils/enemiesDrawUtils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import { enemiesTypes } from "../configs/enemiesTypes.json";

@@ -1,4 +1,4 @@
-import { asteroidVertices, randomNumBetween } from "../utils";
+import { asteroidVertices, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 
 export default class Asteroid {

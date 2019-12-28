@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Ship from "./GameObjects/Ship";
-import { Minimap } from "./Minimap";
-import Asteroid from "./GameObjects/Asteroid";
-import Pickable from "./GameObjects/Pickable";
-import Enemy from "./GameObjects/Enemy";
-import { maps } from "./configs/maps.json";
-import { randomNumBetweenExcluding, randomNumBetween } from "./utils";
-import { Background } from "./Background";
-import { VirtualJoystick } from "./VirtualJoystick";
+import Ship from "../../GameObjects/Ship";
+import { Minimap } from "../Minimap/Minimap";
+import Asteroid from "../../GameObjects/Asteroid";
+import Pickable from "../../GameObjects/Pickable";
+import Enemy from "../../GameObjects/Enemy";
+import { maps } from "../../configs/maps.json";
+import { randomNumBetweenExcluding, randomNumBetween } from "../../Utils/utils";
+import { Background } from "../Background/Background";
+import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
 
 const CFGS = {
   TILE_SIZE: 64

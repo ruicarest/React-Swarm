@@ -1,5 +1,5 @@
 import Particle from "./Particle";
-import { randomNumBetween } from "../utils";
+import { randomNumBetween } from "../Utils/utils";
 
 export default class Mine {
   constructor(args) {

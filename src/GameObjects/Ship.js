@@ -1,4 +1,4 @@
-import { rotatePoint, randomNumBetween } from "../utils";
+import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
