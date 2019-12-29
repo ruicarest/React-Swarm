@@ -1,20 +1,31 @@
 {
   "maps": [
-  {
-  "width": 30,
-  "height": 18,
-  "asteroids": 10,
-  "energy": 5,
-  "enemies": [5, 3, 4],
-  "EZT": 1
-  },
-  {
-  "width": 60,
-  "height": 36,
-  "asteroids": 32,
-  "energy": 10,
-  "enemies": [10, 2, 1],
-  "EZT": 1
-  }
+    {
+      "width": 40,
+      "height": 24,
+      "asteroids": 10,
+      "energy": 1,
+      "enemies": [0, 4, 1],
+      "EZT": 3,
+      "Description": "Commander, we need to catch all EZTs."
+    },
+    {
+      "width": 40,
+      "height": 24,
+      "asteroids": 20,
+      "energy": 2,
+      "enemies": [4, 2, 1],
+      "EZT": 4,
+      "Description": "Commander, we need to catch all EZTs."
+    },
+    {
+      "width": 60,
+      "height": 36,
+      "asteroids": 35,
+      "energy": 3,
+      "enemies": [10, 5, 4],
+      "EZT": 5,
+      "Description": "Commander, we need to catch all EZTs."
+    }
   ]
 }
