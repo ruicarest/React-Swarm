@@ -39,6 +39,15 @@
   font-size: 20px;
 }
 
+#hpBar {
+  display: block;
+  position: absolute;
+  background: #901aeb;
+  height: 1%;
+  top: 0%;
+  left: 0%;
+}
+
 .controls {
   position: absolute;
   display: block;

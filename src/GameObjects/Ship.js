@@ -32,7 +32,7 @@ export default class Ship {
     this.gettingHit = false;
     this.hitAngle = 0;
     this.toughness = 10;
-    this.HP = 60;
+    this.HP = 100;
 
     //map
     this.currentMap = args.currentMap;

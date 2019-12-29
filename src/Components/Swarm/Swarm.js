@@ -722,6 +722,7 @@ export class Swarm extends Component {
 
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
+    const shipMaxHP = this.state.inGame ? this.ship[0].maxHP : 1;
     const EZT = this.state.inGame ? this.state.currentScore : 0;
     const currentLevel = this.state.currentMap;
 
@@ -770,8 +771,7 @@ export class Swarm extends Component {
             LEVEL {currentLevel + 1}
           </span>
           <span className="stats">
-            {shipHP} HP <br />
-            {EZT} EZT
+            {EZT}/{this.state.EZTCount} EZT
           </span>
           {endgame}
         </span>
@@ -789,6 +789,10 @@ export class Swarm extends Component {
         </div> */}
 
         <div key={"minimapdiv"}>{minimap}</div>
+        <div
+          id="hpBar"
+          style={{ width: (shipHP / shipMaxHP) * 100 + "%" }}
+        ></div>
         <div key={"virtualjoystickdiv"}>{joystick}</div>
       </div>
     );
