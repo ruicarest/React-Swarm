@@ -1,37 +1,37 @@
 {
-    "enemiesTypes": [
+  "enemiesTypes": [
     {
-        "type": 2,
-        "HP": 20,
-        "toughness": 10,
-        "radius": 20,
-        "sight": 500,
-        "color": "#DD0000",
-        "rotationSpeed": 6,
-        "damage": 10,
-        "acceleration": 2
+      "type": 1,
+      "HP": 5,
+      "toughness": 5,
+      "radius": 20,
+      "sight": 500,
+      "color": "#ff0000",
+      "rotationSpeed": 10,
+      "damage": 3,
+      "acceleration": 4
     },
     {
-        "type": 3,
-        "HP": 30,
-        "toughness": 20,
-        "radius": 40,
-        "sight": 500,
-        "color": "#AA0000",
-        "rotationSpeed": 2,
-        "damage": 20,
-        "acceleration": 2
+      "type": 2,
+      "HP": 20,
+      "toughness": 10,
+      "radius": 20,
+      "sight": 400,
+      "color": "#DD0000",
+      "rotationSpeed": 6,
+      "damage": 10,
+      "acceleration": 2
     },
     {
-        "type": 1,
-        "HP": 5,
-        "toughness": 5,
-        "radius": 20,
-        "sight": 800,
-        "color": "#ff0000",
-        "rotationSpeed": 10,
-        "damage": 3,
-        "acceleration": 4
+      "type": 3,
+      "HP": 30,
+      "toughness": 20,
+      "radius": 40,
+      "sight": 400,
+      "color": "#AA0000",
+      "rotationSpeed": 2,
+      "damage": 20,
+      "acceleration": 2
     }
-    ]
-  }
+  ]
+}
