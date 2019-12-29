@@ -36,6 +36,12 @@ export default class Ship {
 
     //map
     this.currentMap = args.currentMap;
+
+    //mouse
+    this.mouseLastPosition = {
+      x: 0,
+      y: 0
+    };
   }
 
   destroy() {
@@ -172,12 +178,19 @@ export default class Ship {
       this.rotate("RIGHT");
     }
 
-    //TODO: ADD CONDITION TO USE MOUSE OR KEYBOARD
     //Controls using MOUSE
-    const vx = state.mouse.position.x - this.position.x;
-    const vy = this.position.y - state.mouse.position.y;
-    const lookAtMouseAngle = (Math.atan2(vx, vy) * 180) / Math.PI;
-    this.rotation = lookAtMouseAngle;
+    if (
+      this.mouseLastPosition.x != state.mouse.position.x ||
+      this.mouseLastPosition.y != state.mouse.position.y
+    ) {
+      const vx = state.mouse.position.x - this.position.x;
+      const vy = this.position.y - state.mouse.position.y;
+      const lookAtMouseAngle = (Math.atan2(vx, vy) * 180) / Math.PI;
+      this.rotation = lookAtMouseAngle;
+
+      this.mouseLastPosition.x = state.mouse.position.x;
+      this.mouseLastPosition.y = state.mouse.position.y;
+    }
 
     //Controls using JOYPAD
     if (state.joypad.on && state.joypad.moving) {
