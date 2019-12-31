@@ -94,7 +94,7 @@ export class Swarm extends Component {
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1
+        ratio: window.innerWidth / window.innerHeight || 1
       },
       currentMap: this.currentMap,
       currentScore: 0,
@@ -383,7 +383,7 @@ export class Swarm extends Component {
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1
+        ratio: window.innerWidth / window.innerHeight || 1
       },
       currentMap: this.currentMap,
       currentScore: 0,
