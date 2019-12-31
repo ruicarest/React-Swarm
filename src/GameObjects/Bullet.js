@@ -28,6 +28,11 @@ export default class Bullet {
     this.visible = true;
   }
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   //leaving map borders
   remove() {
     this.delete = true;

@@ -136,6 +136,13 @@ export class Swarm extends Component {
   }
 
   handleResize(value, e) {
+    let offset = {
+      x: this.refs.gameWindow.clientWidth / 2 - this.state.screen.width / 2,
+      y: this.refs.gameWindow.clientHeight / 2 - this.state.screen.height / 2
+    };
+
+    this.updateObjectsPosition(offset);
+
     this.setState({
       screen: {
         width: this.refs.gameWindow.clientWidth,
@@ -554,6 +561,25 @@ export class Swarm extends Component {
     context.strokeStyle = "#fcad03";
     context.stroke();
     context.restore();
+  }
+
+  updateObjectsPosition(offset) {
+    this.updateObjectPosition(this.ship, offset);
+    this.updateObjectPosition(this.bullets, offset);
+    this.updateObjectPosition(this.enemyBullets, offset);
+    this.updateObjectPosition(this.particles, offset);
+    this.updateObjectPosition(this.energy, offset);
+    this.updateObjectPosition(this.EZT, offset);
+    this.updateObjectPosition(this.enemies, offset);
+    this.updateObjectPosition(this.asteroids, offset);
+  }
+
+  updateObjectPosition(items, offset) {
+    let index = 0;
+    for (let item of items) {
+      items[index].updatePosition(offset);
+      index++;
+    }
   }
 
   update() {

@@ -31,6 +31,11 @@ export default class Mine {
 
   destroy() {}
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   hit() {
     this.explode();
   }

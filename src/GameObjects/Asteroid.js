@@ -26,6 +26,11 @@ export default class Asteroid {
     this.T_lastHit = 0;
   }
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   destroy() {
     this.delete = true;
 

@@ -44,6 +44,11 @@ export default class Ship {
     };
   }
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   destroy() {
     this.delete = true;
     this.onDie();

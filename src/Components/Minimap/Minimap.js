@@ -24,6 +24,10 @@ export class Minimap extends Component {
   componentDidUpdate = () => {
     const { Asteroids, Ship, Energy, Enemies, EZT } = this.props;
 
+    //TODO: Resize -> add resize prop on parent to flag a resize
+    if (Ship[0]) {
+      this.calcCenteringFactor(Ship[0].position);
+    }
     //TODO: move this from here please!
     if (this.firstUpdate == true) {
       //calc ship centering factor

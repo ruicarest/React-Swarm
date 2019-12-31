@@ -48,6 +48,11 @@ export default class Enemy {
     }
   }
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   remove() {
     this.delete = true;
   }

@@ -15,6 +15,11 @@ export default class Pickable {
     this.visible = true;
   }
 
+  updatePosition(offset) {
+    this.position.x += offset.x;
+    this.position.y += offset.y;
+  }
+
   destroy() {
     this.action();
     this.delete = true;
