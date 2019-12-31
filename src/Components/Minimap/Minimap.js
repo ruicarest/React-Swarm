@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export class Minimap extends Component {
-
-  state = {};          //component state
-  centeringFactor = {  //ship center position correction factor
+  state = {}; //component state
+  centeringFactor = {
+    //ship center position correction factor
     x: 0,
     y: 0
   };
-  firstUpdate = true; // first update flag 
-  scale = null;        //minimap scale
+  firstUpdate = true; // first update flag
+  scale = null; //minimap scale
   currentMap = this.props.currentMap;
 
   componentDidMount = () => {
     //load minimapScale
     this.scale = this.props.minimapScale;
     //get minimap canvas context
-    this.state.ctx = this.refs.minimap.getContext('2d');
+    this.state.ctx = this.refs.minimap.getContext("2d");
     //calc canvas size
     this.state.ctx.canvas.width = this.props.map.width / this.scale;
     this.state.ctx.canvas.height = this.props.map.height / this.scale;
-  }
+  };
 
   componentDidUpdate = () => {
     const { Asteroids, Ship, Energy, Enemies, EZT } = this.props;
@@ -36,7 +36,7 @@ export class Minimap extends Component {
     }
 
     //map changed
-    if(this.currentMap != this.props.currentMap) {
+    if (this.currentMap != this.props.currentMap) {
       //update minimap scale
       this.state.ctx.canvas.width = this.props.map.width / this.scale;
       this.state.ctx.canvas.height = this.props.map.height / this.scale;
@@ -47,16 +47,21 @@ export class Minimap extends Component {
     }
 
     //clear canvas
-    this.state.ctx.clearRect(0, 0, this.state.ctx.canvas.width, this.state.ctx.canvas.height);
+    this.state.ctx.clearRect(
+      0,
+      0,
+      this.state.ctx.canvas.width,
+      this.state.ctx.canvas.height
+    );
 
     //draw asteroids on minimap
     Asteroids.forEach(asteroid => {
-      this.drawOnMinimap(asteroid.position, '#ffffff', asteroid.radius);
+      this.drawOnMinimap(asteroid.position, "#ffffff", asteroid.radius);
     });
 
     //draw ship on minimap
     Ship.forEach(ship => {
-      this.drawOnMinimap(ship.position, '#f2aab4', ship.radius);
+      this.drawOnMinimap(ship.position, "#f2aab4", ship.radius);
     });
 
     //draw energy on minimap
@@ -66,14 +71,14 @@ export class Minimap extends Component {
 
     //draw enemies on minimap
     Enemies.forEach(enemy => {
-      this.drawOnMinimap(enemy.position, '#FF0000', enemy.radius);
+      this.drawOnMinimap(enemy.position, "#FF0000", enemy.radius);
     });
 
     //draw ezt on minimap
     EZT.forEach(ezt => {
       this.drawOnMinimap(ezt.position, ezt.color, ezt.radius);
     });
-  }
+  };
 
   //draw circle on minimap
   drawCircle = (x, y, colour, radius) => {
@@ -86,16 +91,17 @@ export class Minimap extends Component {
     this.state.ctx.fill();
     this.state.ctx.stroke();
     this.state.ctx.restore();
-  }
+  };
 
   //called once
-  calcCenteringFactor = (shipPos) => {
-    this.centeringFactor.x = this.state.ctx.canvas.width / 2 - shipPos.x / this.scale;
-    this.centeringFactor.y = this.state.ctx.canvas.height / 2 - shipPos.y / this.scale;
-  }
+  calcCenteringFactor = shipPos => {
+    this.centeringFactor.x =
+      this.state.ctx.canvas.width / 2 - shipPos.x / this.scale;
+    this.centeringFactor.y =
+      this.state.ctx.canvas.height / 2 - shipPos.y / this.scale;
+  };
 
   drawOnMinimap = (currPos, colour, radiusRaw) => {
-
     //object radius
     let radius = radiusRaw / this.scale;
 
@@ -113,11 +119,9 @@ export class Minimap extends Component {
 
     //draw circles on minimap
     this.drawCircle(xPos, yPos, colour, radius);
-  }
+  };
 
-  update = () => {
-
-  }
+  update = () => {};
 
   render = () => {
     return (
@@ -125,6 +129,5 @@ export class Minimap extends Component {
         <canvas className="minimap" ref="minimap" />
       </div>
     );
-  }
-
+  };
 }
