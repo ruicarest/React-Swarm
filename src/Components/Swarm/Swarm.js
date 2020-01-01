@@ -744,7 +744,7 @@ export class Swarm extends Component {
   }
 
   render() {
-    let endgame, minimap, joystick;
+    let endgame, minimap, joystick, controls;
 
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
@@ -778,6 +778,14 @@ export class Swarm extends Component {
           EZT={this.EZT}
         ></Minimap>
       );
+
+      controls = (
+        <span className="controls">
+          Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
+          Use [SPACE] to SHOOT & [Q] to MINE <br />
+          LEVEL {currentLevel + 1}
+        </span>
+      );
     } else {
       joystick = (
         <VirtualJoystick
@@ -786,16 +794,19 @@ export class Swarm extends Component {
           handleJoystick={state => this.handleJoystick(state)}
         ></VirtualJoystick>
       );
+
+      controls = (
+        <span className="controls">
+          Left thumb to move & right to shoot <br />
+          LEVEL {currentLevel + 1}
+        </span>
+      );
     }
 
     return (
       <div className="app">
         <span className="UI">
-          <span className="controls">
-            Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
-            Use [SPACE] to SHOOT & [Q] to MINE <br />
-            LEVEL {currentLevel + 1}
-          </span>
+          {controls}
           <span className="stats">
             {EZT}/{this.state.EZTCount} EZT
           </span>
