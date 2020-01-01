@@ -1,0 +1,28 @@
+{
+  "bulletTypes": [
+    {
+      "type": "normal",
+      "toughness": 10,
+      "color": "#FFF",
+      "velocity": 10,
+      "bullets": 1,
+      "duration": -1
+    },
+    {
+      "type": "doubled",
+      "toughness": 50,
+      "color": "#FFF",
+      "velocity": 10,
+      "bullets": 2,
+      "duration": -1
+    },
+    {
+      "type": "spray",
+      "toughness": 5,
+      "color": "#FFF",
+      "velocity": 10,
+      "bullets": 5,
+      "duration": 100
+    }
+  ]
+}
