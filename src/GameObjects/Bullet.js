@@ -1,31 +1,37 @@
 import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
+import bulletTypes from "../configs/bulletTypes.json";
 
 export default class Bullet {
   constructor(args) {
+    let { ship, bulletType, create, damage, isMainShip } = args;
+
+    //general stats
+    this.rotation = ship.rotation;
+    this.create = create;
+    this.isMainShip = isMainShip ? isMainShip : false;
+    this.type = "bullet";
+    this.visible = true;
+    //bullet position in front of the ship
     let posDelta = rotatePoint(
       { x: 0, y: -20 },
       { x: 0, y: 0 },
-      (args.ship.rotation * Math.PI) / 180
+      (this.rotation * Math.PI) / 180
     );
+    //bullet position in space
     this.position = {
-      x: args.ship.position.x + posDelta.x,
-      y: args.ship.position.y + posDelta.y
+      x: ship.position.x + posDelta.x,
+      y: ship.position.y + posDelta.y
     };
-    this.rotation = args.ship.rotation;
+    //bullet velocity in space
     this.velocity = {
-      x: posDelta.x / 4,
-      y: posDelta.y / 4
+      x: posDelta.x * bulletTypes.types[bulletType].velocity,
+      y: posDelta.y * bulletTypes.types[bulletType].velocity
     };
-
-    this.create = args.create;
-    this.radius = 1;
-
-    this.type = "bullet";
-    this.isMainShip = args.isMainShip;
-    this.toughness = args.damage;
-
-    this.visible = true;
+    //bullet type stats
+    this.toughness = damage ? damage : bulletTypes.types[bulletType].toughness;
+    this.color = bulletTypes.types[bulletType].color;
+    this.radius = bulletTypes.types[bulletType].radio;
   }
 
   updatePosition(offset) {

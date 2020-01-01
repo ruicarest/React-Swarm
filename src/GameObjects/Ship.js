@@ -2,6 +2,7 @@ import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
+import bulletTypes from "../configs/bulletTypes.json";
 
 export default class Ship {
   constructor(args) {
@@ -182,7 +183,6 @@ export default class Ship {
     if (state.keys.right) {
       this.rotate("RIGHT");
     }
-
     //Controls using MOUSE
     if (
       this.mouseLastPosition.x != state.mouse.position.x ||
@@ -196,13 +196,13 @@ export default class Ship {
       this.mouseLastPosition.x = state.mouse.position.x;
       this.mouseLastPosition.y = state.mouse.position.y;
     }
-
     //Controls using JOYPAD
     if (state.joypad.on && state.joypad.moving) {
       this.rotation = state.joypad.angle;
       this.accelerate();
     }
 
+    //Drop mine
     if (state.keys.mine && timeNow - this.T_lastMineDrop > 500) {
       const mine = new Mine({
         position: this.position,
@@ -214,13 +214,14 @@ export default class Ship {
       this.create(mine, "bullets");
       this.T_lastMineDrop = timeNow;
     }
+    //Shoot
     if (
       (state.keys.space || state.joypad.stickClickPosition.on) &&
       timeNow - this.T_lastShot > 300
     ) {
       const bullet = new Bullet({
         ship: this,
-        damage: 10,
+        bulletType: bulletTypes.normal,
         create: this.create.bind(this),
         isMainShip: true
       });
