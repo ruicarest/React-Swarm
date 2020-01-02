@@ -1,6 +1,7 @@
 import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import bulletTypes from "../configs/bulletTypes.json";
+import * as bulletDrawUtils from "../Utils/bulletDrawUtils.js";
 
 export default class Bullet {
   constructor(args) {
@@ -32,6 +33,13 @@ export default class Bullet {
     this.toughness = damage ? damage : bulletTypes.types[bulletType].toughness;
     this.color = bulletTypes.types[bulletType].color;
     this.radius = bulletTypes.types[bulletType].radio;
+    this.bulletType = bulletType;
+
+    if (this.bulletType == bulletTypes.doubled) {
+      this.drawBullet = bulletDrawUtils.drawDoubledBullet;
+    } else {
+      this.drawBullet = bulletDrawUtils.drawNormalBullet;
+    }
   }
 
   updatePosition(offset) {
@@ -99,16 +107,6 @@ export default class Bullet {
     }
 
     // Draw
-    const context = state.context;
-    context.save();
-    context.translate(this.position.x, this.position.y);
-    context.rotate((this.rotation * Math.PI) / 180);
-    context.fillStyle = "#FFF";
-    context.lineWidth = 0.5;
-    context.beginPath();
-    context.arc(0, 0, 2, 0, 2 * Math.PI);
-    context.closePath();
-    context.fill();
-    context.restore();
+    this.drawBullet(state.context, this.position, this.rotation, this.color);
   }
 }
