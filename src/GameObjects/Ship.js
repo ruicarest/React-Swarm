@@ -2,15 +2,23 @@ import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
-import bulletTypes from "../configs/bulletTypes.json";
+
+const BULLETTYPES = {
+  NORMAL: 0,
+  DOUBLED: 1,
+  SPRAY: 2
+};
 
 export default class Ship {
   constructor(args) {
-    this.position = args.position;
+    let { onDie, create, updateShipState, currentMap, position } = args;
+
+    this.position = position;
     this.velocity = {
       x: 0,
       y: 0
     };
+    this.visible = true;
 
     this.type = "ship";
     this.rotation = 0;
@@ -18,25 +26,27 @@ export default class Ship {
     this.speed = 0.15;
     this.inertia = 0.99;
     this.radius = 20;
-    this.visible = true;
+
     //Timers
     this.T_lastShot = 0;
     this.T_lastMineDrop = 0;
     this.T_lastHit = 0;
 
-    this.create = args.create;
-    this.onDie = args.onDie;
-    this.updateShipState = args.updateShipState;
+    this.create = create;
+    this.onDie = onDie;
+    this.updateShipState = updateShipState;
 
     this.maxHP = 100;
 
     this.gettingHit = false;
     this.hitAngle = 0;
+    //Stats
     this.toughness = 10;
     this.HP = 100;
+    this.currentBulletType = BULLETTYPES.DOUBLED;
 
     //map
-    this.currentMap = args.currentMap;
+    this.currentMap = currentMap;
 
     //mouse
     this.mouseLastPosition = {
@@ -219,13 +229,38 @@ export default class Ship {
       (state.keys.space || state.joypad.stickClickPosition.on) &&
       timeNow - this.T_lastShot > 300
     ) {
-      const bullet = new Bullet({
-        ship: this,
-        bulletType: bulletTypes.normal,
-        create: this.create.bind(this),
-        isMainShip: true
-      });
-      this.create(bullet, "bullets");
+      if (this.currentBulletType == BULLETTYPES.DOUBLED) {
+        const bullet1 = new Bullet({
+          ship: this,
+          bulletType: this.currentBulletType,
+          create: this.create.bind(this),
+          isMainShip: true,
+          offset: {
+            x: -10,
+            y: 0
+          }
+        });
+        this.create(bullet1, "bullets");
+        const bullet2 = new Bullet({
+          ship: this,
+          bulletType: this.currentBulletType,
+          create: this.create.bind(this),
+          isMainShip: true,
+          offset: {
+            x: 10,
+            y: 3
+          }
+        });
+        this.create(bullet2, "bullets");
+      } else {
+        const bullet = new Bullet({
+          ship: this,
+          bulletType: this.currentBulletType,
+          create: this.create.bind(this),
+          isMainShip: true
+        });
+        this.create(bullet, "bullets");
+      }
       this.T_lastShot = timeNow;
     }
 

@@ -5,7 +5,7 @@ import * as bulletDrawUtils from "../Utils/bulletDrawUtils.js";
 
 export default class Bullet {
   constructor(args) {
-    let { ship, bulletType, create, damage, isMainShip } = args;
+    let { ship, bulletType, create, damage, isMainShip, offset = 0 } = args;
 
     //general stats
     this.rotation = ship.rotation;
