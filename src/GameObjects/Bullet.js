@@ -24,7 +24,6 @@ export default class Bullet {
       x: ship.position.x + posDelta.x,
       y: ship.position.y + posDelta.y
     };
-    console.log(bulletType, bulletTypes, bulletTypes.types);
     //bullet velocity in space
     this.velocity = {
       x: posDelta.x * bulletTypes.types[bulletType].velocity,
