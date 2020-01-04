@@ -7,6 +7,7 @@
       "energy": 1,
       "enemies": [0, 4, 1],
       "EZT": 3,
+      "Bullets": [1, 1, 1],
       "Description": "Commander, we need to catch all EZTs."
     },
     {
@@ -16,6 +17,7 @@
       "energy": 2,
       "enemies": [4, 2, 1],
       "EZT": 4,
+      "Bullets": [1, 2, 1],
       "Description": "Commander, we need to catch all EZTs."
     },
     {
@@ -25,6 +27,7 @@
       "energy": 3,
       "enemies": [10, 5, 4],
       "EZT": 5,
+      "Bullets": [1, 3, 2],
       "Description": "Commander, we need to catch all EZTs."
     }
   ]

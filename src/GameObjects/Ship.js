@@ -2,12 +2,7 @@ import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
-
-const BULLETTYPES = {
-  NORMAL: 0,
-  DOUBLED: 1,
-  SPRAY: 2
-};
+import bulletTypes from "../configs/bulletTypes.json";
 
 export default class Ship {
   constructor(args) {
@@ -43,7 +38,7 @@ export default class Ship {
     //Stats
     this.toughness = 10;
     this.HP = 100;
-    this.currentBulletType = BULLETTYPES.DOUBLED;
+    this.currentBulletType = bulletTypes.normal;
 
     //map
     this.currentMap = currentMap;
@@ -53,6 +48,8 @@ export default class Ship {
       x: 0,
       y: 0
     };
+
+    this.bullets = [3, 0, 0];
   }
 
   updatePosition(offset) {
@@ -118,6 +115,12 @@ export default class Ship {
   addEnergy(amount) {
     this.HP += amount;
     if (this.HP > this.maxHP) this.HP = this.maxHP;
+  }
+
+  addBullets(type, amount) {
+    this.bullets[type] += amount;
+    this.currentBulletType =
+      this.currentBulletType < type ? type : this.currentBulletType;
   }
 
   accelerate() {
@@ -214,24 +217,40 @@ export default class Ship {
 
     //Drop mine
     if (state.keys.mine && timeNow - this.T_lastMineDrop > 500) {
-      const mine = new Mine({
-        position: this.position,
-        velocity: this.velocity,
-        create: this.create.bind(this),
-        size: 10,
-        damage: 200
-      });
-      this.create(mine, "bullets");
-      this.T_lastMineDrop = timeNow;
+      if (this.bullets[0] > 0) {
+        const mine = new Mine({
+          position: this.position,
+          velocity: this.velocity,
+          create: this.create.bind(this),
+          size: 10,
+          damage: 200
+        });
+        this.create(mine, "bullets");
+        this.bullets[0]--;
+        this.T_lastMineDrop = timeNow;
+      }
     }
     //Shoot
     if (
       (state.keys.space || state.joypad.stickClickPosition.on) &&
       timeNow - this.T_lastShot > 300
     ) {
+      //check bullets availability (skip position 0 - reserved for mines)
+      for (let i = this.bullets.length - 1; i >= 0; i--) {
+        if (i > 0 && this.bullets[i] > 0) {
+          this.currentBulletType = i;
+          this.bullets[i]--;
+          break;
+        } else if (i == 0) {
+          this.currentBulletType = bulletTypes.normal;
+        } else {
+          this.currentBulletType =
+            this.currentBulletType > 0 ? this.currentBulletType-- : 0;
+        }
+      }
       const bullet = new Bullet({
         ship: this,
-        bulletType: bulletTypes.normal,
+        bulletType: this.currentBulletType,
         create: this.create.bind(this),
         isMainShip: true
       });

@@ -8,6 +8,7 @@ import { maps } from "../../configs/maps.json";
 import { randomNumBetweenExcluding, randomNumBetween } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
+import bulletTypes from "../../Configs/bulletTypes.json";
 import "./Swarm.css";
 
 const CFGS = {
@@ -104,6 +105,7 @@ export class Swarm extends Component {
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
       currentLevelEnemies: this.MAP.enemies,
+      bulletPacks: this.MAP.Bullets,
       currentStage: 0,
       minimapScale: 10,
       ship: {
@@ -343,6 +345,26 @@ export class Swarm extends Component {
     this.energy = [];
     this.generateEnergy(this.state.energyCount);
 
+    // Make bulletPacks
+    this.generateBullets(
+      0, //TODO: include mines in bulletTypes
+      3,
+      this.state.bulletPacks[0], //mines
+      "#537aed"
+    );
+    this.generateBullets(
+      bulletTypes.laser,
+      20,
+      this.state.bulletPacks[bulletTypes.laser],
+      bulletTypes.types[bulletTypes.laser].color
+    );
+    this.generateBullets(
+      bulletTypes.doubled,
+      10,
+      this.state.bulletPacks[bulletTypes.doubled],
+      bulletTypes.types[bulletTypes.doubled].color
+    );
+
     this.EZT = [];
     this.generateEZT(this.state.EZTCount);
 
@@ -433,6 +455,33 @@ export class Swarm extends Component {
         addScore: this.addScore.bind(this)
       });
       this.createObject(asteroid, "asteroids");
+    }
+  }
+
+  generateBullets(type, amount, howMany, bulletColor) {
+    for (let i = 0; i < howMany; i++) {
+      let energy = new Pickable({
+        size: 10,
+        position: {
+          x: randomNumBetweenExcluding(
+            0,
+            this.state.map.width,
+            this.ship[0].position.x - 150,
+            this.ship[0].position.x + 150
+          ),
+          y: randomNumBetweenExcluding(
+            0,
+            this.state.map.height,
+            this.ship[0].position.y - 150,
+            this.ship[0].position.y + 150
+          )
+        },
+        action: () => {
+          this.ship[0].addBullets(type, amount);
+        },
+        color: bulletColor
+      });
+      this.createObject(energy, "energy");
     }
   }
 

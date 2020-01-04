@@ -1,12 +1,22 @@
 {
   "normal": 0,
-  "doubled": 1,
-  "spray": 2,
+  "laser": 1,
+  "doubled": 2,
+  "spray": 3,
   "types": [
     {
       "type": "normal",
       "toughness": 10,
       "color": "#FFF",
+      "velocity": 0.25,
+      "bullets": 1,
+      "duration": -1,
+      "radio": 1
+    },
+    {
+      "type": "laser",
+      "toughness": 20,
+      "color": "#DD0000",
       "velocity": 0.25,
       "bullets": 1,
       "duration": -1,

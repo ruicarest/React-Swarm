@@ -1,6 +1,6 @@
 import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
-import bulletTypes from "../configs/bulletTypes.json";
+import bulletTypes from "../Configs/bulletTypes.json";
 import * as bulletDrawUtils from "../Utils/bulletDrawUtils.js";
 
 export default class Bullet {
@@ -24,6 +24,7 @@ export default class Bullet {
       x: ship.position.x + posDelta.x,
       y: ship.position.y + posDelta.y
     };
+    console.log(bulletType, bulletTypes, bulletTypes.types);
     //bullet velocity in space
     this.velocity = {
       x: posDelta.x * bulletTypes.types[bulletType].velocity,
@@ -37,6 +38,8 @@ export default class Bullet {
 
     if (this.bulletType == bulletTypes.doubled) {
       this.drawBullet = bulletDrawUtils.drawDoubledBullet;
+    } else if (this.bulletType == bulletTypes.laser) {
+      this.drawBullet = bulletDrawUtils.drawLaserBullet;
     } else {
       this.drawBullet = bulletDrawUtils.drawNormalBullet;
     }

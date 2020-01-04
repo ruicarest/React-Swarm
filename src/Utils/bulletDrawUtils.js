@@ -18,6 +18,19 @@ export function drawDoubledBullet(context, position, rotation, color) {
   context.beginPath();
   context.moveTo(0, 0);
   context.lineTo(0, 20);
+  context.lineWidth = 1.5;
+  context.strokeStyle = color;
+  context.stroke();
+  context.restore();
+}
+
+export function drawLaserBullet(context, position, rotation, color) {
+  context.save();
+  context.translate(position.x, position.y);
+  context.rotate((rotation * Math.PI) / 180);
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(0, 10);
   context.lineWidth = 1;
   context.strokeStyle = color;
   context.stroke();
