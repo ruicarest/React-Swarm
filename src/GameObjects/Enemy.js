@@ -6,8 +6,8 @@ import {
 } from "../Utils/enemiesDrawUtils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
-import { enemiesTypes } from "../configs/enemiesTypes.json";
-import bulletTypes from "../configs/bulletTypes.json";
+import { enemiesTypes } from "../Configs/enemiesTypes.json";
+import bulletTypes from "../Configs/bulletTypes.json";
 
 export default class Enemy {
   constructor(args) {

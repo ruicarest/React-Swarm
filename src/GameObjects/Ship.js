@@ -2,7 +2,7 @@ import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
-import bulletTypes from "../configs/bulletTypes.json";
+import bulletTypes from "../Configs/bulletTypes.json";
 
 export default class Ship {
   constructor(args) {

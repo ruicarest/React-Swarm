@@ -4,7 +4,7 @@ import { Minimap } from "../Minimap/Minimap";
 import Asteroid from "../../GameObjects/Asteroid";
 import Pickable from "../../GameObjects/Pickable";
 import Enemy from "../../GameObjects/Enemy";
-import { maps } from "../../configs/maps.json";
+import { maps } from "../../Configs/maps.json";
 import { randomNumBetweenExcluding, randomNumBetween } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
