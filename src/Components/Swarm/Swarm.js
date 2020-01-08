@@ -10,6 +10,7 @@ import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
 import bulletTypes from "../../Configs/bulletTypes.json";
 import "./Swarm.css";
+import MessageBox from "../MessageBox/MessageBox";
 
 const CFGS = {
   TILE_SIZE: 64
@@ -793,7 +794,7 @@ export class Swarm extends Component {
   }
 
   render() {
-    let endgame, minimap, joystick, controls;
+    let endgame, minimap, joystick, controls, messageBox;
 
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
@@ -814,6 +815,8 @@ export class Swarm extends Component {
         </span>
       );
     }
+
+    messageBox = <MessageBox key={"MessageBox"}></MessageBox>;
 
     if (!this.isMobileBrowser) {
       minimap = (
@@ -861,6 +864,8 @@ export class Swarm extends Component {
           </span>
           {endgame}
         </span>
+
+        <div id={"messageboxdiv"}> {messageBox}</div>
 
         <canvas
           className="gameWindow"

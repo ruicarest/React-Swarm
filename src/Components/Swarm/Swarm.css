@@ -84,3 +84,14 @@ button:hover {
   background-color: #ffffff;
   color: #000000;
 }
+
+#messageboxdiv {
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-size: 60px;
+  display: block;
+  position: absolute;
+  text-align: center;
+  z-index: 1;
+}

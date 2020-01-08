@@ -1,0 +1,6 @@
+#message-box {
+  width: 0px;
+  height: 200px;
+  background: red;
+  transition: width 2s ease;
+}
