@@ -814,9 +814,11 @@ export class Swarm extends Component {
           <button onClick={this.loadNextMap.bind(this, 0)}>New Game</button>
         </span>
       );
+    } else {
+      messageBox = (
+        <MessageBox key={"MessageBox"} message={"A new message"}></MessageBox>
+      );
     }
-
-    messageBox = <MessageBox key={"MessageBox"}></MessageBox>;
 
     if (!this.isMobileBrowser) {
       minimap = (
