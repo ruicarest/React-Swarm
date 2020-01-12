@@ -816,7 +816,10 @@ export class Swarm extends Component {
       );
     } else {
       messageBox = (
-        <MessageBox key={"MessageBox"} message={"A new message"}></MessageBox>
+        <MessageBox
+          key={"MessageBox"}
+          message={"Catch all the " + this.state.EZTCount + " EZTs."}
+        ></MessageBox>
       );
     }
 

@@ -4,37 +4,50 @@ import "./MessageBox.css";
 export default class MessageBox extends Component {
   state = {
     change: false,
-    width: 0,
     time0: Date.now(),
-    time: Date.now(),
+    timeSinceStarted: Date.now(),
+    timeToEnd: 2000,
     text: this.props.message,
-    on: true,
-    style: {
-      width: 0,
-      display: "none"
-    }
+    on: true
+  };
+
+  style = {
+    width: 0,
+    display: "absolute"
   };
 
   componentDidMount = () => {
     console.log("MessageBox - did mount!");
-    this.state.time0 = Date.now();
+    this.restartTimer();
   };
+
+  restartTimer = () => {
+    let now = Date.now();
+    this.setState({ time0: now, timeSinceStarted: now, on: true });
+  };
+
+  componentDidUpdate() {}
 
   render = () => {
     var message;
-    this.state.time = Date.now();
+    this.state.timeSinceStarted = Date.now();
 
-    if (this.state.time - this.state.time0 >= 4000) {
-      this.state.style.width = 400;
+    if (this.state.timeSinceStarted - this.state.time0 >= 4000) {
+      this.state.on = false;
+    }
+
+    if (this.state.timeSinceStarted - this.state.time0 >= 10) {
+      this.style.width = 400;
     }
 
     message = this.state.on ? (
-      <div id="message-box" style={{ ...this.state.style }}>
+      <div id="message-box" style={{ ...this.style }}>
         {this.state.text}
       </div>
     ) : (
       ""
     );
+
     return <div>{message}</div>;
   };
 }
