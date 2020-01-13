@@ -6,19 +6,21 @@
       "asteroids": 10,
       "energy": 1,
       "enemies": [0, 4, 1],
-      "EZT": 3,
+      "EZT": 1,
       "Bullets": [1, 1, 1],
-      "Description": "Commander, we need to catch all EZTs."
+      "mission": "pick",
+      "Description": "Commander, catch all EZTs"
     },
     {
       "width": 40,
       "height": 24,
       "asteroids": 20,
       "energy": 2,
-      "enemies": [4, 2, 1],
-      "EZT": 4,
+      "enemies": [0, 1, 0],
+      "EZT": 0,
       "Bullets": [1, 2, 1],
-      "Description": "Commander, we need to catch all EZTs."
+      "mission": "kill",
+      "Description": "Commander, destroy the swarm remanents."
     },
     {
       "width": 60,
@@ -28,7 +30,19 @@
       "enemies": [10, 5, 4],
       "EZT": 5,
       "Bullets": [1, 3, 2],
-      "Description": "Commander, we need to catch all EZTs."
+      "mission": "pick",
+      "Description": "Commander, catch all EZTs."
+    },
+    {
+      "width": 60,
+      "height": 36,
+      "asteroids": 35,
+      "energy": 3,
+      "enemies": [0, 0, 0],
+      "EZT": 0,
+      "Bullets": [1, 3, 2],
+      "mission": "bonus",
+      "Description": "Commander, it is time to upgrade our weaponry."
     }
   ]
 }

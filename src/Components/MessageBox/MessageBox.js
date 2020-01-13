@@ -30,7 +30,9 @@ export default class MessageBox extends Component {
   componentDidUpdate() {}
 
   render = () => {
-    var message;
+    const { mission } = this.props;
+
+    var message, icon;
     this.state.timeSinceStarted = Date.now();
 
     if (this.state.timeSinceStarted - this.state.time0 >= 4000) {
@@ -41,10 +43,13 @@ export default class MessageBox extends Component {
       this.style.width = 400;
     }
 
+    if (mission == "pick") {
+      icon = <img src="../../../images/ezt.JPG" alt=""></img>;
+    }
+
     message = this.state.on ? (
       <div id="message-box" style={{ ...this.style }}>
-        {this.state.text}
-        <img src="../../../images/ezt.JPG" alt=""></img>
+        {this.state.text} {icon}
       </div>
     ) : (
       ""

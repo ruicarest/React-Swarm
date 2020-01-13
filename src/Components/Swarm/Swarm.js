@@ -105,6 +105,8 @@ export class Swarm extends Component {
       asteroidCount: this.MAP.asteroids,
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
+      mission: this.MAP.mission,
+      missionDescription: this.MAP.Description,
       currentLevelEnemies: this.MAP.enemies,
       bulletPacks: this.MAP.Bullets,
       currentStage: 0,
@@ -423,6 +425,8 @@ export class Swarm extends Component {
       EZTCount: this.MAP.EZT,
       currentLevelEnemies: this.MAP.enemies,
       currentStage: 0,
+      mission: this.MAP.mission,
+      missionDescription: this.MAP.Description,
       minimapScale: 10,
       reload: true,
       nearestEZT: {
@@ -668,16 +672,34 @@ export class Swarm extends Component {
     this.updateObjects(this.asteroids, "asteroids");
 
     //Win conditions
-    if (this.state.inGame && this.state.currentScore == this.state.EZTCount) {
-      if (this.asteroids.length == 0) {
-        //load next level
-        this.loadNextMap();
-      }
-      //remove current objects
-      else {
+    if (this.state.inGame) {
+      if (
+        this.state.mission == "pick" &&
+        this.state.currentScore == this.state.EZTCount
+      ) {
+        // if (this.asteroids.length == 0) {
+        //   console.log("load next map!");
+        //   //load next level
+
+        // }
+        //remove current objects
+        console.log("pick mission!");
         this.setState({
           reload: true
         });
+        this.loadNextMap();
+      } else if (this.state.mission == "kill" && this.enemies.length == 0) {
+        console.log("kill mission!");
+        this.setState({
+          reload: true
+        });
+        this.loadNextMap();
+      } else if (this.state.mission == "bonus") {
+        console.log("bonus mission not available yet");
+        this.setState({
+          reload: true
+        });
+        this.loadNextMap();
       }
     }
 
@@ -818,7 +840,7 @@ export class Swarm extends Component {
       messageBox = (
         <MessageBox
           key={"MessageBox"}
-          message={"Catch all the " + this.state.EZTCount + " EZTs."}
+          message={this.state.missionDescription}
           {...this.state}
         ></MessageBox>
       );
