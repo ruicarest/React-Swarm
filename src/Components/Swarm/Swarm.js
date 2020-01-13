@@ -819,6 +819,7 @@ export class Swarm extends Component {
         <MessageBox
           key={"MessageBox"}
           message={"Catch all the " + this.state.EZTCount + " EZTs."}
+          {...this.state}
         ></MessageBox>
       );
     }

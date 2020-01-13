@@ -8,6 +8,7 @@ export default class MessageBox extends Component {
     timeSinceStarted: Date.now(),
     timeToEnd: 2000,
     text: this.props.message,
+    type: "ezt",
     on: true
   };
 
@@ -43,11 +44,12 @@ export default class MessageBox extends Component {
     message = this.state.on ? (
       <div id="message-box" style={{ ...this.style }}>
         {this.state.text}
+        <img src="../../../images/ezt.JPG" alt=""></img>
       </div>
     ) : (
       ""
     );
 
-    return <div>{message}</div>;
+    return <div key="message-box">{message}</div>;
   };
 }
