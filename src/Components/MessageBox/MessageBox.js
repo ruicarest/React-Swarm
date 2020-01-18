@@ -18,7 +18,6 @@ export default class MessageBox extends Component {
   };
 
   componentDidMount = () => {
-    console.log("MessageBox - did mount!");
     this.restartTimer();
   };
 
