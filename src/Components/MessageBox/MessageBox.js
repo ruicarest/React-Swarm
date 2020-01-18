@@ -17,6 +17,7 @@ export default class MessageBox extends Component {
     display: "absolute"
   };
 
+  //new message
   componentDidMount = () => {
     this.restartTimer();
   };
@@ -33,19 +34,19 @@ export default class MessageBox extends Component {
 
     var message, icon;
     this.state.timeSinceStarted = Date.now();
-
+    //remove message timer
     if (this.state.timeSinceStarted - this.state.time0 >= 4000) {
       this.state.on = false;
     }
-
+    //add small delay to message box
     if (this.state.timeSinceStarted - this.state.time0 >= 10) {
       this.style.width = 400;
     }
-
+    //add EZT image to message
     if (mission == "pick") {
       icon = <img src="../../../images/ezt.JPG" alt=""></img>;
     }
-
+    //create message div
     message = this.state.on ? (
       <div id="message-box" style={{ ...this.style }}>
         {this.state.text} {icon}
