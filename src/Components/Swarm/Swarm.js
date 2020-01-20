@@ -683,19 +683,16 @@ export class Swarm extends Component {
 
         // }
         //remove current objects
-        console.log("pick mission!");
         this.setState({
           reload: true
         });
         this.loadNextMap();
       } else if (this.state.mission == "kill" && this.enemies.length == 0) {
-        console.log("kill mission!");
         this.setState({
           reload: true
         });
         this.loadNextMap();
       } else if (this.state.mission == "bonus") {
-        console.log("bonus mission not available yet");
         this.setState({
           reload: true
         });
