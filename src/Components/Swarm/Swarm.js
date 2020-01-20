@@ -222,7 +222,7 @@ export class Swarm extends Component {
       function(e) {
         const leftClick =
           this.state.screen.width >
-          e.touches[e.changedTouches[0].identifier].clientX * 2;
+          e.touches[e.changedTouches[0].identifier - 2].clientX * 2;
 
         /*         const rightClick =
           this.state.screen.width <
@@ -235,12 +235,12 @@ export class Swarm extends Component {
               ...prevState.joypad,
               on: true,
               basePosition: {
-                x: e.touches[e.changedTouches[0].identifier].clientX,
-                y: e.touches[e.changedTouches[0].identifier].clientY
+                x: e.touches[e.changedTouches[0].identifier - 2].clientX,
+                y: e.touches[e.changedTouches[0].identifier - 2].clientY
               },
               stickPosition: {
-                x: e.touches[e.changedTouches[0].identifier].clientX,
-                y: e.touches[e.changedTouches[0].identifier].clientY
+                x: e.touches[e.changedTouches[0].identifier - 2].clientX,
+                y: e.touches[e.changedTouches[0].identifier - 2].clientY
               }
             }
           }));
