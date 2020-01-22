@@ -11,6 +11,7 @@ import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
 import bulletTypes from "../../Configs/bulletTypes.json";
 import "./Swarm.css";
 import MessageBox from "../MessageBox/MessageBox";
+import BufferLoader from "../../Utils/BufferLoader";
 
 const CFGS = {
   TILE_SIZE: 64
@@ -51,6 +52,9 @@ export class Swarm extends Component {
     this.currentMap = 0;
 
     this.MAP = maps[this.currentMap];
+
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.audioCtx = new AudioContext();
 
     this.isMobileBrowser = window.mobilecheck();
 
@@ -313,6 +317,16 @@ export class Swarm extends Component {
       false
     );
 
+    console.log(this.audioCtx);
+
+    var bufferLoader = new BufferLoader(
+      this.audioCtx,
+      ["../../../public/Outfoxing the Fox.mp3"],
+      this.finishedLoading.bind(this)
+    );
+
+    bufferLoader.load();
+
     this.setState({ context: this.refs.gameWindow.getContext("2d") });
 
     this.startGame();
@@ -320,6 +334,16 @@ export class Swarm extends Component {
     requestAnimationFrame(() => {
       this.update();
     });
+  }
+
+  finishedLoading(bufferList) {
+    console.log("acabou de carregar 2");
+    // Create two sources and play them both together.
+    var source1 = this.audioCtx.createBufferSource();
+    source1.buffer = bufferList[0];
+
+    source1.connect(this.audioCtx.destination);
+    source1.start(0);
   }
 
   componentDidUpdate() {}
@@ -814,6 +838,8 @@ export class Swarm extends Component {
 
   render() {
     let endgame, minimap, joystick, controls, messageBox;
+
+    this.audioCtx.resume();
 
     //get Ship HP
     const shipHP = this.state.inGame ? this.ship[0].HP : 0;
