@@ -1,5 +1,5 @@
-![alt text](/images/menu.JPG)
-![alt text](/images/playable.JPG)
+![alt text](/public/footages/menu.JPG)
+![alt text](/public/footages/playable.JPG)
 
 # React-Swarm
 

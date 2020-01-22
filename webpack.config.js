@@ -1,4 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = {
   module: {
     rules: [
@@ -18,16 +20,13 @@ module.exports = {
         ]
       },
       {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(glsl|vs|fs|vert|frag)$/,
         exclude: /node_modules/,
-        use: [
-          'raw-loader',
-          'glslify-loader'
-        ]
+        use: ["raw-loader", "glslify-loader"]
       }
     ]
   },
@@ -35,6 +34,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
-    })
+    }),
+    new CopyPlugin([{ from: "public/images", to: "images" }])
   ]
 };

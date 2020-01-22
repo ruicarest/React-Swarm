@@ -44,7 +44,7 @@ export default class MessageBox extends Component {
     }
     //add EZT image to message
     if (mission == "pick") {
-      icon = <img src="../../../images/ezt.JPG" alt=""></img>;
+      icon = <img src="images/ezt.JPG" alt=""></img>;
     }
     //create message div
     message = this.state.on ? (
