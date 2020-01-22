@@ -39,7 +39,7 @@ export class Swarm extends Component {
 
     this.MAP = maps[this.currentMap];
 
-    this.isMobileBrowser = window.mobilecheck();
+    this.isMobileBrowser = checkIfRunningOnMobileDevice();
 
     this.state = {
       context: null,
