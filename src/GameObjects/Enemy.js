@@ -97,9 +97,15 @@ export default class Enemy {
   rotate(dir) {
     if (dir == "LEFT") {
       this.rotation -= this.rotationSpeed;
+      if (this.rotation < 0) {
+        this.rotation += 360;
+      }
     }
     if (dir == "RIGHT") {
       this.rotation += this.rotationSpeed;
+      if (this.rotation >= 360) {
+        this.rotation -= 360;
+      }
     }
   }
 
@@ -129,13 +135,8 @@ export default class Enemy {
 
       //handle angle limits
       if (angle < 0) {
-        angle = 360 + angle;
-      }
-      if (this.rotation >= 360) {
-        this.rotation -= 360;
-      }
-      if (this.rotation < 0) {
-        this.rotation += 360;
+        console.log("Angulo menor");
+        angle += 360;
       }
 
       //if around 360 then is looking at player
