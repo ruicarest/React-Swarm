@@ -155,17 +155,6 @@ export default class Enemy {
         }
       }
 
-      //TODO: fix enemy velocity
-      this.velocity.x =
-        -Math.sin((-this.rotation * Math.PI) / 180) * this.acceleration;
-      this.velocity.y =
-        -Math.cos((-this.rotation * Math.PI) / 180) * this.acceleration;
-
-      //stop on certain range
-      if (distance < 200) {
-        this.velocity = { x: 0, y: 0 };
-      }
-
       //shoot if ready && if looking at player
       if (Date.now() - this.T_lastShot > 1000 && 360 - lookingAtAngle < 10) {
         const bullet = new Bullet({
@@ -177,12 +166,17 @@ export default class Enemy {
         this.create(bullet, "enemyBullets");
         this.T_lastShot = Date.now();
       }
-    } else {
-      //TODO: fix enemy velocity
-      this.velocity.x =
-        -Math.sin((-this.rotation * Math.PI) / 180) * this.acceleration;
-      this.velocity.y =
-        -Math.cos((-this.rotation * Math.PI) / 180) * this.acceleration;
+    }
+
+    //TODO: fix enemy velocity
+    this.velocity.x =
+      -Math.sin((-this.rotation * Math.PI) / 180) * this.acceleration;
+    this.velocity.y =
+      -Math.cos((-this.rotation * Math.PI) / 180) * this.acceleration;
+
+    //stop on certain range
+    if (distance < 200) {
+      this.velocity = { x: 0, y: 0 };
     }
 
     // Move
