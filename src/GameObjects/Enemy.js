@@ -135,7 +135,6 @@ export default class Enemy {
 
       //handle angle limits
       if (angle < 0) {
-        console.log("Angulo menor");
         angle += 360;
       }
 
@@ -143,7 +142,7 @@ export default class Enemy {
       let lookingAtAngle = 360 - Math.abs(this.rotation - angle);
 
       if (this.rotation > angle) {
-        if (lookingAtAngle < angle - this.rotation) {
+        if (lookingAtAngle < Math.abs(angle - this.rotation)) {
           this.rotate("RIGHT");
         } else {
           this.rotate("LEFT");
