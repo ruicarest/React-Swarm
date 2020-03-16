@@ -31,7 +31,7 @@ const KEY = {
   Q: 81
 };
 
-export class Swarm extends Component {
+export default class Swarm extends Component {
   constructor() {
     super();
 
