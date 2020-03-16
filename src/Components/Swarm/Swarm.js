@@ -288,6 +288,8 @@ export default class Swarm extends Component {
     }
 
     this.setState({ context: this.refs.gameWindow.getContext("2d") });
+    //load first map
+    this.loadNextMap(0);
 
     this.startGame();
 
@@ -381,34 +383,35 @@ export default class Swarm extends Component {
 
     this.MAP = maps[this.currentMap];
 
-    this.setState({
-      map: {
-        width: CFGS.TILE_SIZE * this.MAP.width,
-        height: CFGS.TILE_SIZE * this.MAP.height
+    this.setState(
+      {
+        map: {
+          width: CFGS.TILE_SIZE * this.MAP.width,
+          height: CFGS.TILE_SIZE * this.MAP.height
+        },
+        screen: {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          ratio: window.innerWidth / window.innerHeight || 1
+        },
+        currentMap: this.currentMap,
+        currentScore: 0,
+        inGame: false,
+        asteroidCount: this.MAP.asteroids,
+        energyCount: this.MAP.energy,
+        EZTCount: this.MAP.ezt,
+        currentLevelEnemies: this.MAP.enemies,
+        mission: this.MAP.mission,
+        missionDescription: this.MAP.description,
+        minimapScale: 10,
+        reload: true,
+        nearestEZT: {
+          distance: 10000000,
+          ang: 0
+        }
       },
-      screen: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        ratio: window.innerWidth / window.innerHeight || 1
-      },
-      currentMap: this.currentMap,
-      currentScore: 0,
-      inGame: false,
-      asteroidCount: this.MAP.asteroids,
-      energyCount: this.MAP.energy,
-      EZTCount: this.MAP.EZT,
-      currentLevelEnemies: this.MAP.enemies,
-      mission: this.MAP.mission,
-      missionDescription: this.MAP.Description,
-      minimapScale: 10,
-      reload: true,
-      nearestEZT: {
-        distance: 10000000,
-        ang: 0
-      }
-    });
-
-    this.startGame();
+      this.startGame
+    );
   }
 
   generateAsteroids(howMany) {
