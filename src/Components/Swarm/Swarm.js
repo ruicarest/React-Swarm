@@ -91,12 +91,11 @@ export default class Swarm extends Component {
       reload: false,
       asteroidCount: this.MAP.asteroids,
       energyCount: this.MAP.energy,
-      EZTCount: this.MAP.EZT,
+      EZTCount: this.MAP.ezt,
       mission: this.MAP.mission,
-      missionDescription: this.MAP.Description,
+      missionDescription: this.MAP.description,
       currentLevelEnemies: this.MAP.enemies,
-      bulletPacks: this.MAP.Bullets,
-      currentStage: 0,
+      bulletPacks: this.MAP.bullets,
       minimapScale: 10,
       ship: {
         position: {
@@ -410,7 +409,6 @@ export default class Swarm extends Component {
       energyCount: this.MAP.energy,
       EZTCount: this.MAP.EZT,
       currentLevelEnemies: this.MAP.enemies,
-      currentStage: 0,
       mission: this.MAP.mission,
       missionDescription: this.MAP.Description,
       minimapScale: 10,

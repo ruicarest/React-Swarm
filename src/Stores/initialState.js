@@ -35,24 +35,25 @@ export const initialState = {
   },
   map: {
     width: 10,
-    height: 10
+    height: 10,
+    asteroids: 0,
+    energy: 0,
+    ezt: 0,
+    mission: 0,
+    description: "",
+    enemies: 0,
+    bullets: 0
   },
   screen: {
     width: 10,
     height: 10,
     ratio: 1
   },
-  currentScore: 0,
-  inGame: false,
-  reload: false,
-  asteroidCount: 0,
-  energyCount: 0,
-  EZTCount: 0,
-  mission: 0,
-  missionDescription: "",
-  currentLevelEnemies: 0,
-  bulletPacks: 0,
-  currentStage: 0,
+  game: {
+    currentScore: 0,
+    inGame: false,
+    reload: false
+  },
   minimapScale: 10,
   ship: {
     position: {
