@@ -166,17 +166,6 @@ export default class Swarm extends Component {
     }));
   }
 
-  findMouseMosition(e) {
-    this.setState({
-      mouse: {
-        active: true,
-        position: {
-          x: e.clientX,
-          y: e.clientY
-        }
-      }
-    });
-  }
 
   componentDidMount() {
     //handle window resize
