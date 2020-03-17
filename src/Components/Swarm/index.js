@@ -1,6 +1,6 @@
 import Swarm from "./Swarm";
 import { connect } from "react-redux";
-import { init, updateField } from "../../Stores/swarmStore";
+import { init, updateField, updateFieldInGroup } from "../../Stores/swarmStore";
 
 const mapStateToProps = state => {
   return {
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updateField: (fieldId, newValue) => {
       dispatch(updateField(fieldId, newValue));
+    },
+    updateFieldInGroup: (groupID, fieldID, value) => {
+      dispatch(updateFieldInGroup(groupID, fieldID, value));
     }
   };
 };
