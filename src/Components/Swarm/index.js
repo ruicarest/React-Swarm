@@ -1,6 +1,10 @@
 import Swarm from "./Swarm";
 import { connect } from "react-redux";
-import { init, updateField, updateFieldInGroup } from "../../Stores/swarmStore";
+import {
+  updateState,
+  updateGroup,
+  updateFieldInGroup
+} from "../../Stores/swarmStore";
 
 const mapStateToProps = state => {
   return {
@@ -10,11 +14,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    init: () => {
-      dispatch(init());
+    updateState: value => {
+      dispatch(updateState(value));
     },
-    updateField: (fieldId, newValue) => {
-      dispatch(updateField(fieldId, newValue));
+    updateGroup: (fieldId, newValue) => {
+      dispatch(updateGroup(fieldId, newValue));
     },
     updateFieldInGroup: (groupID, fieldID, value) => {
       dispatch(updateFieldInGroup(groupID, fieldID, value));

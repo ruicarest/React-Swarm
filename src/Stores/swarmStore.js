@@ -1,22 +1,26 @@
 import { initialState } from "./initialState";
 
 // Actions
-const INIT = "INIT";
-const UPDATE_FIELD = "UPDATE_FIELD";
+const UPDATE_STATE = "UPDATE_STATE";
+const UPDATE_GROUP = "UPDATE_GROUP";
 const UPDATE_FIELD_IN_GROUP = "UPDATE_FIELD_IN_GROUP";
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case INIT: {
-      console.log("INIT");
-      return newState;
-    }
-    case UPDATE_FIELD: {
-      const fieldIdToUpdate = action.payload.field;
-      const fieldValueToUpdate = action.payload.value;
+    case UPDATE_STATE: {
+      const value = action.payload.value;
       const newState = {
         ...state,
-        [fieldIdToUpdate]: fieldValueToUpdate
+        value
+      };
+      return newState;
+    }
+    case UPDATE_GROUP: {
+      const group = action.payload.group;
+      const value = action.payload.value;
+      const newState = {
+        ...state,
+        [group]: value
       };
       return newState;
     }
@@ -39,11 +43,11 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 // Action Creators
-export function init() {
-  return { type: INIT };
+export function updateState(value) {
+  return { type: UPDATE_STATE, payload: { value } };
 }
-export function updateField(fieldID, value) {
-  return { type: UPDATE_FIELD, payload: { field: fieldID, value } };
+export function updateGroup(groupID, value) {
+  return { type: UPDATE_GROUP, payload: { group: groupID, value } };
 }
 export function updateFieldInGroup(groupID, fieldID, value) {
   return {
