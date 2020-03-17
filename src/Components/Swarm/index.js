@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     updateGroup: (fieldId, newValue) => {
       dispatch(updateGroup(fieldId, newValue));
     },
-    updateFieldInGroup: (groupID, fieldID, value) => {
-      dispatch(updateFieldInGroup(groupID, fieldID, value));
+    updateFieldInGroup: (groupID, value) => {
+      dispatch(updateFieldInGroup(groupID, value));
     }
   };
 };
