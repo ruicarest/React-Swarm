@@ -1,5 +1,4 @@
 export const initialState = {
-  context: null,
   keys: {
     left: 0,
     right: 0,
@@ -41,8 +40,9 @@ export const initialState = {
     ezt: 0,
     mission: 0,
     description: "",
-    enemies: 0,
-    bullets: 0
+    enemies: [],
+    bullets: 0,
+    minimapScale: 10
   },
   screen: {
     width: 10,
@@ -52,9 +52,11 @@ export const initialState = {
   game: {
     currentScore: 0,
     inGame: false,
-    reload: false
+    reload: false,
+    currentMap: 0,
+    context: null
   },
-  minimapScale: 10,
+
   ship: {
     position: {
       x: 0,
