@@ -94,7 +94,10 @@ export default class Swarm extends Component {
 
   componentDidMount() {
     //handle window resize
-    window.addEventListener("resize", this.handleResize.bind(this, false));
+    window.addEventListener(
+      "resize",
+      _.throttle(this.handleResize.bind(this, false), 100)
+    );
 
     if (!this.isMobileBrowser) {
       //handle key events
