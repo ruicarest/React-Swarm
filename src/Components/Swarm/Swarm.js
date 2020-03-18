@@ -228,9 +228,7 @@ export default class Swarm extends Component {
   }
 
   componentDidUpdate() {
-    console.log("updated!");
     if (!this.props.game.inGame && this.props.game.ready) {
-      console.log("start game");
       this.startGame();
     }
   }
@@ -239,7 +237,6 @@ export default class Swarm extends Component {
     //first ship
     if (!this.ship[0]) {
       // Make ship
-      console.log(this.props.screen);
       let ship = new Ship({
         position: {
           x: this.props.screen.width / 2,
@@ -254,11 +251,11 @@ export default class Swarm extends Component {
     }
     // Make asteroids
     this.asteroids = [];
-    this.generateAsteroids(this.props.asteroidCount);
+    this.generateAsteroids(this.props.map.asteroids);
 
     // Make energy
     this.energy = [];
-    this.generateEnergy(this.props.energyCount);
+    this.generateEnergy(this.props.map.energy);
 
     // Make bulletPacks
     this.generateBullets(
@@ -281,7 +278,7 @@ export default class Swarm extends Component {
     );
 
     this.EZT = [];
-    this.generateEZT(this.props.EZTCount);
+    this.generateEZT(this.props.map.ezt);
 
     // Make enemies
     this.enemies = [];
@@ -449,7 +446,7 @@ export default class Swarm extends Component {
         },
         action: () => {
           this.props.updateGroup("game", {
-            currentScore: this.props.currentScore + 1
+            currentScore: this.props.game.currentScore + 1
           });
         }
       });
@@ -724,17 +721,19 @@ export default class Swarm extends Component {
     let endgame, minimap, joystick, controls, messageBox;
 
     //get Ship HP
-    const shipHP = this.props.inGame ? this.ship[0].HP : 0;
-    const shipMaxHP = this.props.inGame ? this.ship[0].maxHP : 1;
-    const EZT = this.props.inGame ? this.props.currentScore : 0;
-    const currentLevel = this.props.currentMap;
+    const shipHP = this.props.game.inGame ? this.ship[0].HP : 0;
+    const shipMaxHP = this.props.game.inGame ? this.ship[0].maxHP : 1;
+    const EZT = this.props.game.inGame ? this.props.game.currentScore : 0;
+    const currentLevel = this.props.game.currentMap;
 
-    if (!this.props.inGame) {
+    if (!this.props.game.inGame) {
       endgame = (
         <span className="endgame">
           <p>Game over</p>
           {/* TODO: set css for this */}
-          <button onClick={this.loadNextMap.bind(this, this.props.currentMap)}>
+          <button
+            onClick={this.loadNextMap.bind(this, this.props.game.currentMap)}
+          >
             Restart Level {currentLevel + 1}
           </button>
           <br></br>
@@ -793,7 +792,7 @@ export default class Swarm extends Component {
         <span className="UI">
           {controls}
           <span className="stats">
-            {EZT}/{this.props.EZTCount} EZT
+            {EZT}/{this.props.map.ezt} EZT
           </span>
           {endgame}
         </span>
