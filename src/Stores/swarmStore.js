@@ -8,11 +8,17 @@ const UPDATE_FIELD_IN_GROUP = "UPDATE_FIELD_IN_GROUP";
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case UPDATE_STATE: {
-      const value = action.payload.value;
-      const newState = {
-        ...state,
-        value
-      };
+      const groups = action.payload.value;
+      let newState = { ...state };
+      for (let groupKey in groups) {
+        newState = {
+          ...newState,
+          [groupKey]: {
+            ...newState[groupKey],
+            ...groups[groupKey]
+          }
+        };
+      }
       return newState;
     }
     case UPDATE_GROUP: {
@@ -20,19 +26,21 @@ export default function reducer(state = initialState, action = {}) {
       const value = action.payload.value;
       const newState = {
         ...state,
-        [group]: value
+        [group]: {
+          ...state[group],
+          ...value
+        }
       };
       return newState;
     }
     case UPDATE_FIELD_IN_GROUP: {
       const group = action.payload.group;
-      const field = action.payload.field;
       const value = action.payload.value;
       const newState = {
         ...state,
         [group]: {
           ...state[group],
-          [field]: value
+          ...value
         }
       };
       return newState;
@@ -49,9 +57,9 @@ export function updateState(value) {
 export function updateGroup(groupID, value) {
   return { type: UPDATE_GROUP, payload: { group: groupID, value } };
 }
-export function updateFieldInGroup(groupID, fieldID, value) {
+export function updateFieldInGroup(groupID, value) {
   return {
     type: UPDATE_FIELD_IN_GROUP,
-    payload: { group: groupID, field: fieldID, value }
+    payload: { group: groupID, field: value }
   };
 }

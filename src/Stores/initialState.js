@@ -54,7 +54,8 @@ export const initialState = {
     inGame: false,
     reload: false,
     currentMap: 0,
-    context: null
+    context: null,
+    ready: false
   },
 
   ship: {
