@@ -751,25 +751,26 @@ export default class Swarm extends Component {
       messageBox = (
         <MessageBox
           key={"MessageBox"}
-          message={this.props.missionDescription}
-          {...this.props}
+          message={this.props.map.description}
+          mission={this.props.map.mission}
         ></MessageBox>
       );
     }
 
-    if (!this.isMobileBrowser && this.props.game.ready) {
-      minimap = (
-        <Minimap
-          key={"Minimap"}
-          {...this.props}
-          Ship={this.ship}
-          Asteroids={this.asteroids}
-          Energy={this.energy}
-          Enemies={this.enemies}
-          EZT={this.EZT}
-        ></Minimap>
-      );
-
+    if (!this.isMobileBrowser) {
+      if (this.props.game.ready) {
+        minimap = (
+          <Minimap
+            key={"Minimap"}
+            {...this.props}
+            Ship={this.ship}
+            Asteroids={this.asteroids}
+            Energy={this.energy}
+            Enemies={this.enemies}
+            EZT={this.EZT}
+          ></Minimap>
+        );
+      }
       controls = (
         <span className="controls">
           Use [A][S][W][D] or [←][↑][↓][→] to MOVE <br />
@@ -777,7 +778,7 @@ export default class Swarm extends Component {
           LEVEL {currentLevel + 1}
         </span>
       );
-    } else {
+    } else if (this.isMobileBrowser) {
       joystick = (
         <VirtualJoystick
           key={"VirtualJoystick"}
