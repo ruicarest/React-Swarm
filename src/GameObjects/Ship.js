@@ -178,7 +178,7 @@ export default class Ship {
       this.resetStats();
       this.currentMap = state.game.currentMap;
     }
-    if (state.game.inGame == false) {
+    if (state.game.reload == true) {
       this.resetStats();
       return;
     }
