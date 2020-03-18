@@ -174,11 +174,11 @@ export default class Ship {
   }
 
   render(state) {
-    if (state.currentMap != this.currentMap) {
+    if (state.game.currentMap != this.currentMap) {
       this.resetStats();
-      this.currentMap = state.currentMap;
+      this.currentMap = state.game.currentMap;
     }
-    if (state.inGame == false) {
+    if (state.game.inGame == false) {
       this.resetStats();
       return;
     }
@@ -277,7 +277,7 @@ export default class Ship {
     }
 
     // Draw
-    const context = state.context;
+    const context = state.game.context;
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate((this.rotation * Math.PI) / 180);

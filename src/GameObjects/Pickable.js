@@ -67,7 +67,7 @@ export default class Pickable {
     }
 
     // Draw
-    const context = state.context;
+    const context = state.game.context;
     context.save();
     context.translate(this.position.x, this.position.y);
     context.strokeStyle = this.color;

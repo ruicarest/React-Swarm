@@ -133,7 +133,7 @@ export default class Asteroid {
     }
 
     // Draw
-    const context = state.context;
+    const context = state.game.context;
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate((this.rotation * Math.PI) / 180);

@@ -109,6 +109,11 @@ export default class Bullet {
     }
 
     // Draw
-    this.drawBullet(state.context, this.position, this.rotation, this.color);
+    this.drawBullet(
+      state.game.context,
+      this.position,
+      this.rotation,
+      this.color
+    );
   }
 }
