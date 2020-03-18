@@ -91,7 +91,7 @@ export default class Asteroid {
   }
 
   render(state) {
-    if (state.reload == true) {
+    if (state.game.reload == true) {
       this.remove();
       return;
     }

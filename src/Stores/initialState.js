@@ -38,7 +38,7 @@ export const initialState = {
     asteroids: 0,
     energy: 0,
     ezt: 0,
-    mission: 0,
+    mission: "",
     description: "",
     enemies: [],
     bullets: 0,
@@ -51,10 +51,10 @@ export const initialState = {
   },
   game: {
     currentScore: 0,
-    inGame: false,
-    reload: false,
     currentMap: 0,
     context: null,
+    inGame: false,
+    reload: false,
     ready: false
   },
 

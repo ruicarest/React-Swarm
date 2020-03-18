@@ -108,11 +108,11 @@ export class VirtualJoystick extends Component {
   update = () => {};
 
   render = () => {
-    const { joypad, inGame } = this.props;
+    const { joypad, game } = this.props;
 
     let visible = "none";
 
-    if (joypad.on == true && inGame == true) {
+    if (joypad.on == true && game.inGame == true) {
       visible = "inline";
     }
 
