@@ -7,7 +7,7 @@ import {
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import { enemiesTypes } from "../Configs/enemiesTypes.json";
-import bulletTypes from "../Configs/bulletTypes.json";
+import ammoTypes from "../Configs/ammoTypes.json";
 
 export default class Enemy {
   constructor(args) {
@@ -160,7 +160,7 @@ export default class Enemy {
         const bullet = new Bullet({
           ship: this,
           damage: this.damage,
-          bulletType: bulletTypes.normal,
+          bulletType: ammoTypes.normal,
           create: this.create.bind(this)
         });
         this.create(bullet, "enemyBullets");

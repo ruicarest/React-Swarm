@@ -2,7 +2,7 @@ import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
 import Bullet from "./Bullet";
 import Mine from "./Mine";
-import bulletTypes from "../Configs/bulletTypes.json";
+import ammoTypes from "../Configs/ammoTypes.json";
 
 export default class Ship {
   constructor(args) {
@@ -38,7 +38,7 @@ export default class Ship {
     //Stats
     this.toughness = 10;
     this.HP = 100;
-    this.currentBulletType = bulletTypes.normal;
+    this.currentBulletType = ammoTypes.normal;
 
     //map
     this.currentMap = currentMap;
@@ -117,7 +117,7 @@ export default class Ship {
     if (this.HP > this.maxHP) this.HP = this.maxHP;
   }
 
-  addBullets(type, amount) {
+  addAmmo(type, amount) {
     this.bullets[type] += amount;
     this.currentBulletType =
       this.currentBulletType < type ? type : this.currentBulletType;
@@ -242,7 +242,7 @@ export default class Ship {
           this.bullets[i]--;
           break;
         } else if (i == 0) {
-          this.currentBulletType = bulletTypes.normal;
+          this.currentBulletType = ammoTypes.normal;
         } else {
           this.currentBulletType =
             this.currentBulletType > 0 ? this.currentBulletType-- : 0;

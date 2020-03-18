@@ -12,7 +12,7 @@ import {
 } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
-import bulletTypes from "../../Configs/bulletTypes.json";
+import ammoTypes from "../../Configs/ammoTypes.json";
 import "./Swarm.css";
 import MessageBox from "../MessageBox/MessageBox";
 
@@ -264,24 +264,24 @@ export default class Swarm extends Component {
     this.energy = [];
     this.generateEnergy(this.props.map.energy);
 
-    // Make bulletPacks
-    this.generateBullets(
-      0, //TODO: include mines in bulletTypes
+    // Make ammo packs
+    this.generateAmmo(
+      0, //TODO: include mines in ammoTypes
       3,
-      this.props.map.bullets[0], //mines
+      this.props.map.ammo[0], //mines
       "#537aed"
     );
-    this.generateBullets(
-      bulletTypes.laser,
+    this.generateAmmo(
+      ammoTypes.laser,
       20,
-      this.props.map.bullets[bulletTypes.laser],
-      bulletTypes.types[bulletTypes.laser].color
+      this.props.map.ammo[ammoTypes.laser],
+      ammoTypes.types[ammoTypes.laser].color
     );
-    this.generateBullets(
-      bulletTypes.doubled,
+    this.generateAmmo(
+      ammoTypes.doubled,
       10,
-      this.props.map.bullets[bulletTypes.doubled],
-      bulletTypes.types[bulletTypes.doubled].color
+      this.props.map.ammo[ammoTypes.doubled],
+      ammoTypes.types[ammoTypes.doubled].color
     );
 
     this.EZT = [];
@@ -331,7 +331,7 @@ export default class Swarm extends Component {
         mission: this.MAP.mission,
         description: this.MAP.description,
         enemies: this.MAP.enemies,
-        bullets: 0,
+        ammo: this.MAP.ammo,
         minimapScale: 10
       },
       screen: {
@@ -378,9 +378,9 @@ export default class Swarm extends Component {
     }
   }
 
-  generateBullets(type, amount, howMany, bulletColor) {
+  generateAmmo(type, amount, howMany, ammoColor) {
     for (let i = 0; i < howMany; i++) {
-      let energy = new Pickable({
+      let ammo = new Pickable({
         size: 10,
         position: {
           x: randomNumBetweenExcluding(
@@ -397,11 +397,11 @@ export default class Swarm extends Component {
           )
         },
         action: () => {
-          this.ship[0].addBullets(type, amount);
+          this.ship[0].addAmmo(type, amount);
         },
-        color: bulletColor
+        color: ammoColor
       });
-      this.createObject(energy, "energy");
+      this.createObject(ammo, "energy");
     }
   }
 

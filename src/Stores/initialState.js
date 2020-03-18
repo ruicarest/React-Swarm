@@ -41,7 +41,7 @@ export const initialState = {
     mission: "",
     description: "",
     enemies: [],
-    bullets: 0,
+    ammo: [],
     minimapScale: 10
   },
   screen: {

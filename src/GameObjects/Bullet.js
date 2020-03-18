@@ -1,6 +1,6 @@
 import { rotatePoint, randomNumBetween } from "../Utils/utils";
 import Particle from "./Particle";
-import bulletTypes from "../Configs/bulletTypes.json";
+import ammoTypes from "../Configs/ammoTypes.json";
 import * as bulletDrawUtils from "../Utils/bulletDrawUtils.js";
 
 export default class Bullet {
@@ -26,18 +26,18 @@ export default class Bullet {
     };
     //bullet velocity in space
     this.velocity = {
-      x: posDelta.x * bulletTypes.types[bulletType].velocity,
-      y: posDelta.y * bulletTypes.types[bulletType].velocity
+      x: posDelta.x * ammoTypes.types[bulletType].velocity,
+      y: posDelta.y * ammoTypes.types[bulletType].velocity
     };
     //bullet type stats
-    this.toughness = damage ? damage : bulletTypes.types[bulletType].toughness;
-    this.color = bulletTypes.types[bulletType].color;
-    this.radius = bulletTypes.types[bulletType].radio;
+    this.toughness = damage ? damage : ammoTypes.types[bulletType].toughness;
+    this.color = ammoTypes.types[bulletType].color;
+    this.radius = ammoTypes.types[bulletType].radio;
     this.bulletType = bulletType;
 
-    if (this.bulletType == bulletTypes.doubled) {
+    if (this.bulletType == ammoTypes.doubled) {
       this.drawBullet = bulletDrawUtils.drawDoubledBullet;
-    } else if (this.bulletType == bulletTypes.laser) {
+    } else if (this.bulletType == ammoTypes.laser) {
       this.drawBullet = bulletDrawUtils.drawLaserBullet;
     } else {
       this.drawBullet = bulletDrawUtils.drawNormalBullet;
@@ -85,7 +85,7 @@ export default class Bullet {
   }
 
   render(state) {
-    if (state.reload == true) {
+    if (state.game.reload == true) {
       this.remove();
       return;
     }
