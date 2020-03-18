@@ -17,6 +17,7 @@ import "./Swarm.css";
 import MessageBox from "../MessageBox/MessageBox";
 
 import _ from "lodash";
+
 const CFGS = {
   TILE_SIZE: 64
 };
@@ -93,7 +94,7 @@ export default class Swarm extends Component {
     });
   }
 
-  componentDidMount() {
+  loadEventListeners() {
     //handle window resize
     window.addEventListener(
       "resize",
@@ -185,7 +186,7 @@ export default class Swarm extends Component {
             this.props.screen.width > e.changedTouches[0].clientX * 2;
 
           /*         const rightClick =
-          this.props.screen.width < e.changedTouches[0].clientX * 2; */
+              this.props.screen.width < e.changedTouches[0].clientX * 2; */
 
           if (leftClick) {
             this.props.updateState({
@@ -219,6 +220,11 @@ export default class Swarm extends Component {
     this.props.updateGroup("game", {
       context: this.refs.gameWindow.getContext("2d")
     });
+  }
+
+  componentDidMount() {
+    //initiate handlers
+    this.loadEventListeners();
 
     //load first map
     this.loadNextMap(0);
