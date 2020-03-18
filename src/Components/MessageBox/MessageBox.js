@@ -32,7 +32,7 @@ export default class MessageBox extends Component {
   render = () => {
     const { mission } = this.props;
 
-    var message, icon;
+    let icon, message;
     this.state.timeSinceStarted = Date.now();
     //remove message timer
     if (this.state.timeSinceStarted - this.state.time0 >= 4000) {

@@ -9,11 +9,11 @@ export class Minimap extends Component {
   };
   firstUpdate = true; // first update flag
   scale = null; //minimap scale
-  currentMap = this.props.currentMap;
+  currentMap = this.props.game.currentMap;
 
   componentDidMount = () => {
     //load minimapScale
-    this.scale = this.props.minimapScale;
+    this.scale = this.props.map.minimapScale;
     //get minimap canvas context
     this.state.ctx = this.refs.minimap.getContext("2d");
     //calc canvas size
@@ -28,20 +28,14 @@ export class Minimap extends Component {
     if (Ship[0]) {
       this.calcCenteringFactor(Ship[0].position);
     }
-    //TODO: move this from here please!
-    if (this.firstUpdate == true) {
-      //calc ship centering factor
-      this.calcCenteringFactor(Ship[0].position);
-      this.firstUpdate = false;
-    }
 
     //map changed
-    if (this.currentMap != this.props.currentMap) {
+    if (this.currentMap != this.props.game.currentMap) {
       //update minimap scale
       this.state.ctx.canvas.width = this.props.map.width / this.scale;
       this.state.ctx.canvas.height = this.props.map.height / this.scale;
       //update current map
-      this.currentMap = this.props.currentMap;
+      this.currentMap = this.props.game.currentMap;
       //re calc ship centering factor on minimap
       this.calcCenteringFactor(Ship[0].position);
     }
