@@ -5,6 +5,7 @@ export default class Particle {
     this.radius = args.size;
     this.lifeSpan = args.lifeSpan;
     this.inertia = 0.98;
+    this.delete = false;
   }
 
   destroy() {
@@ -21,7 +22,7 @@ export default class Particle {
   }
 
   render(state) {
-    if (state.reload == true) {
+    if (state.game.reload == true) {
       this.remove();
       return;
     }

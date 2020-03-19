@@ -589,22 +589,21 @@ export default class Swarm extends Component {
     this.updateObjects(this.enemies, "enemies");
     this.updateObjects(this.asteroids, "asteroids");
 
+    if (this.props.game.reload == true) {
+      this.loadNextMap();
+    }
+
     //Win conditions
     if (this.props.game.inGame) {
       if (
         this.props.map.mission === "pick" &&
         this.props.game.currentScore === this.props.map.ezt
       ) {
-        console.log("Loading next level");
-        //remove current objects
         this.props.updateGroup("game", { reload: true });
-        this.loadNextMap();
       } else if (this.props.map.mission == "kill" && this.enemies.length == 0) {
         this.props.updateGroup("game", { reload: true });
-        this.loadNextMap();
       } else if (this.props.map.mission == "bonus") {
         this.props.updateGroup("game", { reload: true });
-        this.loadNextMap();
       }
     }
 

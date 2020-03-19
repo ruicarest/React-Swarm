@@ -1,17 +1,11 @@
 export default class Pickable {
   constructor(args) {
     this.position = args.position;
-
     this.radius = args.size;
-
     this.action = args.action;
-
     this.type = "pickable";
-
     this.color = args.color;
-
     this.toughness = 0;
-
     this.visible = true;
   }
 
@@ -34,7 +28,7 @@ export default class Pickable {
   }
 
   render(state) {
-    if (state.reload == true) {
+    if (state.game.reload == true) {
       this.remove();
       return;
     }

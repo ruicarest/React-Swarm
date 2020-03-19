@@ -21,7 +21,6 @@ export default class Mine {
     this.type = "bullet";
     this.toughness = args.damage;
     this.exploded = false;
-    //this.color = args.color;
     this.color = "#537aed";
     this.T_shot = Date.now();
     this.T_explode = 0;
@@ -30,6 +29,10 @@ export default class Mine {
   }
 
   destroy() {}
+
+  remove() {
+    this.delete = true;
+  }
 
   updatePosition(offset) {
     this.position.x += offset.x;
@@ -71,6 +74,10 @@ export default class Mine {
   }
 
   render(state) {
+    if (state.game.reload == true) {
+      this.remove();
+      return;
+    }
     // Move
     this.position.x -= state.ship.velocity.x - this.shipInertia.x;
     this.position.y -= state.ship.velocity.y - this.shipInertia.y;

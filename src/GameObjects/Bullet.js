@@ -13,6 +13,7 @@ export default class Bullet {
     this.isMainShip = isMainShip ? isMainShip : false;
     this.type = "bullet";
     this.visible = true;
+    this.delete = false;
     //bullet position in front of the ship
     let posDelta = rotatePoint(
       { x: 0, y: -20 },
