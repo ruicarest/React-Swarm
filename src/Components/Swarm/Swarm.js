@@ -216,15 +216,15 @@ export default class Swarm extends Component {
         false
       );
     }
-
-    this.props.updateGroup("game", {
-      context: this.refs.gameWindow.getContext("2d")
-    });
   }
 
   componentDidMount() {
     //initiate handlers
     this.loadEventListeners();
+
+    this.props.updateGroup("game", {
+      context: this.refs.gameWindow.getContext("2d")
+    });
 
     //load first map
     this.loadNextMap(0);
