@@ -496,7 +496,7 @@ export default class Swarm extends Component {
       if (item.delete) {
         this[group].splice(index, 1);
       } else {
-        items[index].render(this.props);
+        item.render(this.props);
       }
       index++;
     }
