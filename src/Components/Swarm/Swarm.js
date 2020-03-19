@@ -342,7 +342,7 @@ export default class Swarm extends Component {
       game: {
         currentScore: 0,
         inGame: false,
-        reload: true,
+        reload: false,
         currentMap: this.currentMap,
         ready: true
       },
