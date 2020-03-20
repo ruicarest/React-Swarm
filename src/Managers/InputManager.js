@@ -63,8 +63,6 @@ export default function InputManager() {
   }
 
   function initResize() {
-    console.log("initResize");
-
     //handle window resize
     window.addEventListener(
       "resize",
@@ -197,7 +195,3 @@ export default function InputManager() {
     handleJoystick: handleJoystick
   };
 }
-
-export let teste = function() {
-  console.log(this);
-};
