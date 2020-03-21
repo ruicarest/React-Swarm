@@ -6,6 +6,7 @@ import { maps } from "../../Configs/maps.json";
 import { checkIfRunningOnMobileDevice } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
+
 import "./Swarm.css";
 import MessageBox from "../MessageBox/MessageBox";
 import InputManager from "../../Managers/InputManager";
@@ -26,7 +27,7 @@ export default class Swarm extends Component {
 
     this.isMobileBrowser = checkIfRunningOnMobileDevice();
 
-    this.InputManager = new InputManager();
+    this.InputManager = new InputManager(this);
     this.SceneManager = new SceneManager(this);
     this.bullets = [];
     this.enemyBullets = [];
@@ -39,7 +40,7 @@ export default class Swarm extends Component {
   }
 
   componentDidMount() {
-    this.InputManager.init.call(this);
+    this.InputManager.init();
     this.props.updateGroup("game", {
       context: this.refs.gameWindow.getContext("2d")
     });
@@ -413,7 +414,9 @@ export default class Swarm extends Component {
         <VirtualJoystick
           key={"VirtualJoystick"}
           {...this.props}
-          handleJoystick={state => this.handleJoystick(state)}
+          handleJoystick={padAngle =>
+            this.InputManager.handleJoystick(padAngle)
+          }
         ></VirtualJoystick>
       );
 

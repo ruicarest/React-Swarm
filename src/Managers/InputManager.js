@@ -11,52 +11,53 @@ const KEY = {
   Q: 81
 };
 
-export default function InputManager() {
+export default function InputManager(that) {
+  const _this = that;
   function init() {
     //load Listeners;
-    initResize.call(this);
+    initResize();
 
-    if (!this.isMobileBrowser) {
-      initDesktop.call(this);
+    if (!_this.isMobileBrowser) {
+      initDesktop();
     } else {
-      initMobile.call(this);
+      initMobile();
     }
   }
 
   function handleResize() {
     let offset = {
-      x: this.refs.gameWindow.clientWidth / 2 - this.props.screen.width / 2,
-      y: this.refs.gameWindow.clientHeight / 2 - this.props.screen.height / 2
+      x: _this.refs.gameWindow.clientWidth / 2 - _this.props.screen.width / 2,
+      y: _this.refs.gameWindow.clientHeight / 2 - _this.props.screen.height / 2
     };
 
-    this.updateObjectsPosition(offset);
+    _this.updateObjectsPosition(offset);
 
-    this.props.updateState({
+    _this.props.updateState({
       screen: {
-        width: this.refs.gameWindow.clientWidth,
-        height: this.refs.gameWindow.clientHeight,
+        width: _this.refs.gameWindow.clientWidth,
+        height: _this.refs.gameWindow.clientHeight,
         ratio:
-          this.refs.gameWindow.clientWidth /
-            this.refs.gameWindow.clientHeight || 1
+          _this.refs.gameWindow.clientWidth /
+            _this.refs.gameWindow.clientHeight || 1
       }
     });
   }
 
   function handleKeys(value, e) {
-    let keys = this.props.keys;
+    let keys = _this.props.keys;
     if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
     if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
     if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
     if (e.keyCode === KEY.SPACE) keys.space = value;
     if (e.keyCode === KEY.Q) keys.mine = value;
 
-    this.props.updateState({ keys: keys });
+    _this.props.updateState({ keys: keys });
   }
 
   function handleJoystick(padAngle) {
-    this.props.updateState({
+    _this.props.updateState({
       joypad: {
-        ...this.props.joypad,
+        ..._this.props.joypad,
         angle: padAngle
       }
     });
@@ -66,19 +67,19 @@ export default function InputManager() {
     //handle window resize
     window.addEventListener(
       "resize",
-      _.throttle(handleResize.bind(this, false), 100)
+      _.throttle(handleResize.bind(_this, false), 100)
     );
   }
 
   function initMobile() {
     //handle touch events
-    this.refs.gameWindow.addEventListener(
+    _this.refs.gameWindow.addEventListener(
       "touchmove",
       function(e) {
-        if (this.props.screen.width > e.touches[0].clientX * 2) {
-          this.props.updateState({
+        if (_this.props.screen.width > e.touches[0].clientX * 2) {
+          _this.props.updateState({
             joypad: {
-              ...this.props.joypad,
+              ..._this.props.joypad,
               moving: true,
               stickPosition: {
                 x: e.touches[0].clientX,
@@ -87,20 +88,20 @@ export default function InputManager() {
             }
           });
         }
-      }.bind(this),
+      }.bind(_this),
       false
     );
-    this.refs.gameWindow.addEventListener(
+    _this.refs.gameWindow.addEventListener(
       "touchstart",
       function(e) {
         const leftClick =
-          this.props.screen.width >
+          _this.props.screen.width >
           e.touches[e.changedTouches[0].identifier].clientX * 2;
 
         if (leftClick) {
-          this.props.updateState({
+          _this.props.updateState({
             joypad: {
-              ...this.props.joypad,
+              ..._this.props.joypad,
               on: true,
               basePosition: {
                 x: e.touches[e.changedTouches[0].identifier].clientX,
@@ -113,9 +114,9 @@ export default function InputManager() {
             }
           });
         } else {
-          this.props.updateState({
+          _this.props.updateState({
             joypad: {
-              ...this.props.joypad,
+              ..._this.props.joypad,
               stickClickPosition: {
                 x: e.touches[0].clientX,
                 y: e.touches[0].clientY,
@@ -124,22 +125,22 @@ export default function InputManager() {
             }
           });
         }
-      }.bind(this),
+      }.bind(_this),
       false
     );
-    this.refs.gameWindow.addEventListener(
+    _this.refs.gameWindow.addEventListener(
       "touchend",
       function(e) {
         const leftClick =
-          this.props.screen.width > e.changedTouches[0].clientX * 2;
+          _this.props.screen.width > e.changedTouches[0].clientX * 2;
 
         /*         const rightClick =
-                this.props.screen.width < e.changedTouches[0].clientX * 2; */
+                _this.props.screen.width < e.changedTouches[0].clientX * 2; */
 
         if (leftClick) {
-          this.props.updateState({
+          _this.props.updateState({
             joypad: {
-              ...this.props.joypad,
+              ..._this.props.joypad,
               on: false,
               moving: false,
               basePosition: {
@@ -149,9 +150,9 @@ export default function InputManager() {
             }
           });
         } else {
-          this.props.updateState({
+          _this.props.updateState({
             joypad: {
-              ...this.props.joypad,
+              ..._this.props.joypad,
               stickClickPosition: {
                 x: 0,
                 y: 0,
@@ -160,21 +161,21 @@ export default function InputManager() {
             }
           });
         }
-      }.bind(this),
+      }.bind(_this),
       false
     );
   }
 
   function initDesktop() {
     //handle key events
-    window.addEventListener("keyup", handleKeys.bind(this, false));
-    window.addEventListener("keydown", handleKeys.bind(this, true));
+    window.addEventListener("keyup", handleKeys.bind(_this, false));
+    window.addEventListener("keydown", handleKeys.bind(_this, true));
 
     //handle mouse events
-    this.refs.gameWindow.addEventListener(
+    _this.refs.gameWindow.addEventListener(
       "mousemove",
       function(e) {
-        this.props.updateState({
+        _this.props.updateState({
           mouse: {
             active: true,
             position: {
@@ -183,15 +184,13 @@ export default function InputManager() {
             }
           }
         });
-      }.bind(this),
+      }.bind(_this),
       false
     );
   }
 
   return {
     init: init,
-    handleResize: handleResize,
-    handleKeys: handleKeys,
     handleJoystick: handleJoystick
   };
 }
