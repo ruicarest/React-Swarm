@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import Ship from "../../GameObjects/Ship";
+
 import { Minimap } from "../Minimap/Minimap";
-import Asteroid from "../../GameObjects/Asteroid";
-import Pickable from "../../GameObjects/Pickable";
-import Enemy from "../../GameObjects/Enemy";
+
 import { maps } from "../../Configs/maps.json";
-import {
-  randomNumBetweenExcluding,
-  randomNumBetween,
-  checkIfRunningOnMobileDevice
-} from "../../Utils/utils";
+import { checkIfRunningOnMobileDevice } from "../../Utils/utils";
 import { Background } from "../Background/Background";
 import { VirtualJoystick } from "../VirtualJoyStick/VirtualJoystick";
-import ammoTypes from "../../Configs/ammoTypes.json";
 import "./Swarm.css";
 import MessageBox from "../MessageBox/MessageBox";
 import InputManager from "../../Managers/InputManager";
+import SceneManager from "../../Managers/SceneManager";
 
 import _ from "lodash";
 
@@ -33,6 +27,7 @@ export default class Swarm extends Component {
     this.isMobileBrowser = checkIfRunningOnMobileDevice();
 
     this.InputManager = new InputManager();
+    this.SceneManager = new SceneManager(this);
     this.bullets = [];
     this.enemyBullets = [];
     this.ship = [];
@@ -64,57 +59,7 @@ export default class Swarm extends Component {
   }
 
   startGame() {
-    //first ship
-    if (!this.ship[0]) {
-      // Make ship
-      let ship = new Ship({
-        position: {
-          x: this.props.screen.width / 2,
-          y: this.props.screen.height / 2
-        },
-        create: this.createObject.bind(this),
-        onDie: this.gameOver.bind(this),
-        updateShipState: this.updateShipState.bind(this),
-        currentMap: this.props.game.currentMap
-      });
-      this.createObject(ship, "ship");
-    }
-    // Make asteroids
-    this.asteroids = [];
-    this.generateAsteroids(this.props.map.asteroids);
-
-    // Make energy
-    this.energy = [];
-    this.generateEnergy(this.props.map.energy);
-
-    // Make ammo packs
-    this.generateAmmo(
-      0, //TODO: include mines in ammoTypes
-      3,
-      this.props.map.ammo[0], //mines
-      "#537aed"
-    );
-    this.generateAmmo(
-      ammoTypes.laser,
-      20,
-      this.props.map.ammo[ammoTypes.laser],
-      ammoTypes.types[ammoTypes.laser].color
-    );
-    this.generateAmmo(
-      ammoTypes.doubled,
-      10,
-      this.props.map.ammo[ammoTypes.doubled],
-      ammoTypes.types[ammoTypes.doubled].color
-    );
-
-    this.EZT = [];
-    this.generateEZT(this.props.map.ezt);
-
-    // Make enemies
-    this.enemies = [];
-    this.props.map.enemies.map((enemyType, index) =>
-      this.generateEnemies(enemyType, index)
-    );
+    this.SceneManager.init();
 
     this.props.updateGroup("game", {
       inGame: true,
@@ -174,139 +119,6 @@ export default class Swarm extends Component {
         ang: 0
       }
     });
-  }
-
-  generateAsteroids(howMany) {
-    for (let i = 0; i < howMany; i++) {
-      let asteroid = new Asteroid({
-        size: Math.floor(randomNumBetween(30, 80)),
-        position: {
-          x: randomNumBetweenExcluding(
-            0,
-            this.props.map.width,
-            this.ship[0].position.x - 150,
-            this.ship[0].position.x + 150
-          ),
-          y: randomNumBetweenExcluding(
-            0,
-            this.props.map.height,
-            this.ship[0].position.y - 150,
-            this.ship[0].position.y + 150
-          )
-        },
-        create: this.createObject.bind(this),
-        addScore: this.addScore.bind(this)
-      });
-      this.createObject(asteroid, "asteroids");
-    }
-  }
-
-  generateAmmo(type, amount, howMany, ammoColor) {
-    for (let i = 0; i < howMany; i++) {
-      let ammo = new Pickable({
-        size: 10,
-        position: {
-          x: randomNumBetweenExcluding(
-            0,
-            this.props.map.width,
-            this.ship[0].position.x - 150,
-            this.ship[0].position.x + 150
-          ),
-          y: randomNumBetweenExcluding(
-            0,
-            this.props.map.height,
-            this.ship[0].position.y - 150,
-            this.ship[0].position.y + 150
-          )
-        },
-        action: () => {
-          this.ship[0].addAmmo(type, amount);
-        },
-        color: ammoColor
-      });
-      this.createObject(ammo, "energy");
-    }
-  }
-
-  generateEnergy(howMany) {
-    for (let i = 0; i < howMany; i++) {
-      let energy = new Pickable({
-        size: 20,
-        position: {
-          x: randomNumBetweenExcluding(
-            0,
-            this.props.map.width,
-            this.ship[0].position.x - 150,
-            this.ship[0].position.x + 150
-          ),
-          y: randomNumBetweenExcluding(
-            0,
-            this.props.map.height,
-            this.ship[0].position.y - 150,
-            this.ship[0].position.y + 150
-          )
-        },
-        action: () => {
-          this.ship[0].addEnergy(25);
-        },
-        color: "#901aeb"
-      });
-      this.createObject(energy, "energy");
-    }
-  }
-
-  generateEZT(howMany) {
-    for (let i = 0; i < howMany; i++) {
-      let EZT = new Pickable({
-        size: 20,
-        color: "#34deeb",
-        position: {
-          x: randomNumBetweenExcluding(
-            0,
-            this.props.map.width,
-            this.ship[0].position.x - 150,
-            this.ship[0].position.x + 150
-          ),
-          y: randomNumBetweenExcluding(
-            0,
-            this.props.map.height,
-            this.ship[0].position.y - 150,
-            this.ship[0].position.y + 150
-          )
-        },
-        action: () => {
-          this.props.updateGroup("game", {
-            currentScore: this.props.game.currentScore + 1
-          });
-        }
-      });
-      this.createObject(EZT, "EZT");
-    }
-  }
-
-  generateEnemies(howMany, type) {
-    for (let i = 0; i < howMany; i++) {
-      let enemy = new Enemy({
-        position: {
-          x: randomNumBetweenExcluding(
-            0,
-            this.props.map.width,
-            this.ship[0].position.x - 150,
-            this.ship[0].position.x + 150
-          ),
-          y: randomNumBetweenExcluding(
-            0,
-            this.props.map.height,
-            this.ship[0].position.y - 150,
-            this.ship[0].position.y + 150
-          )
-        },
-        rotation: randomNumBetween(0, 360),
-        create: this.createObject.bind(this),
-        typeEnemy: type
-      });
-      this.createObject(enemy, "enemies");
-    }
   }
 
   createObject(item, group) {
